@@ -26,6 +26,7 @@ public:
     void set_ifTaken(const bool ifTaken) ;
     virtual LibraryItem* clone()const = 0;
     virtual void printInfo()const = 0;
+    virtual void fullInfo()const=0;
 
 };
 

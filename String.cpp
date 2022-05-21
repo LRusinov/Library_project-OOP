@@ -120,5 +120,13 @@ char *String::toCharArray() const {
     return charArr;
 }
 
+bool String::operator>(const String &other) const {
+    return strcmp(this->str,other.str)>0;
+}
+
+bool String::operator<(const String &other) const {
+    return strcmp(this->str,other.str)<0;
+}
+
 
 

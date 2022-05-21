@@ -5,7 +5,8 @@
 Library::Library() {
     numOfAdmins = 0;
     numOfReader = 0;
-    numOfItems = 0;
+    numOfSeries = 0;
+    numOfBooks = 0;
     loggedIn = false;
     currentUser = 0;
 }
@@ -30,14 +31,16 @@ void Library::login() {
                 break;
             }
         }
-        for (int i = 0; i < numOfAdmins; i++) {
-            if (adminsList[i]->get_username() == username && adminsList[i]->get_password() == password) {
-                std::cout << "Welcome " << username << "!\n";
-                adminsList[i]->setLastSeenDate(currentDate);
-                loggedIn = true;
-                currentUser = i;
-                adminRights = true;
-                break;
+        if (!loggedIn) {
+            for (int i = 0; i < numOfAdmins; i++) {
+                if (adminsList[i]->get_username() == username && adminsList[i]->get_password() == password) {
+                    std::cout << "Welcome " << username << "!\n";
+                    adminsList[i]->setLastSeenDate(currentDate);
+                    loggedIn = true;
+                    currentUser = i;
+                    adminRights = true;
+                    break;
+                }
             }
         }
         if (!loggedIn) {
@@ -53,36 +56,41 @@ void Library::logout() {
 }
 
 void Library::book_all() const {
-    for (size_t i = 0; i < numOfItems; i++) {
-        if (typeid(itemsList[i]) == typeid(Book)) {
-            itemsList[i]->printInfo();
-        }
+    for (size_t i = 0; i < numOfBooks; i++) {
+        booksList[i].printInfo();
     }
 
 }
 
 void Library::series_all() const {
-    for (size_t i = 0; i < numOfItems; i++) {
-        if (typeid(itemsList[i]) == typeid(Journal)) {
-            itemsList[i]->printInfo();
-        }
+    for (size_t i = 0; i < numOfSeries; i++) {
+        seriesList[i].printInfo();
     }
 }
 
 void Library::list_all() const {
-    for (size_t i = 0; i < numOfItems; i++) {
-        itemsList[i]->printInfo();
-
-    }
+    book_all();
+    series_all();
 }
 
 void Library::list_info(const String &isbn) const {
-
-    for (size_t i = 0; i < numOfItems; i++) {
-        if (itemsList[i]->get_isbn() == isbn) {
-            itemsList[i]->printInfo();
+    bool flag = false;
+    for (size_t i = 0; i < numOfBooks; i++) {
+        if (booksList[i].get_isbn() == isbn) {
+            booksList[i].fullInfo();
+            flag = true;
+            break;
         }
     }
+    if (!flag) {
+        for (size_t i = 0; i < numOfSeries; i++) {
+            if (seriesList[i].get_isbn() == isbn) {
+                seriesList[i].fullInfo();
+                break;
+            }
+        }
+    }
+
 }
 
 /*
@@ -91,37 +99,102 @@ books find <option> <option_string>[sort <key>[asc | desc]]
         > list find <option> <option_string>[sort <key>[asc | desc]]
 */
 
-void Library::booksFind(const String &option, const String &str, const String &sort) {
+void
+Library::booksFind(const String &option, const String &str, const String &sort, const String &key, const String &asc) {
+    Vector<Book> matchesList;
     if (option == "title") {
-        for (size_t i = 0; i < numOfItems; i++) {
-            if (itemsList[i]->get_title() == str) {
-
+        for (size_t i = 0; i < numOfBooks; i++) {
+            if (booksList[i].get_title() == str) {
+                matchesList.pushBack(booksList[i]);
             }
-
         }
     } else if (option == "author") {
-        for (size_t i = 0; i < numOfItems; i++) {
-            if (itemsList[i]->get_author() == str) {
-
+        for (size_t i = 0; i < numOfBooks; i++) {
+            if (booksList[i].get_author() == str) {
+                matchesList.pushBack(booksList[i]);
             }
-
         }
     } else if (option == "tag") {
-        for (size_t i = 0; i < numOfItems; i++) {
-            size_t numOfKeyWords = itemsList[i]->get_keyWords().get_size();
+        for (size_t i = 0; i < numOfBooks; i++) {
+            size_t numOfKeyWords = booksList[i].get_keyWords().get_size();
             for (size_t j = 0; j < numOfKeyWords; j++) {
-                if (itemsList[i]->get_keyWords()[j] == str) {
-
+                if (booksList[i].get_keyWords()[j] == str) {
+                    matchesList.pushBack(booksList[i]);
                 }
             }
-
-
         }
     } else {
         std::cout << "Unknown option!";
     }
-}
+    size_t numOfMatches = matchesList.get_size();
+    if (sort != "" && key != "") {
+        if (asc != "asc") {
+            for (int i = 0; i < numOfMatches - 1; ++i) {
+                for (int j = 1; j < numOfMatches; ++j) {
+                    if (key == "title") {
+                        if (matchesList[j].get_title() < matchesList[i].get_title()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    } else if (key == "author") {
+                        if (matchesList[j].get_author() < matchesList[i].get_author()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    } else if (key == "id") {
+                        if (matchesList[j].get_ID() < matchesList[i].get_ID()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    } else if (key == "year") {
+                        if (matchesList[j].getYear() < matchesList[i].getYear()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int i = 0; i < numOfMatches - 1; ++i) {
+                for (int j = 1; j < numOfMatches; ++j) {
+                    if (key == "title") {
+                        if (matchesList[j].get_title() > matchesList[i].get_title()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    } else if (key == "author") {
+                        if (matchesList[j].get_author() > matchesList[i].get_author()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    } else if (key == "id") {
+                        if (matchesList[j].get_ID() > matchesList[i].get_ID()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    } else if (key == "year") {
+                        if (matchesList[j].getYear() > matchesList[i].getYear()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    }
+                }
+            }
 
+        }
+    }
+    for (int i = 0; i <numOfMatches ; ++i) {
+        matchesList[i].printInfo();
+    }
+}
 
 void Library::user_find(const String &option, const String &str) const {
     if (option == "name") {
@@ -271,17 +344,17 @@ void Library::user_change(const String &username) {
     }
 }
 
-void Library::take(const size_t id) {
-    if (!loggedIn) {
-        std::cout << "Your are not logged in!";
-    } else {
-        for (size_t i = 0; i < numOfItems; i++) {
-            if (itemsList[i]->get_ID() == id) {
-                itemsList[i]->set_ifTaken(true);
-            }
-        }
-    }
-}
+//void Library::take(const size_t id) {
+//    if (!loggedIn) {
+//        std::cout << "Your are not logged in!";
+//    } else {
+//        for (size_t i = 0; i < numOfItems; i++) {
+//            if (itemsList[i]->get_ID() == id) {
+//                itemsList[i]->set_ifTaken(true);
+//            }
+//        }
+//    }
+//}
 
 Library::~Library() {
     for (int i = 0; i < numOfReader; ++i) {

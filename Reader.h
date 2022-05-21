@@ -2,7 +2,7 @@
 #define _READER_H_
 
 #include"Date.h"
-#include"Journal.h"
+#include"Series.h"
 
 #include "User.h"
 #include "Vector.h"

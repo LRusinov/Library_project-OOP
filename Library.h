@@ -3,15 +3,16 @@
 #include"Vector.h"
 #include"User.h"
 #include"LibraryItem.h"
-#include"Journal.h"
+#include"Series.h"
 #include"Admin.h"
 #include"Reader.h"
 
 class Library {
 private:
-    Vector<LibraryItem*> itemsList;
-    size_t numOfItems;
-
+    Vector<Book> booksList;
+    size_t numOfBooks;
+    Vector<Series> seriesList;
+    size_t numOfSeries;
     Vector<Admin*> adminsList;
     size_t numOfAdmins;
     Vector<Reader*> readersList;
@@ -30,7 +31,7 @@ public:
     void list_all() const ;
     void book_all() const;
     void list_info(const String& isbn) const;
-    void booksFind(const String& option, const String& str, const String& sort = "") ;
+    void booksFind(const String& option, const String& str, const String& sort = "",const String& key="",const String& asc="asc") ;
     void user_find(const String& option, const String& str)const;
     void user_add(const String& username, const String& password, const String& admin = "") ;
     void user_remove(const String& username) ;

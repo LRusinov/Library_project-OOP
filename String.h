@@ -39,6 +39,8 @@ public:
     bool operator ==(const String& other)const;
     bool operator ==(const char* str)const;
     bool operator != (const String& other)const;
+    bool operator > (const String& other)const;
+    bool operator < (const String& other)const;
 
 
     friend std::ostream& operator <<(std::ostream& os, String& output) {

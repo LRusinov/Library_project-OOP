@@ -5,20 +5,21 @@
 #include "LibraryItem.h"
 #include "Article.h"
 
-class Journal :  public LibraryItem{
+class Series : public LibraryItem{
 private:
 
-    String published;
+    Date published;
     size_t num;
     Vector<Article> content;
 public:
-    Journal() ;
-    String get_published() const ;
+    Series() ;
+    Date get_published() const ;
     size_t get_num() const;
     Vector<Article> get_content() const ;
-    Journal& operator=(const Journal& other) ;
+    Series& operator=(const Series& other) ;
     void printInfo()const override;
     LibraryItem* clone()const override ;
+    void fullInfo() const override;
 };
 
 
