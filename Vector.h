@@ -70,7 +70,7 @@ public:
         return capacity;
     }
 
-    const bool isEmpty() const {
+    bool isEmpty() const {
         return size == 0;
     }
 

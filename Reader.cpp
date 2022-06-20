@@ -1,6 +1,3 @@
-//
-// Created by Lyubo on 6/20/2022.
-//
 #include "Reader.h"
 
 Reader::Reader(const String &username, const String &password) {

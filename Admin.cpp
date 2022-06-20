@@ -1,6 +1,3 @@
-//
-// Created by Lyubo on 6/9/2022.
-//
 #include "Admin.h"
 
 Admin::Admin(const String &username, const String &password, const String &email, const String &sector) {

@@ -35,7 +35,7 @@ public:
 
     bool getIfTaken() const;
 
-    void set_ifTaken(const bool ifTaken);
+    void set_ifTaken(bool ifTaken);
 
     virtual LibraryItem *clone() const = 0;
 

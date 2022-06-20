@@ -1,6 +1,3 @@
-//
-// Created by Lyubo on 6/9/2022.
-//
 #include "Book.h"
 
 Book::Book() {
