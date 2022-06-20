@@ -13,35 +13,18 @@ private:
     Vector<BooksAndArticles> listOfItems;
     size_t numOfItems;
 public:
-    Reader(const String &username, const String &password) {
-        this->username = username;
-        this->password = password;
-        numOfItems = 0;
-    }
+    Reader(const String &username, const String &password);
 
-    size_t get_numOfItems() const {
-        return numOfItems;
-    }
+    size_t get_numOfItems() const;
 
-    void addItem(const LibraryItem *newItem) {
-        BooksAndArticles temp(newItem);
-        listOfItems.pushBack(reinterpret_cast<BooksAndArticles &>(temp.item));
-        numOfItems++;
-    }
+    void addItem(const LibraryItem *newItem);
 
-    void print() const override {
-        std::cout << "Username: " << username << std::endl;
-        std::cout << "Taken items:\n";
+    void print() const override;
 
-        for (int i = 0; i < numOfItems; ++i) {
-            listOfItems[i].item->printInfo();
-        }
-        std::cout << "Last seen: " << lastSeenDate << std::endl;
-    }
+    Vector<BooksAndArticles> get_items() const;
 
-    Vector<BooksAndArticles> get_items() const {
-        return listOfItems;
-    }
+    void takingItem(const LibraryItem *newItem);
+
 };
 
 

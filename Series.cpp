@@ -5,7 +5,7 @@ Series::Series() {
     num = 0;
 }
 
- Date Series::get_published() const {
+Date Series::get_published() const {
     return published;
 }
 

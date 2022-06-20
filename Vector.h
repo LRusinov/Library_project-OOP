@@ -181,12 +181,14 @@ public:
         }
         return *this;
     }
-    friend std::ostream& operator<<(std::ostream& os,const Vector<T> vector){
+
+    friend std::ostream &operator<<(std::ostream &os, const Vector<T> vector) {
         for (int i = 0; i < vector.size; ++i) {
-            os<<vector.data[i];
+            os << vector.data[i];
         }
         return os;
     }
 
 };
+
 #endif

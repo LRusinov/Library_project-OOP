@@ -119,3 +119,12 @@ Date Date::addYears(Date &date, const size_t yearsToAdd) {
     return date;
 }
 
+Date Date::nextMonth() const {
+
+    if (month == 12) {
+        return Date(day, 1, year + 1);
+    } else {
+        return Date(day, month + 1, year);
+    }
+}
+

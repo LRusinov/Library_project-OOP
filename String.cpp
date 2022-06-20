@@ -5,17 +5,19 @@ String::String() {
     size = 0;
 }
 
-String::String(const char* str, size_t size) {
+String::String(const char *str, size_t size) {
     if (size == 0) {
         size = strlen(str);
     }
     this->size = size;
-    this->str = new char[size+1];
+    this->str = new char[size + 1];
     strcpy(this->str, str);
 }
 
-String::String(const String& other) {
-    copy(other);
+String::String(const String &other) {
+    str = new char[other.size + 1];
+    strcpy(this->str, other.str);
+    size = other.size;
 }
 
 String::~String() {
@@ -27,7 +29,7 @@ void String::destroy() {
     str = nullptr;
 }
 
-void String::copy(const String& other) {
+void String::copy(const String &other) {
 
     if (this != &other) {
         if (this->str != nullptr) {
@@ -44,89 +46,92 @@ void String::resize(const size_t size) {
 
     this->size = size;
     if (oldSize > 0) {
-        char* buffer = new char[size + 1];
+        char *buffer = new char[size + 1];
         strcpy(buffer, str);
         delete[] str;
         str = new char[size + 1];
         strcpy(str, buffer);
         delete[] buffer;
-    }
-    else {
+    } else {
         str = new char[size + 1];
     }
 }
 
-void String::Concat(const String& other) {
-
-    resize(size + other.size);
-    strcat(str, other.str);
+void String::Concat(const String &other) {
+    if (size == 0) {
+        str = new char[other.size + 1];
+        strcpy(str, other.str);
+        size = other.size;
+    } else {
+        resize(size + other.size);
+        strcat(str, other.str);
+    }
 }
 
 void String::pushBack(const char element) {//adding element at the end of str
-    resize(size+1);
+    resize(size + 1);
     str[size - 1] = element;
     str[size] = '\0';
 }
 
-size_t String::get_length()const {
+size_t String::get_length() const {
     return this->size;
 }
 
-bool String:: isEmpty()const {
+bool String::isEmpty() const {
     return size == 0;
 }
 
 
-char& String::operator [](const size_t index) {
+char &String::operator[](const size_t index) {
     return this->str[index];
 
 }
 
-const char& String::operator [](const size_t index)const {
+const char &String::operator[](const size_t index) const {
     return this->str[index];
 
 }
 
-String& String::operator =(const String& other) {
+String &String::operator=(const String &other) {
     copy(other);
     return *this;
 }
 
-String& String::operator +(const String& other) {
+String &String::operator+(const String &other) {
     Concat(other);
-    return *this ;
+    return *this;
 }
 
-bool String::operator==(const String& other) const
-{
+String &String::operator+(char *other) {
+    Concat(other);
+    return *this;
+}
+
+bool String::operator==(const String &other) const {
     return !strcmp(this->str, other.str);
 }
 
-bool String::operator==(const char* str)const
-{
-    return !strcmp(this->str,str);
+bool String::operator==(const char *str) const {
+    return !strcmp(this->str, str);
 }
 
-bool String::operator!=(const String& other) const
-{
-    return !(*this==other);
+bool String::operator!=(const String &other) const {
+    return !(*this == other);
 }
 
 char *String::toCharArray() const {
-    char* charArr = new char[size+1];
-    for (int i = 0; i < size+1; ++i) {
+    char *charArr = new char[size + 1];
+    for (int i = 0; i < size + 1; ++i) {
         charArr[i] = str[i];
     }
     return charArr;
 }
 
 bool String::operator>(const String &other) const {
-    return strcmp(this->str,other.str)>0;
+    return strcmp(this->str, other.str) > 0;
 }
 
 bool String::operator<(const String &other) const {
-    return strcmp(this->str,other.str)<0;
+    return strcmp(this->str, other.str) < 0;
 }
-
-
-

@@ -1,29 +1,34 @@
 #ifndef _USER_H_
 #define _USER_H_
+
 #include "String.h"
 #include "Date.h"
 #include"LibraryItem.h"
 #include"Book.h"
+
 struct BooksAndArticles {
 public:
     bool isItBook;
-    LibraryItem* item;
+    LibraryItem *item;
     Date takingDate;
     Date returnDate;
+
     BooksAndArticles() {
         item = nullptr;
         isItBook = true;
     }
-    explicit BooksAndArticles(const LibraryItem* item) {
+
+    explicit BooksAndArticles(const LibraryItem *item) {
         this->item = item->clone();
-        if(typeid(&item)== typeid(Book)){
-            isItBook=true;
-        }else{
-            isItBook=false;
+        if (typeid(&item) == typeid(Book)) {
+            isItBook = true;
+        } else {
+            isItBook = false;
         }
     }
 
 };
+
 class User {
 protected:
     String username;
@@ -31,7 +36,7 @@ protected:
     Date registrationDate;
     Date lastSeenDate;
 public:
-    User()=default;
+    User() = default;
 
     void setRegistrationDate(const Date &registrationDate) {
         this->registrationDate = registrationDate;
@@ -41,20 +46,22 @@ public:
         this->lastSeenDate = lastSeenDate;
     }
 
-    String get_username()const {
+    String get_username() const {
         return username;
     }
-    String get_password()const {
+
+    String get_password() const {
         return password;
     }
-    void set_password(const String& password) {
+
+    void set_password(const String &password) {
         this->password = password;
     }
-virtual void print()const=0;
+
+    virtual void print() const = 0;
     //virtual Vector<BooksAndArticles> get_items()const=0;
 
 };
-
 
 
 #endif

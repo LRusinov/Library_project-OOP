@@ -11,8 +11,10 @@ private:
 public:
     Admin(const String &username, const String &password,
           const String &email, const String &sector);
-    void print() const override ;
-    Admin& operator=(const Admin& other);
+
+    void print() const override;
+
+    Admin &operator=(const Admin &other);
 //    Vector<BooksAndArticles> get_items()const override;
 };
 
