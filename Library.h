@@ -55,6 +55,12 @@ public:
     void take(size_t id);
 
     void returnItem(size_t id);
+
+    void menu();
+
+    void help();
+
+    int exit();
 };
 
 

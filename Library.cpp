@@ -438,3 +438,75 @@ void Library::returnItem(size_t id) {
         std::cout << "No matches found!\n";
     }
 }
+
+void Library::menu() {
+    help();
+    std::string input;
+    std::cout << "Enter command:\n";
+    std::cin >> input;
+    std::string firstWord = input.substr(0, input.find(' '));
+    std::string secondWord;
+
+    if (firstWord == "help") {
+        help();
+    } else if (firstWord == "login") {
+        login();
+    } else if (firstWord == "logout") {
+        logout();
+    } else if (firstWord == "exit") {
+        exit();
+    } else if (input.find("books find") == 0) {
+/////
+    } else if (input.find("books remove") == 0) {
+        input.substr(13);
+    } else if (firstWord == "take") {
+        take(stoi(input.substr(5)));
+    } else if (firstWord == "return") {
+        returnItem(stoi(input.substr(7)));
+    } else if (input.find("user add") == 0) {
+        //user_add()
+    } else if (input.find("user remove") == 0) {
+        user_remove(input.substr(7).data());
+    } else if (input.find("user change") == 0) {
+///////
+    } else if (input.find("user find") == 0) {
+//////
+
+    } else if (input.find("list all") == 0) {
+        list_all();
+    } else if (input.find("list info") == 0) {
+//////
+        list_info(input.substr(10).data());
+
+    } else if (input.find("book all") == 0) {
+        book_all();
+    } else if (input.find("series all") == 0) {
+        series_all();
+    }
+}
+
+int Library::exit() {
+    return 0;
+}
+
+void Library::help() {
+    std::cout << "Command list:\n";
+    std::cout << "help\n";
+    std::cout << "login\n";
+    std::cout << "logout\n";
+    std::cout << "exit\n";
+    std::cout << "book all\n";
+    std::cout << "series all\n";
+    std::cout << "list all\n";
+    std::cout << "list info\n";
+    std::cout << "books find\n";
+    std::cout << "books view\n";
+    std::cout << "books add\n";
+    std::cout << "books remove\n";
+    std::cout << "take\n";
+    std::cout << "return\n";
+    std::cout << "user change\n";
+    std::cout << "user add\n";
+    std::cout << "user remove\n";
+    std::cout << "user find\n";
+}
