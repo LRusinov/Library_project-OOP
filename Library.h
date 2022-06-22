@@ -58,9 +58,9 @@ public:
 
     void menu();
 
-    void help();
+    static void help();
 
-    int exit();
+    static int exit();
 };
 
 

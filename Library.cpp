@@ -464,21 +464,63 @@ void Library::menu() {
             } else {
                 std::string key;
                 size_t sortPos = input.find("sort");
-                str = input.substr(17, input.len-sortPos);
-                
-                if(input.find("dsc") != std::string::npos){
-key = input.substr(sortPos+5,input.len-3-sortPos+5)
+                str = input.substr(17, input.length() - sortPos - 17);
 
+                if (input.find("dsc") != std::string::npos) {
+                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    booksFind("title", str.data(), "sort", key.data(), "dsc");
+                } else if (input.find("asc") != std::string::npos) {
+                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    booksFind("title", str.data(), "sort", key.data(), "asc");
+                } else {
+                    key = input.substr(sortPos + 5);
+                    booksFind("title", str.data(), "sort", key.data());
                 }
-                else if (input.find("asc") != std::string::npos){
-key = input.substr(sortPos+5,input.len-3-sortPos+5)
-                }
-else{
-key = input.substr(sortPos+5);
-}
 
             }
 
+        } else if (input.find("author") != std::string::npos) {
+            if (input.find("sort") == std::string::npos) {
+                str = input.substr(17);
+                booksFind("author", str.data());
+            } else {
+                std::string key;
+                size_t sortPos = input.find("sort");
+                str = input.substr(17, input.length() - sortPos - 17);
+
+                if (input.find("dsc") != std::string::npos) {
+                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    booksFind("author", str.data(), "sort", key.data(), "dsc");
+                } else if (input.find("asc") != std::string::npos) {
+                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    booksFind("author", str.data(), "sort", key.data(), "asc");
+                } else {
+                    key = input.substr(sortPos + 5);
+                    booksFind("author", str.data(), "sort", key.data());
+                }
+
+            }
+        } else if (input.find("tag") != std::string::npos) {
+            if (input.find("sort") == std::string::npos) {
+                str = input.substr(17);
+                booksFind("tag", str.data());
+            } else {
+                std::string key;
+                size_t sortPos = input.find("sort");
+                str = input.substr(17, input.length() - sortPos - 17);
+
+                if (input.find("dsc") != std::string::npos) {
+                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    booksFind("tag", str.data(), "sort", key.data(), "dsc");
+                } else if (input.find("asc") != std::string::npos) {
+                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    booksFind("tag", str.data(), "sort", key.data(), "asc");
+                } else {
+                    key = input.substr(sortPos + 5);
+                    booksFind("tag", str.data(), "sort", key.data());
+                }
+
+            }
         }
     } else if (input.find("books remove") == 0) {
         input.substr(13);
@@ -491,14 +533,19 @@ key = input.substr(sortPos+5);
     } else if (input.find("user remove") == 0) {
         user_remove(input.substr(7).data());
     } else if (input.find("user change") == 0) {
-///////
-    } else if (input.find("user find") == 0) {
-//////
-
-    } else if (input.find("list all") == 0) {
+        if (input.length() != 11) {
+            firstWord = input.substr(12);
+            user_change(firstWord.data());
+        } else {
+            user_change();
+        }
+    }
+//     else if (input.find("user find") == 0) {
+////////
+//}
+    else if (input.find("list all") == 0) {
         list_all();
     } else if (input.find("list info") == 0) {
-//////
         list_info(input.substr(10).data());
 
     } else if (input.find("book all") == 0) {
