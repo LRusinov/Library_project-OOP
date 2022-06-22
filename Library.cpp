@@ -464,19 +464,22 @@ void Library::menu() {
             } else {
                 std::string key;
                 size_t sortPos = input.find("sort");
-                str = input.substr(17, sortPos);
-                key = input.substr(sortPos+5);
+                str = input.substr(17, input.len-sortPos);
+                
                 if(input.find("dsc") != std::string::npos){
+key = input.substr(sortPos+5,input.len-3-sortPos+5)
 
                 }
                 else if (input.find("asc") != std::string::npos){
-
+key = input.substr(sortPos+5,input.len-3-sortPos+5)
                 }
+else{
+key = input.substr(sortPos+5);
+}
 
             }
 
         }
-/////
     } else if (input.find("books remove") == 0) {
         input.substr(13);
     } else if (firstWord == "take") {
