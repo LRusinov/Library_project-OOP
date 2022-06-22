@@ -445,7 +445,7 @@ void Library::menu() {
     std::cout << "Enter command:\n";
     std::cin >> input;
     std::string firstWord = input.substr(0, input.find(' '));
-    std::string secondWord;
+
 
     if (firstWord == "help") {
         help();
@@ -456,6 +456,26 @@ void Library::menu() {
     } else if (firstWord == "exit") {
         exit();
     } else if (input.find("books find") == 0) {
+        std::string str;
+        if (input.find("title") != std::string::npos) {
+            if (input.find("sort") == std::string::npos) {
+                str = input.substr(17);
+                booksFind("title", str.data());
+            } else {
+                std::string key;
+                size_t sortPos = input.find("sort");
+                str = input.substr(17, sortPos);
+                key = input.substr(sortPos+5);
+                if(input.find("dsc") != std::string::npos){
+
+                }
+                else if (input.find("asc") != std::string::npos){
+
+                }
+
+            }
+
+        }
 /////
     } else if (input.find("books remove") == 0) {
         input.substr(13);
