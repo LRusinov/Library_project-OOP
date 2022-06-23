@@ -41,7 +41,7 @@ int main() {
     l.seriesAdd(series1);
     l.seriesAdd(series2);
     l.seriesAdd(series3);
-    l.list_info("isbn3");
+    //l.list_info("isbn3");
 
 
     l.user_add("r1","abv");
@@ -49,16 +49,19 @@ int main() {
     l.user_add("r3","aqq");
     l.user_add("r4","aff");
     l.user_add("admin","i<3c++","admin");
-l.login();
-l.booksFind("author","author2","sort","year","asc");
-    l.take(15);
-    l.returnItem(15);
-    l.take(15);
-
-
-    l.list_all();
-    l.series_all();
-    l.book_all();
-
+//l.login();
+//l.booksFind("author","author2","sort","year","asc");
+//    l.take(15);
+//    l.returnItem(15);
+//    l.take(15);
+//
+//
+//    l.list_all();
+//    l.series_all();
+//    l.book_all();
+//l.menu();
+std::string ssss;
+std::cin>>s;
+std::cout<<s.find("book all");
     return 0;
 }

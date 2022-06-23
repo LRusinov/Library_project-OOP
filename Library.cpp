@@ -26,6 +26,7 @@ void Library::login() {
     } else {
         String username;
         String password;
+        std::cin.ignore();
         std::cout << "Username: ";
         std::cin >> username;
         std::cout << "Password: ";
@@ -260,7 +261,7 @@ void Library::user_find(const String &option, const String &str) const {
             }
         }
 
-    } else if (option == "state") {// trqbva da se dobavqt danni v reader
+    } else if (option == "state") {
 
     } else {
         std::cout << "Unknown option!";
@@ -451,7 +452,6 @@ void Library::returnItem(size_t id) {
 }
 
 void Library::menu() {
-    help();
     std::string input;
     std::cout << "Enter command:\n";
     std::cin >> input;
@@ -465,7 +465,7 @@ void Library::menu() {
     } else if (firstWord == "logout") {
         logout();
     } else if (firstWord == "exit") {
-        exit();
+        return;
     } else if (input.find("books find") == 0) {
         std::string str;
         if (input.find("title") != std::string::npos) {
@@ -563,7 +563,10 @@ void Library::menu() {
         book_all();
     } else if (input.find("series all") == 0) {
         series_all();
+    } else{
+        std::cout<<"Wrong command!\n";
     }
+    menu();
 }
 
 int Library::exit() {
