@@ -17,13 +17,13 @@ public:
 
     size_t get_numOfItems() const;
 
-    void addItem(const LibraryItem *newItem);
+    void addItem( LibraryItem *newItem);
 
     void print() const override;
 
     Vector<BooksAndArticles> get_items() const;
 
-    void takingItem(const LibraryItem *newItem);
+    void takingItem( LibraryItem *newItem);
 
 };
 

@@ -10,7 +10,7 @@ size_t Reader::get_numOfItems() const {
     return numOfItems;
 }
 
-void Reader::addItem(const LibraryItem *newItem) {
+void Reader::addItem( LibraryItem *newItem) {
     BooksAndArticles temp(newItem);
     listOfItems.pushBack(reinterpret_cast<BooksAndArticles &>(temp.item));
     numOfItems++;
@@ -30,7 +30,7 @@ Vector<BooksAndArticles> Reader::get_items() const {
     return listOfItems;
 }
 
-void Reader::takingItem(const LibraryItem *newItem) {
+void Reader::takingItem(LibraryItem *newItem) {
     BooksAndArticles itemToAdd(newItem);
     listOfItems.pushBack(itemToAdd);
     numOfItems++;

@@ -18,8 +18,8 @@ public:
         isItBook = true;
     }
 
-    explicit BooksAndArticles(const LibraryItem *item) {
-        this->item = item->clone();
+    explicit BooksAndArticles(LibraryItem *item) {
+        this->item = item;
         if (typeid(&item) == typeid(Book)) {
             isItBook = true;
         } else {

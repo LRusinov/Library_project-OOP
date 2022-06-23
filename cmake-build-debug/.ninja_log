@@ -29,3 +29,10 @@
 276	378	6777057795672545	Library_project.exe	d1944bfdc11ba665
 3	281	6777057928936465	CMakeFiles/Library_project.dir/main.cpp.obj	384312b5c6c9c5e8
 281	400	6777057930073993	Library_project.exe	d1944bfdc11ba665
+13	416	6777075858872057	CMakeFiles/Library_project.dir/Reader.cpp.obj	665b0183168c94f0
+16	417	6777075858999056	CMakeFiles/Library_project.dir/Admin.cpp.obj	b009406e152d30ad
+3	449	6777075859333853	CMakeFiles/Library_project.dir/main.cpp.obj	384312b5c6c9c5e8
+11	613	6777075860924800	CMakeFiles/Library_project.dir/Library.cpp.obj	d824f8d629638331
+613	739	6777075862172595	Library_project.exe	d1944bfdc11ba665
+3	280	6777076108976809	CMakeFiles/Library_project.dir/main.cpp.obj	384312b5c6c9c5e8
+281	402	6777076110154503	Library_project.exe	d1944bfdc11ba665
