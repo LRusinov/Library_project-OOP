@@ -51,7 +51,7 @@ public:
 
     String &operator+(const String &other);
 
-    String &operator+(char *other);
+    String &operator+(const char *other);
 
     bool operator==(const String &other) const;
 

@@ -103,7 +103,7 @@ String &String::operator+(const String &other) {
     return *this;
 }
 
-String &String::operator+(char *other) {
+String &String::operator+(const char *other) {
     Concat(other);
     return *this;
 }

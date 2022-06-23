@@ -56,7 +56,6 @@ l.booksFind("author","author2","sort","year","asc");
     l.take(15);
 
 
-
     l.list_all();
     l.series_all();
     l.book_all();
