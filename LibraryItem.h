@@ -14,7 +14,7 @@ protected:
     Genre genre;
     String shortDescription;
     double rating;
-    const int ID = ++nextLibItemID;
+    const int ID = nextLibItemID++;
     String isbn;
     bool ifTaken;
 

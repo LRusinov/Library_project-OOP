@@ -13,10 +13,10 @@ Library::Library() {
 
 Library::~Library() {
     for (int i = 0; i < numOfReader; ++i) {
-        delete[] readersList[i];
+        delete readersList[i];
     }
     for (int i = 0; i < numOfAdmins; ++i) {
-        delete[] adminsList[i];
+        delete adminsList[i];
     }
 }
 
@@ -28,7 +28,7 @@ void Library::login() {
         String password;
         std::cout << "Username: ";
         std::cin >> username;
-        std::cout << "Password:";
+        std::cout << "Password: ";
         std::cin >> password;
         for (int i = 0; i < numOfReader; i++) {
             if (readersList[i]->get_username() == username && readersList[i]->get_password() == password) {
@@ -62,6 +62,7 @@ void Library::logout() {
     currentUser = 0;
     adminRights = false;
     loggedIn = false;
+    std::cout<<"Logged out successfully!\n";
 }
 
 void Library::book_all() const {
@@ -85,7 +86,13 @@ void Library::series_all() const {
 }
 
 void Library::list_all() const {
+
+    std::cout<<"BOOKS\n";
+    std::cout<<"============\n";
     book_all();
+    std::cout<<"\nSERIES\n";
+    std::cout<<"============\n";
+
     series_all();
 }
 
@@ -154,36 +161,6 @@ Library::booksFind(const String &option, const String &str, const String &sort, 
             for (int i = 0; i < numOfMatches - 1; ++i) {
                 for (int j = 1; j < numOfMatches; ++j) {
                     if (key == "title") {
-                        if (matchesList[j].get_title() < matchesList[i].get_title()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    } else if (key == "author") {
-                        if (matchesList[j].get_author() < matchesList[i].get_author()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    } else if (key == "id") {
-                        if (matchesList[j].get_ID() < matchesList[i].get_ID()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    } else if (key == "year") {
-                        if (matchesList[j].getYear() < matchesList[i].getYear()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    }
-                }
-            }
-        } else {
-            for (int i = 0; i < numOfMatches - 1; ++i) {
-                for (int j = 1; j < numOfMatches; ++j) {
-                    if (key == "title") {
                         if (matchesList[j].get_title() > matchesList[i].get_title()) {
                             Book temp = matchesList[j];
                             matchesList[j] = matchesList[i];
@@ -203,6 +180,36 @@ Library::booksFind(const String &option, const String &str, const String &sort, 
                         }
                     } else if (key == "year") {
                         if (matchesList[j].getYear() > matchesList[i].getYear()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int i = 0; i < numOfMatches - 1; ++i) {
+                for (int j = 1; j < numOfMatches; ++j) {
+                    if (key == "title") {
+                        if (matchesList[j].get_title() < matchesList[i].get_title()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    } else if (key == "author") {
+                        if (matchesList[j].get_author() < matchesList[i].get_author()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    } else if (key == "id") {
+                        if (matchesList[j].get_ID() < matchesList[i].get_ID()) {
+                            Book temp = matchesList[j];
+                            matchesList[j] = matchesList[i];
+                            matchesList[i] = temp;
+                        }
+                    } else if (key == "year") {
+                        if (matchesList[j].getYear() < matchesList[i].getYear()) {
                             Book temp = matchesList[j];
                             matchesList[j] = matchesList[i];
                             matchesList[i] = temp;
@@ -266,7 +273,7 @@ void Library::user_add(const String &username, const String &password, const Str
         adminsList[numOfAdmins]->setRegistrationDate(currentDate);
         adminsList[numOfAdmins]->setLastSeenDate(currentDate);
         numOfAdmins++;
-        //email sector reg date
+        //email sector
     } else {
         readersList.pushBack(new Reader(username, password));
         readersList[numOfReader]->setRegistrationDate(currentDate);
@@ -280,7 +287,7 @@ void Library::user_remove(const String &username) {
 
     for (size_t i = 0; i < numOfReader; i++) {
         if (readersList[i]->get_username() == username) {
-            delete[] readersList[i];
+            delete readersList[i];
             readersList.erase(i);
             numOfReader--;
             flag = true;
@@ -290,7 +297,7 @@ void Library::user_remove(const String &username) {
     if (!flag) {
         for (size_t i = 0; i < numOfAdmins; i++) {
             if (adminsList[i]->get_username() == username) {
-                delete[] adminsList[i];
+                delete adminsList[i];
                 adminsList.erase(i);
                 numOfAdmins--;
                 flag = true;
@@ -305,6 +312,7 @@ void Library::user_remove(const String &username) {
 }
 
 void Library::user_change(const String &username) {
+    if(loggedIn){
     String password;
     String confirmPassword;
     if (username == "") {
@@ -378,6 +386,9 @@ void Library::user_change(const String &username) {
         } else {
             std::cout << "You have no permissions!\n";
         }
+    }
+    }else{
+        std::cout<<"You are not logged in!\n";
     }
 }
 
@@ -579,4 +590,14 @@ void Library::help() {
     std::cout << "user add\n";
     std::cout << "user remove\n";
     std::cout << "user find\n";
+}
+
+void Library::bookAdd(const Book &book) {
+    booksList.pushBack(book);
+    numOfBooks++;
+}
+
+void Library::seriesAdd(const Series &series) {
+seriesList.pushBack(series);
+numOfSeries++;
 }

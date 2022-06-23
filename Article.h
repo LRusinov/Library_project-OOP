@@ -13,7 +13,7 @@ protected:
     Vector<String> keyWords;
 public:
     Article();
-
+Article(const String& title, const String& author, const Vector<String>& keyWords);
     String get_title() const;
 
     String get_author() const;

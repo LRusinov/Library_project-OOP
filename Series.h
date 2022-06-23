@@ -14,6 +14,10 @@ private:
     Vector<Article> content;
 public:
     Series();
+    Series(  const String& title, const String& author, const Vector<String>& keyWords,
+             const String& publisher, const Genre& genre,
+             const String& shortDescription, double rating,const String& isbn, const Date& published,
+             size_t num, const Vector<Article>& content);
 
     Date get_published() const;
 

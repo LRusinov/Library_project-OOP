@@ -12,7 +12,9 @@ private:
     size_t year;
 public:
     Book();
-
+Book(    const String& title, const String& author, const Vector<String>& keyWords,
+         const String& publisher, const Genre& genre,
+    const String& shortDescription, double rating,const String& isbn, size_t year);
     Book(const Book &other);
 
     Book &operator=(const Book &other);
