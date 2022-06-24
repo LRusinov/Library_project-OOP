@@ -23,42 +23,43 @@ private:
     size_t currentUser;
     Date currentDate;
 
+    bool loginCheck() const;
 public:
     Library();
 
     ~Library();
 
-    void login();//
+    void login();////
 
-    void logout();//
+    void logout();////
 
-    void series_all() const;//
+    void series_all() const;////
 
-    void list_all() const;//
+    void list_all() const;////
 
-    void book_all() const;//
+    void book_all() const;////
 
     void bookAdd(const Book &book);//
 
     void seriesAdd(const Series &series);//
 
-    void list_info(const String &isbn) const;//
+    void list_info(const String &isbn) const;////
 
     void booksFind(const String &option, const String &str, const String &sort = "", const String &key = "",
                    const String &asc = "asc");//
 
     void user_find(const String &option, const String &str) const;
 
-    void user_add(const String &username, const String &password, const String &admin = "");//
+    void user_add(const String &username, const String &password, const String &admin = "");////
 
-    void user_remove(const String &username);//
+    void user_remove(const String &username);////
 
-    void user_change(const String &username = "");//
+    void user_change(const String &username = "");////
 
 
-    void take(size_t id);//
+    void take(size_t id);////
 
-    void returnItem(size_t id);//
+    void returnItem(size_t id);////
 
     void menu();
 

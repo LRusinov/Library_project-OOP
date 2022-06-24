@@ -26,7 +26,6 @@ void Library::login() {
     } else {
         String username;
         String password;
-        std::cin.ignore();
         std::cout << "Username: ";
         std::cin >> username;
         std::cout << "Password: ";
@@ -54,50 +53,55 @@ void Library::login() {
             }
         }
         if (!loggedIn) {
-            std::cout << "Invalid username or password!";
+            std::cout << "Invalid username or password!\n";
         }
     }
 }
 
 void Library::logout() {
+    if(loginCheck()){
     currentUser = 0;
     adminRights = false;
     loggedIn = false;
-    std::cout<<"Logged out successfully!\n";
+    std::cout << "Logged out successfully!\n";}
 }
 
 void Library::book_all() const {
+    if(loginCheck()){
     if (numOfBooks == 0) {
         std::cout << "There is no books to be listed!";
     } else {
         for (size_t i = 0; i < numOfBooks; i++) {
             booksList[i].printInfo();
         }
-    }
+    }}
+
 }
 
 void Library::series_all() const {
+    if(loginCheck()){
     if (numOfSeries == 0) {
         std::cout << "There is no books to be listed!";
     } else {
         for (size_t i = 0; i < numOfSeries; i++) {
             seriesList[i].printInfo();
         }
-    }
+    }}
 }
 
 void Library::list_all() const {
-
-    std::cout<<"BOOKS\n";
-    std::cout<<"============\n";
+if(loginCheck()){
+    std::cout << "BOOKS\n";
+    std::cout << "============\n";
     book_all();
-    std::cout<<"\nSERIES\n";
-    std::cout<<"============\n";
+    std::cout << "\nSERIES\n";
+    std::cout << "============\n";
 
-    series_all();
+    series_all();}
 }
 
 void Library::list_info(const String &isbn) const {
+    if(loginCheck()){
     bool flag = false;     //следи дали има съвпадение на isbn
     for (size_t i = 0; i < numOfBooks; i++) {
         if (booksList[i].get_isbn() == isbn) {
@@ -119,7 +123,7 @@ void Library::list_info(const String &isbn) const {
         std::cout << "There is no item with this ISBN!";
     }
 
-}
+}}
 
 /*
         > series find <option> <option_string>[sort <key>[asc | desc]]
@@ -128,6 +132,7 @@ void Library::list_info(const String &isbn) const {
 
 void
 Library::booksFind(const String &option, const String &str, const String &sort, const String &key, const String &asc) {
+    if(loginCheck()){
     Vector<Book> matchesList;
     //проверяваме каква опция е подадена на функцията
     if (option == "title") {
@@ -228,9 +233,10 @@ Library::booksFind(const String &option, const String &str, const String &sort, 
     for (int i = 0; i < numOfMatches; ++i) {
         matchesList[i].printInfo();
     }
-}
+}}
 
 void Library::user_find(const String &option, const String &str) const {
+    if(loginCheck()){
     //проверяване на подадената опция
     if (option == "name") {
         bool flag = false;
@@ -254,7 +260,7 @@ void Library::user_find(const String &option, const String &str) const {
     } else if (option == "ID") {
         for (int i = 0; i < numOfReader; ++i) {
             size_t userItems = readersList[i]->get_numOfItems();
-            for (int j = 0; j < userItems; ++j) {//???????????????????
+            for (int j = 0; j < userItems; ++j) {
                 if (readersList[i]->get_items()[i].item->get_ID() == atoi(str.toCharArray())) {
                     readersList[i]->print();
                 }
@@ -266,9 +272,10 @@ void Library::user_find(const String &option, const String &str) const {
     } else {
         std::cout << "Unknown option!";
     }
-}
+}}
 
 void Library::user_add(const String &username, const String &password, const String &admin) {
+
     if (admin != "") {//failove
         adminsList.pushBack(new Admin(username, password, "", ""));
         adminsList[numOfAdmins]->setRegistrationDate(currentDate);
@@ -284,112 +291,112 @@ void Library::user_add(const String &username, const String &password, const Str
 }
 
 void Library::user_remove(const String &username) {
-    bool flag = false;
-
-    for (size_t i = 0; i < numOfReader; i++) {
-        if (readersList[i]->get_username() == username) {
-            delete readersList[i];
-            readersList.erase(i);
-            numOfReader--;
-            flag = true;
-            break;
-        }
-    }
-    if (!flag) {
-        for (size_t i = 0; i < numOfAdmins; i++) {
-            if (adminsList[i]->get_username() == username) {
-                delete adminsList[i];
-                adminsList.erase(i);
-                numOfAdmins--;
+    if (loginCheck()) {
+        bool flag = false;
+        for (size_t i = 0; i < numOfReader; i++) {
+            if (readersList[i]->get_username() == username) {
+                delete readersList[i];
+                readersList.erase(i);
+                numOfReader--;
                 flag = true;
                 break;
             }
         }
-    }
-    if (!flag) {
-        std::cout << "User not found!";
-    }
-
-}
-
-void Library::user_change(const String &username) {
-    if(loggedIn){
-    String password;
-    String confirmPassword;
-    if (username == "") {
-        //за да бъде променена паролата се изисква правилно въвеждане на старата парола
-        if (!adminRights) {
-            do {
-                std::cout << "Enter your password: ";
-                std::cin >> password;
-
-                if (readersList[currentUser]->get_password() != password) {
-                    std::cout << "Incorrect password!\n";
-                }
-            } while (readersList[currentUser]->get_password() != password);
-            do {
-                std::cout << "Enter new password: ";
-                std::cin >> password;
-                std::cout << "Confirm password: ";
-                std::cin >> confirmPassword;
-                if (confirmPassword != password) {
-                    std::cout << "Passwords don't match!\n";
-                }
-            } while (confirmPassword != password);
-            readersList[currentUser]->set_password(confirmPassword);
-            std::cout << "Password changes successfully!\n";
-        } else {
-            do {
-                std::cout << "Enter your password: ";
-                std::cin >> password;
-
-                if (adminsList[currentUser]->get_password() != password) {
-                    std::cout << "Incorrect password!\n";
-                }
-            } while (adminsList[currentUser]->get_password() != password);
-            do {
-                std::cout << "Enter new password: ";
-                std::cin >> password;
-                std::cout << "Confirm password: ";
-                std::cin >> confirmPassword;
-                if (confirmPassword != password) {
-                    std::cout << "Passwords don't match!\n";
-                }
-            } while (confirmPassword != password);
-            adminsList[currentUser]->set_password(confirmPassword);
-            std::cout << "Password changes successfully!\n";
-        }
-    } else {
-        if (adminRights) {
-            for (size_t i = 0; i < numOfReader; i++) {
-                if (readersList[i]->get_username() == username) {
-                    do {
-                        std::cout << "Enter your password: ";
-                        std::cin >> password;
-                        if (readersList[currentUser]->get_password() != password) {
-                            std::cout << "Incorrect password!\n";
-                        }
-                    } while (readersList[currentUser]->get_password() != password);
-                    do {
-                        std::cout << "Enter new password: ";
-                        std::cin >> password;
-                        std::cout << "Confirm password: ";
-                        std::cin >> confirmPassword;
-                        if (confirmPassword != password) {
-                            std::cout << "Passwords don't match!\n";
-                        }
-                    } while (confirmPassword != password);
-                    readersList[i]->set_password(confirmPassword);
-                    std::cout << "Password changes successfully!\n";
+        if (!flag) {
+            for (size_t i = 0; i < numOfAdmins; i++) {
+                if (adminsList[i]->get_username() == username) {
+                    delete adminsList[i];
+                    adminsList.erase(i);
+                    numOfAdmins--;
+                    flag = true;
                     break;
                 }
             }
-        } else {
-            std::cout << "You have no permissions!\n";
         }
+        if (!flag) {
+            std::cout << "User not found!";
+        }
+
     }
-    }else{
-        std::cout<<"You are not logged in!\n";
+}
+void Library::user_change(const String &username) {
+    if (loggedIn) {
+        String password;
+        String confirmPassword;
+        if (username == "") {
+            //за да бъде променена паролата се изисква правилно въвеждане на старата парола
+            if (!adminRights) {
+                do {
+                    std::cout << "Enter your password: ";
+                    std::cin >> password;
+
+                    if (readersList[currentUser]->get_password() != password) {
+                        std::cout << "Incorrect password!\n";
+                    }
+                } while (readersList[currentUser]->get_password() != password);
+                do {
+                    std::cout << "Enter new password: ";
+                    std::cin >> password;
+                    std::cout << "Confirm password: ";
+                    std::cin >> confirmPassword;
+                    if (confirmPassword != password) {
+                        std::cout << "Passwords don't match!\n";
+                    }
+                } while (confirmPassword != password);
+                readersList[currentUser]->set_password(confirmPassword);
+                std::cout << "Password changes successfully!\n";
+            } else {
+                do {
+                    std::cout << "Enter your password: ";
+                    std::cin >> password;
+
+                    if (adminsList[currentUser]->get_password() != password) {
+                        std::cout << "Incorrect password!\n";
+                    }
+                } while (adminsList[currentUser]->get_password() != password);
+                do {
+                    std::cout << "Enter new password: ";
+                    std::cin >> password;
+                    std::cout << "Confirm password: ";
+                    std::cin >> confirmPassword;
+                    if (confirmPassword != password) {
+                        std::cout << "Passwords don't match!\n";
+                    }
+                } while (confirmPassword != password);
+                adminsList[currentUser]->set_password(confirmPassword);
+                std::cout << "Password changes successfully!\n";
+            }
+        } else {
+            if (adminRights) {
+                for (size_t i = 0; i < numOfReader; i++) {
+                    if (readersList[i]->get_username() == username) {
+                        do {
+                            std::cout << "Enter your password: ";
+                            std::cin >> password;
+                            if (readersList[currentUser]->get_password() != password) {
+                                std::cout << "Incorrect password!\n";
+                            }
+                        } while (readersList[currentUser]->get_password() != password);
+                        do {
+                            std::cout << "Enter new password: ";
+                            std::cin >> password;
+                            std::cout << "Confirm password: ";
+                            std::cin >> confirmPassword;
+                            if (confirmPassword != password) {
+                                std::cout << "Passwords don't match!\n";
+                            }
+                        } while (confirmPassword != password);
+                        readersList[i]->set_password(confirmPassword);
+                        std::cout << "Password changes successfully!\n";
+                        break;
+                    }
+                }
+            } else {
+                std::cout << "You have no permissions!\n";
+            }
+        }
+    } else {
+        std::cout << "You are not logged in!\n";
     }
 }
 
@@ -454,9 +461,9 @@ void Library::returnItem(size_t id) {
 void Library::menu() {
     std::string input;
     std::cout << "Enter command:\n";
-    std::cin >> input;
+    std::getline(std::cin, input);
     std::string firstWord = input.substr(0, input.find(' '));
-
+    size_t len = input.length();
 
     if (firstWord == "help") {
         help();
@@ -466,7 +473,7 @@ void Library::menu() {
         logout();
     } else if (firstWord == "exit") {
         return;
-    } else if (input.find("books find") == 0) {
+    } else if (input.find("books find") == 0 && len > 10) {
         std::string str;
         if (input.find("title") != std::string::npos) {
             if (input.find("sort") == std::string::npos) {
@@ -475,13 +482,13 @@ void Library::menu() {
             } else {
                 std::string key;
                 size_t sortPos = input.find("sort");
-                str = input.substr(17, input.length() - sortPos - 17);
+                str = input.substr(17, sortPos - 18);
 
                 if (input.find("dsc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
                     booksFind("title", str.data(), "sort", key.data(), "dsc");
                 } else if (input.find("asc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
                     booksFind("title", str.data(), "sort", key.data(), "asc");
                 } else {
                     key = input.substr(sortPos + 5);
@@ -492,18 +499,18 @@ void Library::menu() {
 
         } else if (input.find("author") != std::string::npos) {
             if (input.find("sort") == std::string::npos) {
-                str = input.substr(17);
+                str = input.substr(18);
                 booksFind("author", str.data());
             } else {
                 std::string key;
                 size_t sortPos = input.find("sort");
-                str = input.substr(17, input.length() - sortPos - 17);
+                str = input.substr(18, sortPos - 19);
 
                 if (input.find("dsc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
                     booksFind("author", str.data(), "sort", key.data(), "dsc");
                 } else if (input.find("asc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
                     booksFind("author", str.data(), "sort", key.data(), "asc");
                 } else {
                     key = input.substr(sortPos + 5);
@@ -513,18 +520,18 @@ void Library::menu() {
             }
         } else if (input.find("tag") != std::string::npos) {
             if (input.find("sort") == std::string::npos) {
-                str = input.substr(17);
+                str = input.substr(14);
                 booksFind("tag", str.data());
             } else {
                 std::string key;
                 size_t sortPos = input.find("sort");
-                str = input.substr(17, input.length() - sortPos - 17);
+                str = input.substr(14, sortPos - 15);
 
                 if (input.find("dsc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
                     booksFind("tag", str.data(), "sort", key.data(), "dsc");
                 } else if (input.find("asc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() - sortPos + 2);
+                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
                     booksFind("tag", str.data(), "sort", key.data(), "asc");
                 } else {
                     key = input.substr(sortPos + 5);
@@ -532,18 +539,31 @@ void Library::menu() {
                 }
 
             }
+        } else {
+            std::cout << "Invalid key!\n";
         }
-    } else if (input.find("books remove") == 0) {
+    } else if (input.find("books remove") == 0 && len > 12) {
         input.substr(13);
-    } else if (firstWord == "take") {
+    } else if (firstWord == "take" && len > 4) {
         take(stoi(input.substr(5)));
-    } else if (firstWord == "return") {
+    } else if (firstWord == "return" && len > 6) {
         returnItem(stoi(input.substr(7)));
-    } else if (input.find("user add") == 0) {
-        //user_add()
-    } else if (input.find("user remove") == 0) {
-        user_remove(input.substr(7).data());
-    } else if (input.find("user change") == 0) {
+    } else if (input.find("user add") == 0 && len > 8) {
+
+        std::string password;
+        if (input.find("admin") != std::string::npos) {
+            firstWord = input.substr(9, input.length() - input.find(' ', 10) - 7);
+            std::cout << firstWord;
+            password = input.substr(input.find(' ', 10) + 1, input.length() - input.find("admin", 10) - 1);
+            user_add(firstWord.data(), password.data(), "admin");
+        } else {
+            firstWord = input.substr(9, input.length() - input.find(' ', 10) - 1);
+            password = input.substr(input.find(' ', 10) + 1);
+            user_add(firstWord.data(), password.data());
+        }
+    } else if (input.find("user remove") == 0 && len > 11) {
+        user_remove(input.substr(12).data());
+    } else if (input.find("user change") == 0 && len > 11) {
         if (input.length() != 11) {
             firstWord = input.substr(12);
             user_change(firstWord.data());
@@ -556,15 +576,15 @@ void Library::menu() {
 //}
     else if (input.find("list all") == 0) {
         list_all();
-    } else if (input.find("list info") == 0) {
+    } else if (input.find("list info") == 0 && len > 9) {
         list_info(input.substr(10).data());
 
     } else if (input.find("book all") == 0) {
         book_all();
     } else if (input.find("series all") == 0) {
         series_all();
-    } else{
-        std::cout<<"Wrong command!\n";
+    } else {
+        std::cout << "Wrong command!\n";
     }
     menu();
 }
@@ -601,6 +621,15 @@ void Library::bookAdd(const Book &book) {
 }
 
 void Library::seriesAdd(const Series &series) {
-seriesList.pushBack(series);
-numOfSeries++;
+    seriesList.pushBack(series);
+    numOfSeries++;
+}
+
+bool Library::loginCheck() const {
+    if(loggedIn){
+        return true;
+    }else{
+        std::cout<<"You are not logged in!\n";
+        return false;
+    }
 }
