@@ -1,4 +1,5 @@
 
+#include <fstream>
 #include"Library.h"
 
 
@@ -59,229 +60,218 @@ void Library::login() {
 }
 
 void Library::logout() {
-    if(loginCheck()){
-    currentUser = 0;
-    adminRights = false;
-    loggedIn = false;
-    std::cout << "Logged out successfully!\n";}
+    if (loginCheck()) {
+        currentUser = 0;
+        adminRights = false;
+        loggedIn = false;
+        std::cout << "Logged out successfully!\n";
+    }
+}
+
+void Library::bookAdd(const Book &book) {
+    std::ofstream myFile;
+    myFile.open("Books.txt", std::ios::app);//довавя книгите във файл
+    if (myFile.is_open()) {
+        myFile << book.get_title() << " " << book.get_author() << " " << book.get_ID() << std::endl;
+        myFile.close();
+    }
+    booksList.pushBack(book);
+    numOfBooks++;
+}
+
+void Library::seriesAdd(const Series &series) {
+    std::ofstream myFile;
+    myFile.open("Series.txt", std::ios::app);//довавя печатните издания във файл
+    if (myFile.is_open()) {
+        myFile << series.get_title() << " " << series.get_author() << " " << series.get_ID() << std::endl;
+        myFile.close();
+    }
+    seriesList.pushBack(series);
+    numOfSeries++;
 }
 
 void Library::book_all() const {
-    if(loginCheck()){
-    if (numOfBooks == 0) {
-        std::cout << "There is no books to be listed!";
-    } else {
-        for (size_t i = 0; i < numOfBooks; i++) {
-            booksList[i].printInfo();
+    if (loginCheck()) {
+        if (numOfBooks == 0) { //проверява дали има добавени книги в списъка
+            std::cout << "There is no books to be listed!";
+        } else {
+            for (size_t i = 0; i < numOfBooks; i++) {
+                booksList[i].printInfo();
+            }
         }
-    }}
+    }
 
 }
 
 void Library::series_all() const {
-    if(loginCheck()){
-    if (numOfSeries == 0) {
-        std::cout << "There is no books to be listed!";
-    } else {
-        for (size_t i = 0; i < numOfSeries; i++) {
-            seriesList[i].printInfo();
+    if (loginCheck()) {
+        if (numOfSeries == 0) { //проверява дали има добавени печатни издания
+            std::cout << "There is no books to be listed!";
+        } else {
+            for (size_t i = 0; i < numOfSeries; i++) {
+                seriesList[i].printInfo();
+            }
         }
-    }}
+    }
 }
 
 void Library::list_all() const {
-if(loginCheck()){
-    std::cout << "BOOKS\n";
-    std::cout << "============\n";
-    book_all();
-    std::cout << "\nSERIES\n";
-    std::cout << "============\n";
+    if (loginCheck()) {
+        std::cout << "BOOKS\n";
+        std::cout << "============\n";
+        book_all();
+        std::cout << "\nSERIES\n";
+        std::cout << "============\n";
 
-    series_all();}
+        series_all();
+    }
 }
 
-void Library::list_info(const String &isbn) const {
-    if(loginCheck()){
-    bool flag = false;     //следи дали има съвпадение на isbn
-    for (size_t i = 0; i < numOfBooks; i++) {
-        if (booksList[i].get_isbn() == isbn) {
-            booksList[i].fullInfo();
-            flag = true;
-            break;
-        }
-    }
-    if (!flag) {
-        for (size_t i = 0; i < numOfSeries; i++) {
-            if (seriesList[i].get_isbn() == isbn) {
-                seriesList[i].fullInfo();
-                flag = true;
-                break;
-            }
-        }
-    }
-    if (!flag) {
-        std::cout << "There is no item with this ISBN!";
-    }
-
-}}
-
-/*
-        > series find <option> <option_string>[sort <key>[asc | desc]]
-        > list find <option> <option_string>[sort <key>[asc | desc]]
-*/
-
-void
-Library::booksFind(const String &option, const String &str, const String &sort, const String &key, const String &asc) {
-    if(loginCheck()){
-    Vector<Book> matchesList;
-    //проверяваме каква опция е подадена на функцията
-    if (option == "title") {
+void Library::list_info(const String &isbn) const { //първо проверява списъка с книги след това с печатни издания
+    if (loginCheck()) {
+        bool flag = false;     //следи дали има съвпадение на isbn
         for (size_t i = 0; i < numOfBooks; i++) {
-            if (booksList[i].get_title() == str) {
-                matchesList.pushBack(booksList[i]);
-            }
-        }
-    } else if (option == "author") {
-        for (size_t i = 0; i < numOfBooks; i++) {
-            if (booksList[i].get_author() == str) {
-                matchesList.pushBack(booksList[i]);
-            }
-        }
-    } else if (option == "tag") {
-        for (size_t i = 0; i < numOfBooks; i++) {
-            size_t numOfKeyWords = booksList[i].get_keyWords().get_size();
-            for (size_t j = 0; j < numOfKeyWords; j++) {
-                if (booksList[i].get_keyWords()[j] == str) {
-                    matchesList.pushBack(booksList[i]);
-                }
-            }
-        }
-    } else {
-        std::cout << "Unknown option!";
-        return;
-    }
-    size_t numOfMatches = matchesList.get_size();
-
-    if (sort != "" && key != "") {
-        if (asc != "asc") {
-            for (int i = 0; i < numOfMatches - 1; ++i) {
-                for (int j = 1; j < numOfMatches; ++j) {
-                    if (key == "title") {
-                        if (matchesList[j].get_title() > matchesList[i].get_title()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    } else if (key == "author") {
-                        if (matchesList[j].get_author() > matchesList[i].get_author()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    } else if (key == "id") {
-                        if (matchesList[j].get_ID() > matchesList[i].get_ID()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    } else if (key == "year") {
-                        if (matchesList[j].getYear() > matchesList[i].getYear()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    }
-                }
-            }
-        } else {
-            for (int i = 0; i < numOfMatches - 1; ++i) {
-                for (int j = 1; j < numOfMatches; ++j) {
-                    if (key == "title") {
-                        if (matchesList[j].get_title() < matchesList[i].get_title()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    } else if (key == "author") {
-                        if (matchesList[j].get_author() < matchesList[i].get_author()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    } else if (key == "id") {
-                        if (matchesList[j].get_ID() < matchesList[i].get_ID()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    } else if (key == "year") {
-                        if (matchesList[j].getYear() < matchesList[i].getYear()) {
-                            Book temp = matchesList[j];
-                            matchesList[j] = matchesList[i];
-                            matchesList[i] = temp;
-                        }
-                    }
-                }
-            }
-
-        }
-    }
-    if (numOfMatches == 0) {
-        std::cout << "No matches found!";
-        return;
-    }
-    for (int i = 0; i < numOfMatches; ++i) {
-        matchesList[i].printInfo();
-    }
-}}
-
-void Library::user_find(const String &option, const String &str) const {
-    if(loginCheck()){
-    //проверяване на подадената опция
-    if (option == "name") {
-        bool flag = false;
-        for (int i = 0; i < numOfAdmins; ++i) {
-            if (adminsList[i]->get_username() == str) {
-                adminsList[i]->print();
-                flag = true;
-                break;
-            }
-        }
-        for (int i = 0; i < numOfReader; ++i) {
-            if (readersList[i]->get_username() == str) {
-                readersList[i]->print();
+            if (booksList[i].get_isbn() == isbn) {
+                booksList[i].fullInfo();
                 flag = true;
                 break;
             }
         }
         if (!flag) {
-            std::cout << "No user Found!";
-        }
-    } else if (option == "ID") {
-        for (int i = 0; i < numOfReader; ++i) {
-            size_t userItems = readersList[i]->get_numOfItems();
-            for (int j = 0; j < userItems; ++j) {
-                if (readersList[i]->get_items()[i].item->get_ID() == atoi(str.toCharArray())) {
-                    readersList[i]->print();
+            for (size_t i = 0; i < numOfSeries; i++) {
+                if (seriesList[i].get_isbn() == isbn) {
+                    seriesList[i].fullInfo();
+                    flag = true;
+                    break;
                 }
             }
         }
+        if (!flag) {
+            std::cout << "There is no item with this ISBN!";
+        }
 
-    } else if (option == "state") {
-
-    } else {
-        std::cout << "Unknown option!";
     }
-}}
+}
+
+void
+Library::booksFind(const String &option, const String &str, const String &sort, const String &key, const String &asc) {
+    if (loginCheck()) {
+        Vector<Book> matchesList;
+        //проверяваме каква опция е подадена на функцията
+        if (option == "title") {
+            for (size_t i = 0; i < numOfBooks; i++) {
+                if (booksList[i].get_title() == str) {
+                    matchesList.pushBack(booksList[i]);
+                }
+            }
+        } else if (option == "author") {
+            for (size_t i = 0; i < numOfBooks; i++) {
+                if (booksList[i].get_author() == str) {
+                    matchesList.pushBack(booksList[i]);
+                }
+            }
+        } else if (option == "tag") {
+            for (size_t i = 0; i < numOfBooks; i++) {
+                size_t numOfKeyWords = booksList[i].get_keyWords().get_size();
+                for (size_t j = 0; j < numOfKeyWords; j++) {
+                    if (booksList[i].get_keyWords()[j] == str) {
+                        matchesList.pushBack(booksList[i]);
+                    }
+                }
+            }
+        } else {
+            std::cout << "Unknown option!";
+            return;
+        }
+        size_t numOfMatches = matchesList.get_size();
+
+        if (sort != "" && key != "") {
+            if (asc != "asc") {
+                for (int i = 0; i < numOfMatches - 1; ++i) {
+                    for (int j = 1; j < numOfMatches; ++j) {//сортиране с метода на мехурчето
+                        if (key == "title") {
+                            if (matchesList[j].get_title() > matchesList[i].get_title()) {
+                                Book temp = matchesList[j];
+                                matchesList[j] = matchesList[i];
+                                matchesList[i] = temp;
+                            }
+                        } else if (key == "author") {
+                            if (matchesList[j].get_author() > matchesList[i].get_author()) {
+                                Book temp = matchesList[j];
+                                matchesList[j] = matchesList[i];
+                                matchesList[i] = temp;
+                            }
+                        } else if (key == "id") {
+                            if (matchesList[j].get_ID() > matchesList[i].get_ID()) {
+                                Book temp = matchesList[j];
+                                matchesList[j] = matchesList[i];
+                                matchesList[i] = temp;
+                            }
+                        } else if (key == "year") {
+                            if (matchesList[j].getYear() > matchesList[i].getYear()) {
+                                Book temp = matchesList[j];
+                                matchesList[j] = matchesList[i];
+                                matchesList[i] = temp;
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (int i = 0; i < numOfMatches - 1; ++i) {
+                    for (int j = 1; j < numOfMatches; ++j) {
+                        if (key == "title") {
+                            if (matchesList[j].get_title() < matchesList[i].get_title()) {
+                                Book temp = matchesList[j];
+                                matchesList[j] = matchesList[i];
+                                matchesList[i] = temp;
+                            }
+                        } else if (key == "author") {
+                            if (matchesList[j].get_author() < matchesList[i].get_author()) {
+                                Book temp = matchesList[j];
+                                matchesList[j] = matchesList[i];
+                                matchesList[i] = temp;
+                            }
+                        } else if (key == "id") {
+                            if (matchesList[j].get_ID() < matchesList[i].get_ID()) {
+                                Book temp = matchesList[j];
+                                matchesList[j] = matchesList[i];
+                                matchesList[i] = temp;
+                            }
+                        } else if (key == "year") {
+                            if (matchesList[j].getYear() < matchesList[i].getYear()) {
+                                Book temp = matchesList[j];
+                                matchesList[j] = matchesList[i];
+                                matchesList[i] = temp;
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        if (numOfMatches == 0) {
+            std::cout << "No matches found!";
+            return;
+        }
+        for (int i = 0; i < numOfMatches; ++i) {
+            matchesList[i].printInfo();
+        }
+    }
+}
+
 
 void Library::user_add(const String &username, const String &password, const String &admin) {
-
-    if (admin != "") {//failove
+    std::ofstream myFile;
+    myFile.open("Users.txt", std::ios::app);//довавя потребителите във файл
+    if (myFile.is_open()) {
+        myFile << username << " " << password << " " << admin << std::endl;
+        myFile.close();
+    }
+    if (admin != "") {
         adminsList.pushBack(new Admin(username, password, "", ""));
         adminsList[numOfAdmins]->setRegistrationDate(currentDate);
         adminsList[numOfAdmins]->setLastSeenDate(currentDate);
         numOfAdmins++;
-        //email sector
     } else {
         readersList.pushBack(new Reader(username, password));
         readersList[numOfReader]->setRegistrationDate(currentDate);
@@ -291,6 +281,7 @@ void Library::user_add(const String &username, const String &password, const Str
 }
 
 void Library::user_remove(const String &username) {
+    //първо се проверява дали търсения потребител е в списъка с читатели и след това в списъка с администратори
     if (loginCheck()) {
         bool flag = false;
         for (size_t i = 0; i < numOfReader; i++) {
@@ -319,6 +310,7 @@ void Library::user_remove(const String &username) {
 
     }
 }
+
 void Library::user_change(const String &username) {
     if (loggedIn) {
         String password;
@@ -406,7 +398,7 @@ void Library::take(const size_t id) {
     } else {
         for (size_t i = 0; i < numOfBooks; i++) {
             if (booksList[i].get_ID() == id) {
-                if (booksList[i].getIfTaken()) {
+                if (booksList[i].getIfTaken()) { //проверява дали книгата е свободна
                     std::cout << "Book is already taken!\n";
                     return;
                 }
@@ -485,10 +477,10 @@ void Library::menu() {
                 str = input.substr(17, sortPos - 18);
 
                 if (input.find("dsc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
+                    key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
                     booksFind("title", str.data(), "sort", key.data(), "dsc");
                 } else if (input.find("asc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
+                    key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
                     booksFind("title", str.data(), "sort", key.data(), "asc");
                 } else {
                     key = input.substr(sortPos + 5);
@@ -507,10 +499,10 @@ void Library::menu() {
                 str = input.substr(18, sortPos - 19);
 
                 if (input.find("dsc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
+                    key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
                     booksFind("author", str.data(), "sort", key.data(), "dsc");
                 } else if (input.find("asc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
+                    key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
                     booksFind("author", str.data(), "sort", key.data(), "asc");
                 } else {
                     key = input.substr(sortPos + 5);
@@ -528,10 +520,10 @@ void Library::menu() {
                 str = input.substr(14, sortPos - 15);
 
                 if (input.find("dsc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
+                    key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
                     booksFind("tag", str.data(), "sort", key.data(), "dsc");
                 } else if (input.find("asc") != std::string::npos) {
-                    key = input.substr(sortPos + 5, input.length() -3 - sortPos -5);
+                    key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
                     booksFind("tag", str.data(), "sort", key.data(), "asc");
                 } else {
                     key = input.substr(sortPos + 5);
@@ -570,11 +562,7 @@ void Library::menu() {
         } else {
             user_change();
         }
-    }
-//     else if (input.find("user find") == 0) {
-////////
-//}
-    else if (input.find("list all") == 0) {
+    } else if (input.find("list all") == 0) {
         list_all();
     } else if (input.find("list info") == 0 && len > 9) {
         list_info(input.substr(10).data());
@@ -589,10 +577,6 @@ void Library::menu() {
     menu();
 }
 
-int Library::exit() {
-    return 0;
-}
-
 void Library::help() {
     std::cout << "Command list:\n";
     std::cout << "help\n";
@@ -605,31 +589,18 @@ void Library::help() {
     std::cout << "list info\n";
     std::cout << "books find\n";
     std::cout << "books view\n";
-    std::cout << "books add\n";
-    std::cout << "books remove\n";
     std::cout << "take\n";
     std::cout << "return\n";
     std::cout << "user change\n";
     std::cout << "user add\n";
     std::cout << "user remove\n";
-    std::cout << "user find\n";
-}
-
-void Library::bookAdd(const Book &book) {
-    booksList.pushBack(book);
-    numOfBooks++;
-}
-
-void Library::seriesAdd(const Series &series) {
-    seriesList.pushBack(series);
-    numOfSeries++;
 }
 
 bool Library::loginCheck() const {
-    if(loggedIn){
+    if (loggedIn) {
         return true;
-    }else{
-        std::cout<<"You are not logged in!\n";
+    } else {
+        std::cout << "You are not logged in!\n";
         return false;
     }
 }

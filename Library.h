@@ -12,60 +12,61 @@ class Library {
 private:
     Vector<Book> booksList;
     size_t numOfBooks;
+
     Vector<Series> seriesList;
     size_t numOfSeries;
+
     Vector<Admin *> adminsList;
     size_t numOfAdmins;
+
     Vector<Reader *> readersList;
     size_t numOfReader;
+
     bool loggedIn;
-    bool adminRights{};
+    bool adminRights;
     size_t currentUser;
     Date currentDate;
 
-    bool loginCheck() const;
+    bool loginCheck() const;//помощна функция която проверява дали имаме логнат потребител
 public:
     Library();
 
     ~Library();
 
-    void login();////
+    void login();
 
-    void logout();////
+    void logout();
 
-    void series_all() const;////
+    void series_all() const;
 
-    void list_all() const;////
+    void list_all() const;
 
-    void book_all() const;////
+    void book_all() const;
 
-    void bookAdd(const Book &book);//
+    void bookAdd(const Book &book);
 
-    void seriesAdd(const Series &series);//
+    void seriesAdd(const Series &series);
 
-    void list_info(const String &isbn) const;////
+    void list_info(const String &isbn) const;
 
     void booksFind(const String &option, const String &str, const String &sort = "", const String &key = "",
-                   const String &asc = "asc");//
-
-    void user_find(const String &option, const String &str) const;
-
-    void user_add(const String &username, const String &password, const String &admin = "");////
-
-    void user_remove(const String &username);////
-
-    void user_change(const String &username = "");////
+                   const String &asc = "asc");
 
 
-    void take(size_t id);////
+    void user_add(const String &username, const String &password, const String &admin = "");
 
-    void returnItem(size_t id);////
+    void user_remove(const String &username);
 
-    void menu();
+    void user_change(const String &username = "");
 
-    static void help();//
 
-    static int exit();
+    void take(size_t id);
+
+    void returnItem(size_t id);
+
+    void menu(); //меню, което съчетава в себе си всички функционалности
+
+    static void help(); // принтира всички възможни команди
 };
 
 

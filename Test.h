@@ -5,7 +5,7 @@
 
 class Test {
 public:
-    static void dataLoad(Library &library) {
+    static void dataLoad(Library &library) { //добавяне на данните в библиотеката
 
         Vector<String> vec, vec2;
         Vector<Article> content;
@@ -53,16 +53,17 @@ public:
 
     }
 
-    static void funcTests(Library &l) {
+    static void funcTests(Library &l) { //тестване на функционалностите
+        l.list_all();
+        l.series_all();
+        l.book_all();
         l.list_info("isbn3");
         l.login();
         l.booksFind("author", "author2", "sort", "year", "asc");
         l.take(15);
         l.returnItem(15);
         l.take(15);
-        l.list_all();
-        l.series_all();
-        l.book_all();
+
     }
 };
 
