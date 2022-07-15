@@ -123,9 +123,9 @@ void Library::booksFind(const std::string &option, const std::string &str, bool 
 
 }
 
+template<typename T>
 void
-Library::booksFind(const std::string &option, const std::string &str, const std::string &sort, const std::string &key,
-                   const std::string &asc) {
+Library::find(const std::string &option, const std::string &str, bool sort, bool key, bool asc) {
     if (loginCheck()) {
         std::vector<Book> matchesList;
         //проверяваме каква опция е подадена на функцията
@@ -308,8 +308,8 @@ void Library::user_change(const std::string &username) {
 }
 
 void Library::take(const size_t id) {
-    if(adminRights){
-        std::cout<<"Administrator accounts can not take items!\n";
+    if (adminRights) {
+        std::cout << "Administrator accounts can not take items!\n";
         return;
     }
     if (loginCheck()) {

@@ -43,7 +43,8 @@ public:
 
     void list_info(const std::string &isbn) const;
 
-    void booksFind(const std::string &option, const std::string &str, bool sort = false,
+    template<typename T>
+    void find(const std::string &option, const std::string &str, bool sort = false,
                    bool key = false,
                    bool asc = false);
 
