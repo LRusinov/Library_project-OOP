@@ -2,20 +2,19 @@
 #define _ADMIN_H_
 
 #include "User.h"
-#include "String.h"
+
 
 class Admin : public User {
 private:
-    String email;
-    String sector;
+    std::string email;
+    std::string sector;
 public:
-    Admin(const String &username, const String &password,
-          const String &email, const String &sector);
+    Admin(const std::string &username, const std::string &password, const Date &registrationDate,
+          const std::string &email, const std::string &sector);
 
     void print() const override;
 
     Admin &operator=(const Admin &other);
-//    Vector<BooksAndArticles> get_items()const override;
 };
 
 

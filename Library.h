@@ -1,7 +1,7 @@
 #ifndef _LIBRARY_H_
 #define _LIBRARY_H_
 
-#include"Vector.h"
+
 #include"User.h"
 #include"LibraryItem.h"
 #include"Series.h"
@@ -10,23 +10,16 @@
 
 class Library {
 private:
-    Vector<Book> booksList;
-    size_t numOfBooks;
-
-    Vector<Series> seriesList;
-    size_t numOfSeries;
-
-    Vector<Admin *> adminsList;
-    size_t numOfAdmins;
-
-    Vector<Reader *> readersList;
-    size_t numOfReader;
-
-    bool loggedIn;
+    std::vector<LibraryItem *> listOfLibItems;
+    int numOfLibItems;
+    std::vector<User *> listOfUsers;
+    int numOfUsers;
     bool adminRights;
-    size_t currentUser;
+    int currentUser;
     Date currentDate;
-
+    void passwordCheck();
+    std::string passwordChange();
+bool rightsCheck()const;
     bool loginCheck() const;//помощна функция която проверява дали имаме логнат потребител
 public:
     Library();
@@ -37,27 +30,29 @@ public:
 
     void logout();
 
-    void series_all() const;
+    template<typename T>
+    void item_all() const;
 
     void list_all() const;
 
-    void book_all() const;
+    void itemAdd(LibraryItem *libItem);
 
-    void bookAdd(const Book &book);
+    void bookAdd(Book &book);
 
-    void seriesAdd(const Series &series);
+    void seriesAdd(Series &series);
 
-    void list_info(const String &isbn) const;
+    void list_info(const std::string &isbn) const;
 
-    void booksFind(const String &option, const String &str, const String &sort = "", const String &key = "",
-                   const String &asc = "asc");
+    void booksFind(const std::string &option, const std::string &str, bool sort = false,
+                   bool key = false,
+                   bool asc = false);
 
 
-    void user_add(const String &username, const String &password, const String &admin = "");
+    void user_add(const std::string &username, const std::string &password, bool admin = false);
 
-    void user_remove(const String &username);
+    void user_remove(const std::string &username);
 
-    void user_change(const String &username = "");
+    void user_change(const std::string& username="" );
 
 
     void take(size_t id);

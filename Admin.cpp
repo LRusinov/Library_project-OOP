@@ -1,11 +1,13 @@
 #include "Admin.h"
 
-Admin::Admin(const String &username, const String &password, const String &email, const String &sector) {
-    this->username = username;
-    this->password = password;
-    this->email = email;
-    this->sector = sector;
+Admin::Admin(const std::string &username, const std::string &password, const Date &registrationDate,
+             const std::string &email, const std::string &sector) :
+        User(username, password, registrationDate),
+        email(email),
+        sector(sector) {
+    adminRights = true;
 }
+
 
 void Admin::print() const {
     std::cout << "Username: " << username << std::endl;
@@ -22,4 +24,5 @@ Admin &Admin::operator=(const Admin &other) {
 
     return *this;
 }
+
 

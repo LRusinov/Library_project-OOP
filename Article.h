@@ -2,23 +2,25 @@
 #ifndef _ARTICLE_H_
 #define _ARTICLE_H_
 
-#include "String.h"
-#include "Vector.h"
+
+#include <vector>
 #include "Date.h"
 
 class Article {
 protected:
-    String title;
-    String author;
-    Vector<String> keyWords;
+    std::string title;
+    std::string author;
+    std::vector<std::string> keyWords;
 public:
     Article();
-Article(const String& title, const String& author, const Vector<String>& keyWords);
-    String get_title() const;
 
-    String get_author() const;
+    Article(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords);
 
-    Vector<String> get_keyWords() const;
+    std::string get_title() const;
+
+    std::string get_author() const;
+
+    std::vector<std::string> get_keyWords() const;
 };
 
 #endif //_ARTICLE_H_

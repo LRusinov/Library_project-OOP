@@ -1,9 +1,17 @@
 
+#include <vector>
 #include"Series.h"
 
-Series::Series() {
+Series::Series():LibraryItem() {
     num = 0;
 }
+Series::Series(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
+               const std::string &publisher, Genre genre, const std::string &shortDescription, double rating, int id,
+               const std::string &isbn, bool ifTaken, const Date &published, size_t num,
+               const std::vector<Article> &content) : LibraryItem(title, author, keyWords, publisher, genre,
+                                                                  shortDescription, rating, id, isbn, ifTaken),
+                                                      published(published), num(num), content(content) {}
+
 
 Date Series::get_published() const {
     return published;
@@ -13,7 +21,7 @@ size_t Series::get_num() const {
     return num;
 }
 
-Vector<Article> Series::get_content() const {
+std::vector<Article> Series::get_content() const {
     return content;
 }
 
@@ -63,20 +71,3 @@ void Series::fullInfo() const {
     std::cout << "Rating: " << rating << std::endl;
 }
 
-Series::Series(const String &title, const String &author, const Vector<String> &keyWords, const String &publisher,
-               const Genre &genre, const String &shortDescription, double rating, const String &isbn,
-               const Date &published, size_t num, const Vector<Article> &content) {
-    this->title = title;
-    this->author = author;
-    this->keyWords = keyWords;
-    this->publisher = publisher;
-    this->genre = genre;
-    this->shortDescription = shortDescription;
-    this->rating = rating;
-    this->isbn = isbn;
-    ifTaken = false;
-    this->published = published;
-    this->num = num;
-    this->content = content;
-
-}

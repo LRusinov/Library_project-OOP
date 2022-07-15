@@ -1,8 +1,8 @@
 #ifndef _BOOK_H_
 #define _BOOK_H_
 
+#include <vector>
 #include "String.h"
-#include "Vector.h"
 #include "LibraryItem.h"
 #include "Article.h"
 
@@ -12,9 +12,11 @@ private:
     size_t year;
 public:
     Book();
-Book(    const String& title, const String& author, const Vector<String>& keyWords,
-         const String& publisher, const Genre& genre,
-    const String& shortDescription, double rating,const String& isbn, size_t year);
+
+    Book(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
+         const std::string &publisher, Genre genre, const std::string &shortDescription, double rating, int id,
+         const std::string &isbn, bool ifTaken, size_t year);
+
     Book(const Book &other);
 
     Book &operator=(const Book &other);

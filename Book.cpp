@@ -1,18 +1,17 @@
 #include "Book.h"
 
-Book::Book() {
-    year = 0;
-}
+Book::Book() : LibraryItem(), year(0) {}
 
-Book::Book(const Book &other) : LibraryItem(other) {
-    this->author = other.author;
-    this->isbn = other.isbn;
-    this->keyWords = other.keyWords;
-    this->publisher = other.publisher;
-    this->shortDescription = other.shortDescription;
-    this->title = other.title;
+Book::Book(const Book &other) : LibraryItem(other.title,other.author,other.keyWords,other.publisher,other.genre,
+                                            other.shortDescription,other.rating,other.ID,
+                                            other.isbn,other.ifTaken) {
     this->year = other.year;
 }
+Book::Book(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
+           const std::string &publisher, Genre genre, const std::string &shortDescription,
+           double rating, const int id, const std::string &isbn, bool ifTaken, size_t year) :
+        LibraryItem(title, author, keyWords, publisher, genre, shortDescription, rating, id, isbn, ifTaken),
+        year(year) {}
 
 Book &Book::operator=(const Book &other) {
     this->author = other.author;
@@ -30,7 +29,7 @@ Book &Book::operator=(const Book &other) {
 void Book::printInfo() const {
 
     std::cout << "Book title: " << title;
-    std::cout<<"\nGenre: ";
+    std::cout << "\nGenre: ";
     switch (genre) {
         case Genre::g1:
             std::cout << " g1\n";
@@ -66,19 +65,6 @@ void Book::fullInfo() const {
     std::cout << "Rating: " << rating << std::endl;
 }
 
-Book::Book(const String &title, const String &author, const Vector<String> &keyWords, const String &publisher,
-           const Genre &genre, const String &shortDescription, double rating, const String &isbn, size_t year) {
-    this->title = title;
-    this->author = author;
-    this->keyWords = keyWords;
-    this->publisher = publisher;
-    this->genre = genre;
-    this->shortDescription = shortDescription;
-    this->rating = rating;
-    this->isbn = isbn;
-    ifTaken = false;
-    this->year = year;
-}
 
 
 

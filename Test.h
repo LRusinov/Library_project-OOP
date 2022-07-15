@@ -7,8 +7,8 @@ class Test {
 public:
     static void dataLoad(Library &library) { //добавяне на данните в библиотеката
 
-        Vector<String> vec, vec2;
-        Vector<Article> content;
+        std::vector<std::string> vec, vec2;
+        std::vector<Article> content;
         Article article1("Article title", "Article author", vec2);
         Article article2("Article title2", "Article author2", vec);
         content.pushBack(article1);

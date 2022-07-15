@@ -1,19 +1,12 @@
 #include "Reader.h"
 
-Reader::Reader(const String &username, const String &password) {
-    this->username = username;
-    this->password = password;
-    numOfItems = 0;
-}
+Reader::Reader(const std::string &username, const std::string &password, const Date &registrationDate) :
+        User(username, password,registrationDate),
+        numOfItems(0)
+        {}
 
 size_t Reader::get_numOfItems() const {
     return numOfItems;
-}
-
-void Reader::addItem( LibraryItem *newItem) {
-    BooksAndArticles temp(newItem);
-    listOfItems.pushBack(reinterpret_cast<BooksAndArticles &>(temp.item));
-    numOfItems++;
 }
 
 void Reader::print() const {
@@ -21,19 +14,27 @@ void Reader::print() const {
     std::cout << "Taken items:\n";
 
     for (int i = 0; i < numOfItems; ++i) {
-        listOfItems[i].item->printInfo();
+        listOfItems[i]->printInfo();
     }
     std::cout << "Last seen: " << lastSeenDate << std::endl;
 }
 
-Vector<BooksAndArticles> Reader::get_items() const {
+std::vector<LibraryItem*> Reader::get_items() const {
     return listOfItems;
 }
 
 void Reader::takingItem(LibraryItem *newItem) {
-    BooksAndArticles itemToAdd(newItem);
-    listOfItems.pushBack(itemToAdd);
+    listOfItems.push_back(newItem);
     numOfItems++;
 }
+
+Reader::~Reader() {
+    for (int i = 0; i < numOfItems; ++i) {
+        delete listOfItems[i];
+    }
+
+}
+
+
 
 

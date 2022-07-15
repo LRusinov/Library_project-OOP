@@ -5,25 +5,27 @@
 #include"Series.h"
 
 #include "User.h"
-#include "Vector.h"
 
 
 class Reader : public User {
 private:
-    Vector<BooksAndArticles> listOfItems;
+
+    std::vector<LibraryItem *> listOfItems;
     size_t numOfItems;
 public:
-    Reader(const String &username, const String &password);
+
+
+    Reader(const std::string &username, const std::string &password, const Date &registrationDate);
+
+    ~Reader() override;
 
     size_t get_numOfItems() const;
 
-    void addItem( LibraryItem *newItem);
-
     void print() const override;
 
-    Vector<BooksAndArticles> get_items() const;
+    std::vector<LibraryItem *> get_items() const;
 
-    void takingItem( LibraryItem *newItem);
+    void takingItem(LibraryItem *newItem) override;
 
 };
 
