@@ -57,8 +57,6 @@ void LibraryItem::setReturnDate(const Date &returnDate) {
     this->returnDate = returnDate;
 }
 
-LibraryItem::~LibraryItem() {}
-
 bool LibraryItem::cmp(const std::string& comp, const LibraryItem *item) const {
     if(comp=="title"){
         return item->title > title;

@@ -272,6 +272,30 @@ LibraryItem.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Library_project.dir\build.make CMakeFiles/Library_project.dir/LibraryItem.cpp.s
 .PHONY : LibraryItem.cpp.s
 
+Reader.obj: Reader.cpp.obj
+.PHONY : Reader.obj
+
+# target to build an object file
+Reader.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Library_project.dir\build.make CMakeFiles/Library_project.dir/Reader.cpp.obj
+.PHONY : Reader.cpp.obj
+
+Reader.i: Reader.cpp.i
+.PHONY : Reader.i
+
+# target to preprocess a source file
+Reader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Library_project.dir\build.make CMakeFiles/Library_project.dir/Reader.cpp.i
+.PHONY : Reader.cpp.i
+
+Reader.s: Reader.cpp.s
+.PHONY : Reader.s
+
+# target to generate assembly for a file
+Reader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Library_project.dir\build.make CMakeFiles/Library_project.dir/Reader.cpp.s
+.PHONY : Reader.cpp.s
+
 Series.obj: Series.cpp.obj
 .PHONY : Series.obj
 
@@ -295,30 +319,6 @@ Series.s: Series.cpp.s
 Series.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Library_project.dir\build.make CMakeFiles/Library_project.dir/Series.cpp.s
 .PHONY : Series.cpp.s
-
-String.obj: String.cpp.obj
-.PHONY : String.obj
-
-# target to build an object file
-String.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Library_project.dir\build.make CMakeFiles/Library_project.dir/String.cpp.obj
-.PHONY : String.cpp.obj
-
-String.i: String.cpp.i
-.PHONY : String.i
-
-# target to preprocess a source file
-String.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Library_project.dir\build.make CMakeFiles/Library_project.dir/String.cpp.i
-.PHONY : String.cpp.i
-
-String.s: String.cpp.s
-.PHONY : String.s
-
-# target to generate assembly for a file
-String.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Library_project.dir\build.make CMakeFiles/Library_project.dir/String.cpp.s
-.PHONY : String.cpp.s
 
 main.obj: main.cpp.obj
 .PHONY : main.obj
@@ -371,12 +371,12 @@ help:
 	@echo ... LibraryItem.obj
 	@echo ... LibraryItem.i
 	@echo ... LibraryItem.s
+	@echo ... Reader.obj
+	@echo ... Reader.i
+	@echo ... Reader.s
 	@echo ... Series.obj
 	@echo ... Series.i
 	@echo ... Series.s
-	@echo ... String.obj
-	@echo ... String.i
-	@echo ... String.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

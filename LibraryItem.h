@@ -13,7 +13,7 @@ protected:
     Genre genre;
     std::string shortDescription;
     double rating;
-    const int ID = nextLibItemID++;
+    const int ID = ++nextLibItemID;
     std::string isbn;
     bool ifTaken;
     Date takingDate;
@@ -26,7 +26,7 @@ public:
                 const std::string &publisher, Genre genre, const std::string &shortDescription, double rating,
                 const std::string &isbn = "");
 
-    virtual ~LibraryItem();
+    virtual ~LibraryItem() = default;
 
     int get_ID() const;
 

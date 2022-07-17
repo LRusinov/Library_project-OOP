@@ -121,6 +121,9 @@
 		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/LibraryItem.h">
 			<Option target="Library_project"/>
 		</Unit>
+		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/Reader.cpp">
+			<Option target="Library_project"/>
+		</Unit>
 		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/Reader.h">
 			<Option target="Library_project"/>
 		</Unit>
@@ -130,16 +133,10 @@
 		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/Series.h">
 			<Option target="Library_project"/>
 		</Unit>
-		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/String.cpp">
-			<Option target="Library_project"/>
-		</Unit>
-		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/String.h">
+		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/Test.h">
 			<Option target="Library_project"/>
 		</Unit>
 		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/User.h">
-			<Option target="Library_project"/>
-		</Unit>
-		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/Vector.h">
 			<Option target="Library_project"/>
 		</Unit>
 		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/main.cpp">

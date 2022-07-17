@@ -10,12 +10,12 @@ Library::Library() :
         adminRights(true) {}
 
 Library::~Library() {
-    for (int i = 0; i < numOfLibItems; ++i) {
-        delete listOfLibItems[i];
-    }
-    for (int i = 0; i < numOfUsers; ++i) {
-        delete listOfUsers[i];
-    }
+//    for (int i = 0; i < numOfLibItems; ++i) {
+//        delete listOfLibItems[i];
+//    }
+//    for (int i = 0; i < numOfUsers; ++i) {
+//        delete listOfUsers[i];
+//    }
 }
 
 void Library::login() {
@@ -85,6 +85,7 @@ void Library::seriesAdd(Series &series) {
 template<typename T>
 void Library::item_all() const {
     if (loginCheck()) {
+        std::cout<<listOfLibItems[4]->get_ID();
         int counter = 0;
         for (size_t i = 0; i < numOfLibItems; i++) {
             if (listOfLibItems[i]->type() == typeid(T).name()) {
@@ -234,8 +235,8 @@ void Library::user_change(const std::string &username) {
         if (username.empty()) {
             passwordCheck();
             listOfUsers[currentUser]->set_password(passwordChange());
-            std::cout << "Password changed successfully!\n";
-            if (adminRights) {
+            std::cout << "Password changed successfully!\n";}
+            else if (adminRights) {
                 for (size_t i = 0; i < numOfUsers; i++) {
                     if (listOfUsers[i]->get_username() == username) {
                         passwordCheck();
@@ -250,7 +251,7 @@ void Library::user_change(const std::string &username) {
             }
         }
     }
-}
+
 
 void Library::take(const size_t id) {
     if (adminRights) {
@@ -391,9 +392,9 @@ void Library::menu() {
             password = input.substr(input.find(' ', 10) + 1);
             user_add(firstWord.data(), password.data());
         }
-    } else if (input.find("user remove") == 0 && len > 11) {
+    } else if (input.find("user remove") == 0 && len > 10) {
         user_remove(input.substr(12).data());
-    } else if (input.find("user change") == 0 && len > 11) {
+    } else if (input.find("user change") == 0 && len > 10) {
         if (input.length() != 11) {
             firstWord = input.substr(12);
             user_change(firstWord.data());

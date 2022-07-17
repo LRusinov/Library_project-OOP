@@ -19,7 +19,6 @@ public:
            const std::string &publisher, Genre genre, const std::string &shortDescription, double rating
            , const Date &published, size_t num,
            const std::vector<Article> &content    ,       const std::string &isbn="");
-
     Date get_published() const;
 
     size_t get_num() const;
