@@ -1,7 +1,6 @@
 #ifndef _USER_H_
 #define _USER_H_
 
-#include "String.h"
 #include "Date.h"
 #include"LibraryItem.h"
 #include"Book.h"
@@ -20,6 +19,7 @@ public:
     username(username),
     password(password),
     registrationDate(registrationDate),
+    lastSeenDate(registrationDate),
     adminRights(false)
     {}
 virtual ~User() = default;

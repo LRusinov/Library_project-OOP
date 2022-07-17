@@ -19,11 +19,7 @@ public:
 
     ~Reader() override;
 
-    size_t get_numOfItems() const;
-
     void print() const override;
-
-    std::vector<LibraryItem *> get_items() const;
 
     void takingItem(LibraryItem *newItem) override;
 

@@ -5,10 +5,6 @@ Reader::Reader(const std::string &username, const std::string &password, const D
         numOfItems(0)
         {}
 
-size_t Reader::get_numOfItems() const {
-    return numOfItems;
-}
-
 void Reader::print() const {
     std::cout << "Username: " << username << std::endl;
     std::cout << "Taken items:\n";
@@ -17,10 +13,6 @@ void Reader::print() const {
         listOfItems[i]->printInfo();
     }
     std::cout << "Last seen: " << lastSeenDate << std::endl;
-}
-
-std::vector<LibraryItem*> Reader::get_items() const {
-    return listOfItems;
 }
 
 void Reader::takingItem(LibraryItem *newItem) {

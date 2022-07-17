@@ -1,8 +1,6 @@
 #ifndef _JOURNAL_H_
 #define _JOURNAL_H_
 
-#include "String.h"
-
 #include "LibraryItem.h"
 #include "Article.h"
 

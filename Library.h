@@ -17,10 +17,14 @@ private:
     bool adminRights;
     int currentUser;
     Date currentDate;
-    void passwordCheck();
-    std::string passwordChange();
-bool rightsCheck()const;
-    bool loginCheck() const;//помощна функция която проверява дали имаме логнат потребител
+
+    void passwordCheck(); //проверява дали въведената парола е правилна
+
+    static std::string passwordChange();// помощна функция за промяна на паролата
+
+    bool rightsCheck() const;//проверява дали логнатия потребител има администраторски права
+
+    bool loginCheck() const;//проверява дали имаме логнат потребител
 public:
 
     Library();
@@ -46,15 +50,16 @@ public:
 
     template<typename T>
     void find(const std::string &option, const std::string &str, bool sort = false,
-              const std::string& key="",
-                   bool asc = false);
+              const std::string &key = "",
+              bool asc = true);
 
 
-    void user_add(const std::string &username, const std::string &password, bool admin = false, const std::string& email = "",const std::string& sector = "");
+    void user_add(const std::string &username, const std::string &password, bool admin = false,
+                  const std::string &email = "", const std::string &sector = "");
 
     void user_remove(const std::string &username);
 
-    void user_change(const std::string& username="" );
+    void user_change(const std::string &username = "");
 
 
     void take(size_t id);
@@ -64,6 +69,8 @@ public:
     void menu(); //меню, което съчетава в себе си всички функционалности
 
     static void help(); // принтира всички възможни команди
+
+
 };
 
 

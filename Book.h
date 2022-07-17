@@ -2,7 +2,6 @@
 #define _BOOK_H_
 
 #include <vector>
-#include "String.h"
 #include "LibraryItem.h"
 #include "Article.h"
 

@@ -50,8 +50,6 @@ public:
 
     void setReturnDate(const Date &returnDate);
 
-    static void swap(LibraryItem *item, LibraryItem *item2);
-
     bool cmp(const std::string &comp, const LibraryItem *item) const;
 
     virtual LibraryItem *clone() const = 0;

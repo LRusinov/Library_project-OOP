@@ -73,12 +73,5 @@ bool LibraryItem::cmp(const std::string& comp, const LibraryItem *item) const {
     }
 }
 
-void LibraryItem::swap(LibraryItem *item,LibraryItem *item2) {
-    LibraryItem* temp = item;
-    item = item2;
-    item2 = temp;
-}
-
-
 
 
