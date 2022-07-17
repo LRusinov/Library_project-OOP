@@ -10,11 +10,11 @@ rating(0.0) {}
 
 LibraryItem::LibraryItem(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
                          const std::string &publisher, Genre genre, const std::string &shortDescription, double rating,
-                         const int id, const std::string &isbn, bool ifTaken) : Article(title, author, keyWords),
+                         const std::string &isbn) : Article(title, author, keyWords),
                                                                                 publisher(publisher), genre(genre),
                                                                                 shortDescription(shortDescription),
-                                                                                rating(rating), ID(id), isbn(isbn),
-                                                                                ifTaken(ifTaken) {}
+                                                                                rating(rating), isbn(isbn),
+                                                                                ifTaken(false) {}
 
 int LibraryItem::get_ID() const {
     return ID;
@@ -58,6 +58,29 @@ void LibraryItem::setReturnDate(const Date &returnDate) {
 }
 
 LibraryItem::~LibraryItem() {}
+
+bool LibraryItem::cmp(const std::string& comp, const LibraryItem *item) const {
+    if(comp=="title"){
+        return item->title > title;
+    }else if(comp=="author"){
+        return item->author > author;
+    }
+    else if(comp=="id"){
+        return item->ID > ID;
+    } else if(comp=="genre"){
+        return item->genre > genre;
+    }
+    else{
+        return false;
+    }
+}
+
+void LibraryItem::swap(LibraryItem *item,LibraryItem *item2) {
+    LibraryItem* temp = item;
+    item = item2;
+    item2 = temp;
+}
+
 
 
 

@@ -3,14 +3,14 @@
 Book::Book() : LibraryItem(), year(0) {}
 
 Book::Book(const Book &other) : LibraryItem(other.title,other.author,other.keyWords,other.publisher,other.genre,
-                                            other.shortDescription,other.rating,other.ID,
-                                            other.isbn,other.ifTaken) {
+                                            other.shortDescription,other.rating,
+                                            other.isbn) {
     this->year = other.year;
 }
 Book::Book(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
            const std::string &publisher, Genre genre, const std::string &shortDescription,
-           double rating, const int id, const std::string &isbn, bool ifTaken, size_t year) :
-        LibraryItem(title, author, keyWords, publisher, genre, shortDescription, rating, id, isbn, ifTaken),
+           double rating, size_t year, const std::string &isbn) :
+        LibraryItem(title, author, keyWords, publisher, genre, shortDescription, rating, isbn),
         year(year) {}
 
 Book &Book::operator=(const Book &other) {
@@ -63,6 +63,10 @@ void Book::fullInfo() const {
     std::cout << "Publisher: " << publisher << std::endl;
     std::cout << "Description: " << shortDescription << std::endl;
     std::cout << "Rating: " << rating << std::endl;
+}
+
+std::string Book::type()const {
+    return typeid(Book).name();
 }
 
 

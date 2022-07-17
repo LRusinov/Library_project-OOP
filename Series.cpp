@@ -6,10 +6,10 @@ Series::Series():LibraryItem() {
     num = 0;
 }
 Series::Series(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
-               const std::string &publisher, Genre genre, const std::string &shortDescription, double rating, int id,
-               const std::string &isbn, bool ifTaken, const Date &published, size_t num,
-               const std::vector<Article> &content) : LibraryItem(title, author, keyWords, publisher, genre,
-                                                                  shortDescription, rating, id, isbn, ifTaken),
+               const std::string &publisher, Genre genre, const std::string &shortDescription, double rating
+               , const Date &published, size_t num,
+               const std::vector<Article> &content,const std::string &isbn) : LibraryItem(title, author, keyWords, publisher, genre,
+                                                                  shortDescription, rating,isbn),
                                                       published(published), num(num), content(content) {}
 
 
@@ -69,5 +69,9 @@ void Series::fullInfo() const {
     std::cout << "Published: " << std::endl;
     std::cout << "Description: " << shortDescription << std::endl;
     std::cout << "Rating: " << rating << std::endl;
+}
+
+std::string Series::type()const {
+    return typeid(Series).name();
 }
 

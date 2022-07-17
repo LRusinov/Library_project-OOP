@@ -16,9 +16,9 @@ public:
     Series();
 
     Series(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
-           const std::string &publisher, Genre genre, const std::string &shortDescription, double rating, int id,
-           const std::string &isbn, bool ifTaken, const Date &published, size_t num,
-           const std::vector<Article> &content);
+           const std::string &publisher, Genre genre, const std::string &shortDescription, double rating
+           , const Date &published, size_t num,
+           const std::vector<Article> &content    ,       const std::string &isbn="");
 
     Date get_published() const;
 
@@ -33,6 +33,7 @@ public:
     LibraryItem *clone() const override;
 
     void fullInfo() const override;
+    std::string type()const override;
 };
 
 

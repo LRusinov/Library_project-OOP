@@ -22,7 +22,7 @@ public:
     registrationDate(registrationDate),
     adminRights(false)
     {}
-virtual ~User();
+virtual ~User() = default;
 
     bool getAdminRights()const{
         return adminRights;
@@ -51,7 +51,6 @@ virtual void takingItem(LibraryItem *newItem){};
 
 };
 
-User::~User() {}
 
 
 #endif

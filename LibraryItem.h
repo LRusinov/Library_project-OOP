@@ -24,9 +24,13 @@ public:
 
     LibraryItem(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
                 const std::string &publisher, Genre genre, const std::string &shortDescription, double rating,
-                int id, const std::string &isbn, bool ifTaken);
-virtual ~LibraryItem();
+                const std::string &isbn = "");
+
+    virtual ~LibraryItem();
+
     int get_ID() const;
+
+    virtual std::string type() const = 0;
 
     double get_rating() const;
 
@@ -46,6 +50,9 @@ virtual ~LibraryItem();
 
     void setReturnDate(const Date &returnDate);
 
+    static void swap(LibraryItem *item, LibraryItem *item2);
+
+    bool cmp(const std::string &comp, const LibraryItem *item) const;
 
     virtual LibraryItem *clone() const = 0;
 

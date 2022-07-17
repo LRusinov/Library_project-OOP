@@ -6,8 +6,8 @@
 Library::Library() :
         numOfUsers(0),
         numOfLibItems(0),
-        currentUser(-1),
-        adminRights(false) {}
+        currentUser(0),
+        adminRights(true) {}
 
 Library::~Library() {
     for (int i = 0; i < numOfLibItems; ++i) {
@@ -19,7 +19,7 @@ Library::~Library() {
 }
 
 void Library::login() {
-    if (loginCheck()) {
+    if (currentUser != -1) {
         std::cout << "You are already logged in!\n";
         return;
     }
@@ -87,7 +87,7 @@ void Library::item_all() const {
     if (loginCheck()) {
         int counter = 0;
         for (size_t i = 0; i < numOfLibItems; i++) {
-            if (typeid(listOfLibItems[i]) == typeid(T)) {
+            if (listOfLibItems[i]->type() == typeid(T).name()) {
                 listOfLibItems[i]->printInfo();
                 counter++;
             }
@@ -119,113 +119,67 @@ void Library::list_info(const std::string &isbn) const { //първо прове
     }
 }
 
-void Library::booksFind(const std::string &option, const std::string &str, bool sort, bool key, bool asc) {
-
-}
-
 template<typename T>
 void
-Library::find(const std::string &option, const std::string &str, bool sort, bool key, bool asc) {
+Library::find(const std::string &option, const std::string &str, bool sort, const std::string &key, bool asc) {
     if (loginCheck()) {
-        std::vector<Book> matchesList;
+        std::vector<LibraryItem *> matchesList;
         //проверяваме каква опция е подадена на функцията
-        if (option == "title") {
-            for (size_t i = 0; i < numOfBooks; i++) {
-                if (booksList[i].get_title() == str) {
-                    matchesList.pushBack(booksList[i]);
-                }
-            }
-        } else if (option == "author") {
-            for (size_t i = 0; i < numOfBooks; i++) {
-                if (booksList[i].get_author() == str) {
-                    matchesList.pushBack(booksList[i]);
-                }
-            }
-        } else if (option == "tag") {
-            for (size_t i = 0; i < numOfBooks; i++) {
-                size_t numOfKeyWords = booksList[i].get_keyWords().get_size();
-                for (size_t j = 0; j < numOfKeyWords; j++) {
-                    if (booksList[i].get_keyWords()[j] == str) {
-                        matchesList.pushBack(booksList[i]);
-                    }
-                }
-            }
-        } else {
-            std::cout << "Unknown option!";
-            return;
-        }
-        size_t numOfMatches = matchesList.get_size();
 
-        if (sort != "" && key != "") {
-            if (asc != "asc") {
-                for (int i = 0; i < numOfMatches - 1; ++i) {
-                    for (int j = 1; j < numOfMatches; ++j) {//сортиране с метода на мехурчето
-                        if (key == "title") {
-                            if (matchesList[j].get_title() > matchesList[i].get_title()) {
-                                Book temp = matchesList[j];
-                                matchesList[j] = matchesList[i];
-                                matchesList[i] = temp;
-                            }
-                        } else if (key == "author") {
-                            if (matchesList[j].get_author() > matchesList[i].get_author()) {
-                                Book temp = matchesList[j];
-                                matchesList[j] = matchesList[i];
-                                matchesList[i] = temp;
-                            }
-                        } else if (key == "id") {
-                            if (matchesList[j].get_ID() > matchesList[i].get_ID()) {
-                                Book temp = matchesList[j];
-                                matchesList[j] = matchesList[i];
-                                matchesList[i] = temp;
-                            }
-                        } else if (key == "year") {
-                            if (matchesList[j].getYear() > matchesList[i].getYear()) {
-                                Book temp = matchesList[j];
-                                matchesList[j] = matchesList[i];
-                                matchesList[i] = temp;
-                            }
-                        }
+        for (size_t i = 0; i < numOfLibItems; i++) {
+            if (typeid(listOfLibItems[i]) == typeid(T)) {
+                if (option == "title") {
+                    if (listOfLibItems[i]->get_title() == str) {
+                        matchesList.push_back(listOfLibItems[i]);
                     }
-                }
-            } else {
-                for (int i = 0; i < numOfMatches - 1; ++i) {
-                    for (int j = 1; j < numOfMatches; ++j) {
-                        if (key == "title") {
-                            if (matchesList[j].get_title() < matchesList[i].get_title()) {
-                                Book temp = matchesList[j];
-                                matchesList[j] = matchesList[i];
-                                matchesList[i] = temp;
-                            }
-                        } else if (key == "author") {
-                            if (matchesList[j].get_author() < matchesList[i].get_author()) {
-                                Book temp = matchesList[j];
-                                matchesList[j] = matchesList[i];
-                                matchesList[i] = temp;
-                            }
-                        } else if (key == "id") {
-                            if (matchesList[j].get_ID() < matchesList[i].get_ID()) {
-                                Book temp = matchesList[j];
-                                matchesList[j] = matchesList[i];
-                                matchesList[i] = temp;
-                            }
-                        } else if (key == "year") {
-                            if (matchesList[j].getYear() < matchesList[i].getYear()) {
-                                Book temp = matchesList[j];
-                                matchesList[j] = matchesList[i];
-                                matchesList[i] = temp;
-                            }
-                        }
-                    }
-                }
+                } else if (option == "author") {
 
+                    if (listOfLibItems[i]->get_author() == str) {
+                        matchesList.push_back(listOfLibItems[i]);
+                    }
+
+                } else if (option == "tag") {
+
+                    size_t numOfKeyWords = listOfLibItems[i]->get_keyWords().size();
+                    for (size_t j = 0; j < numOfKeyWords; j++) {
+                        if (listOfLibItems[i]->get_keyWords()[j] == str) {
+                            matchesList.push_back(listOfLibItems[i]);
+                        }
+
+                    }
+                } else {
+                    std::cout << "Unknown option!";
+                    return;
+                }
             }
         }
+        size_t numOfMatches = matchesList.size();
+
         if (numOfMatches == 0) {
             std::cout << "No matches found!";
             return;
         }
-        for (int i = 0; i < numOfMatches; ++i) {
-            matchesList[i].printInfo();
+
+        if (!sort) {
+            for (int i = 0; i < numOfMatches; ++i) {
+                matchesList[i]->printInfo();
+            }
+        } else {
+            for (int i = 0; i < numOfMatches - 1; ++i) {
+                for (int j = 1; j < numOfMatches; ++j) {
+                    if (asc) {
+                        if (matchesList[i]->cmp(key, matchesList[j])) {
+                            LibraryItem::swap(matchesList[i], matchesList[j]);
+                        }
+
+                    } else {
+                        if (!matchesList[i]->cmp(key, matchesList[j])) {
+                            LibraryItem::swap(matchesList[i], matchesList[j]);
+                        }
+
+                    }
+                }
+            }
         }
     }
 }
@@ -236,7 +190,8 @@ Library::find(const std::string &option, const std::string &str, bool sort, bool
         myFile << username << "||" << password << "||" << admin << std::endl;
         myFile.close();
     }*/
-void Library::user_add(const std::string &username, const std::string &password, bool admin) {
+void Library::user_add(const std::string &username, const std::string &password, bool admin,
+                       const std::string &email, const std::string &sector) {
 
     for (int i = 0; i < numOfUsers; ++i) {
         if (listOfUsers[i]->get_username() == username) {
@@ -246,16 +201,6 @@ void Library::user_add(const std::string &username, const std::string &password,
     }
     if (loginCheck() && rightsCheck()) {
         if (admin) {
-            std::string email;
-            do {
-                std::cout << "Enter email: ";
-                std::cin >> email;
-            } while (email.empty());
-            std::string sector;
-            do {
-                std::cout << "Enter sector: ";
-                std::cin >> sector;
-            } while (sector.empty());
             listOfUsers.push_back(new Admin(username, password, currentDate, email, sector));
         } else {
             listOfUsers.push_back(new Reader(username, password, currentDate));
@@ -363,7 +308,7 @@ void Library::menu() {
         if (input.find("title") != std::string::npos) {
             if (input.find("sort") == std::string::npos) {
                 str = input.substr(17);
-                booksFind("title", str.data());
+                find<Book>("title", str.data());
             } else {
                 std::string key;
                 size_t sortPos = input.find("sort");
@@ -371,13 +316,13 @@ void Library::menu() {
 
                 if (input.find("dsc") != std::string::npos) {
                     key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
-                    booksFind("title", str.data(), "sort", key.data(), "dsc");
+                    find<Book>("title", str.data(), "sort", key.data(), "dsc");
                 } else if (input.find("asc") != std::string::npos) {
                     key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
-                    booksFind("title", str.data(), "sort", key.data(), "asc");
+                    find<Book>("title", str.data(), "sort", key.data(), "asc");
                 } else {
                     key = input.substr(sortPos + 5);
-                    booksFind("title", str.data(), "sort", key.data());
+                    find<Book>("title", str.data(), "sort", key.data());
                 }
 
             }
@@ -385,7 +330,7 @@ void Library::menu() {
         } else if (input.find("author") != std::string::npos) {
             if (input.find("sort") == std::string::npos) {
                 str = input.substr(18);
-                booksFind("author", str.data());
+                find<Book>("author", str.data());
             } else {
                 std::string key;
                 size_t sortPos = input.find("sort");
@@ -393,20 +338,20 @@ void Library::menu() {
 
                 if (input.find("dsc") != std::string::npos) {
                     key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
-                    booksFind("author", str.data(), "sort", key.data(), "dsc");
+                    find<Book>("author", str.data(), "sort", key.data(), "dsc");
                 } else if (input.find("asc") != std::string::npos) {
                     key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
-                    booksFind("author", str.data(), "sort", key.data(), "asc");
+                    find<Book>("author", str.data(), "sort", key.data(), "asc");
                 } else {
                     key = input.substr(sortPos + 5);
-                    booksFind("author", str.data(), "sort", key.data());
+                    find<Book>("author", str.data(), "sort", key.data());
                 }
 
             }
         } else if (input.find("tag") != std::string::npos) {
             if (input.find("sort") == std::string::npos) {
                 str = input.substr(14);
-                booksFind("tag", str.data());
+                find<Book>("tag", str.data());
             } else {
                 std::string key;
                 size_t sortPos = input.find("sort");
@@ -414,13 +359,13 @@ void Library::menu() {
 
                 if (input.find("dsc") != std::string::npos) {
                     key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
-                    booksFind("tag", str.data(), "sort", key.data(), "dsc");
+                    find<Book>("tag", str.data(), "sort", key.data(), "dsc");
                 } else if (input.find("asc") != std::string::npos) {
                     key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 5);
-                    booksFind("tag", str.data(), "sort", key.data(), "asc");
+                    find<Book>("tag", str.data(), "sort", key.data(), "asc");
                 } else {
                     key = input.substr(sortPos + 5);
-                    booksFind("tag", str.data(), "sort", key.data());
+                    find<Book>("tag", str.data(), "sort", key.data());
                 }
 
             }

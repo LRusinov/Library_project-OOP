@@ -61,12 +61,6 @@ build CMakeFiles/Library_project.dir/Series.cpp.obj: CXX_COMPILER__Library_proje
   OBJECT_DIR = CMakeFiles\Library_project.dir
   OBJECT_FILE_DIR = CMakeFiles\Library_project.dir
 
-build CMakeFiles/Library_project.dir/String.cpp.obj: CXX_COMPILER__Library_project_Debug C$:/Users/Lyubo/CLionProjects/Library_project/String.cpp || cmake_object_order_depends_target_Library_project
-  DEP_FILE = CMakeFiles\Library_project.dir\String.cpp.obj.d
-  FLAGS = -g -std=gnu++14
-  OBJECT_DIR = CMakeFiles\Library_project.dir
-  OBJECT_FILE_DIR = CMakeFiles\Library_project.dir
-
 build CMakeFiles/Library_project.dir/LibraryItem.cpp.obj: CXX_COMPILER__Library_project_Debug C$:/Users/Lyubo/CLionProjects/Library_project/LibraryItem.cpp || cmake_object_order_depends_target_Library_project
   DEP_FILE = CMakeFiles\Library_project.dir\LibraryItem.cpp.obj.d
   FLAGS = -g -std=gnu++14
@@ -117,7 +111,7 @@ build CMakeFiles/Library_project.dir/Reader.cpp.obj: CXX_COMPILER__Library_proje
 #############################################
 # Link the executable Library_project.exe
 
-build Library_project.exe: CXX_EXECUTABLE_LINKER__Library_project_Debug CMakeFiles/Library_project.dir/main.cpp.obj CMakeFiles/Library_project.dir/Series.cpp.obj CMakeFiles/Library_project.dir/String.cpp.obj CMakeFiles/Library_project.dir/LibraryItem.cpp.obj CMakeFiles/Library_project.dir/Date.cpp.obj CMakeFiles/Library_project.dir/Library.cpp.obj CMakeFiles/Library_project.dir/Article.cpp.obj CMakeFiles/Library_project.dir/Book.cpp.obj CMakeFiles/Library_project.dir/Admin.cpp.obj CMakeFiles/Library_project.dir/Reader.cpp.obj
+build Library_project.exe: CXX_EXECUTABLE_LINKER__Library_project_Debug CMakeFiles/Library_project.dir/main.cpp.obj CMakeFiles/Library_project.dir/Series.cpp.obj CMakeFiles/Library_project.dir/LibraryItem.cpp.obj CMakeFiles/Library_project.dir/Date.cpp.obj CMakeFiles/Library_project.dir/Library.cpp.obj CMakeFiles/Library_project.dir/Article.cpp.obj CMakeFiles/Library_project.dir/Book.cpp.obj CMakeFiles/Library_project.dir/Admin.cpp.obj CMakeFiles/Library_project.dir/Reader.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Library_project.dir
