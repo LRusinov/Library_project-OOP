@@ -10,12 +10,12 @@ Library::Library() :
         adminRights(true) {}
 
 Library::~Library() {
-//    for (int i = 0; i < numOfLibItems; ++i) {
-//        delete listOfLibItems[i];
-//    }
-//    for (int i = 0; i < numOfUsers; ++i) {
-//        delete listOfUsers[i];
-//    }
+    for (int i = 0; i < numOfLibItems; ++i) {
+        delete listOfLibItems[i];
+    }
+    for (int i = 0; i < numOfUsers; ++i) {
+        delete listOfUsers[i];
+    }
 }
 
 void Library::login() {
@@ -54,7 +54,7 @@ void Library::logout() {
 }
 
 void Library::itemAdd(LibraryItem *libItem) {
-    listOfLibItems.push_back(libItem);
+    listOfLibItems.push_back(libItem->clone());
     numOfLibItems++;
 }
 
@@ -85,7 +85,6 @@ void Library::seriesAdd(Series &series) {
 template<typename T>
 void Library::item_all() const {
     if (loginCheck()) {
-        std::cout<<listOfLibItems[4]->get_ID();
         int counter = 0;
         for (size_t i = 0; i < numOfLibItems; i++) {
             if (listOfLibItems[i]->type() == typeid(T).name()) {
@@ -115,8 +114,10 @@ void Library::list_info(const std::string &isbn) const { //първо прове
         for (int i = 0; i < numOfLibItems; ++i) {
             if (listOfLibItems[i]->get_isbn() == isbn) {
                 listOfLibItems[i]->fullInfo();
+                return;
             }
         }
+        std::cout<<"There is no item with this isbn!\n";
     }
 }
 
@@ -128,7 +129,7 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
         //проверяваме каква опция е подадена на функцията
 
         for (size_t i = 0; i < numOfLibItems; i++) {
-            if (typeid(listOfLibItems[i]) == typeid(T)) {
+            if (listOfLibItems[i]->type() == typeid(T).name()) {
                 if (option == "title") {
                     if (listOfLibItems[i]->get_title() == str) {
                         matchesList.push_back(listOfLibItems[i]);
@@ -157,7 +158,7 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
         size_t numOfMatches = matchesList.size();
 
         if (numOfMatches == 0) {
-            std::cout << "No matches found!";
+            std::cout << "No matches found!\n";
             return;
         }
 
@@ -217,6 +218,9 @@ void Library::user_remove(const std::string &username) {
     if (loginCheck() && rightsCheck()) {
         for (size_t i = 0; i < numOfUsers; i++) {
             if (listOfUsers[i]->get_username() == username) {
+                if(i==currentUser){
+                    std::cout<<"Invalid operation! The user is currently logged in!\n";
+                }
                 delete listOfUsers[i];
                 listOfUsers.erase(listOfUsers.begin() + i);
                 numOfUsers--;
@@ -304,7 +308,7 @@ void Library::menu() {
         logout();
     } else if (firstWord == "exit") {
         return;
-    } else if (input.find("books find") == 0 && len > 10) {
+    } else if (input.find("books find") == 0 && len > 9) {
         std::string str;
         if (input.find("title") != std::string::npos) {
             if (input.find("sort") == std::string::npos) {
@@ -392,7 +396,7 @@ void Library::menu() {
             password = input.substr(input.find(' ', 10) + 1);
             user_add(firstWord.data(), password.data());
         }
-    } else if (input.find("user remove") == 0 && len > 10) {
+    } else if (input.find("user remove") == 0 && len > 11) {
         user_remove(input.substr(12).data());
     } else if (input.find("user change") == 0 && len > 10) {
         if (input.length() != 11) {
@@ -427,7 +431,6 @@ void Library::help() {
     std::cout << "list all\n";
     std::cout << "list info\n";
     std::cout << "books find\n";
-    std::cout << "books view\n";
     std::cout << "take\n";
     std::cout << "return\n";
     std::cout << "user change\n";

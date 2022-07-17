@@ -5,9 +5,9 @@
 int main() {
 
     Library l;
-    //Test::dataLoad(l);
+    Test::dataLoad(l);
     //Test::funcTests(l);
-    //l.menu();
+    l.menu();
 
     return 0;
 }
