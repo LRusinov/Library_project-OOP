@@ -28,7 +28,7 @@ public:
         Series series1("series Title", "author1", vec, "publisher1",
                        Genre::g2, "descrb1", 2.0,
                        Date(15, 2, 2022), 2, content, "isbn5");
-        Series series2("series Title2", "author2", vec, "publisher1",
+        Series series2("series Title2", "author1", vec, "publisher1",
                        Genre::g4, "descrb2", 2.0,
                        Date(4, 3, 2022), 2, content, "isbn6");
         Series series3("series Title3", "author3", vec, "publisher1",

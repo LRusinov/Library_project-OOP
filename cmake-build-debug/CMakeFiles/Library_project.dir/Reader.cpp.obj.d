@@ -135,9 +135,6 @@ CMakeFiles/Library_project.dir/Reader.cpp.obj: \
  C:/PROGRA~1/JETBRA~1/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/istream \
  C:/PROGRA~1/JETBRA~1/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/istream.tcc \
  C:\Users\Lyubo\CLionProjects\Library_project\Series.h \
- C:/PROGRA~1/JETBRA~1/CLION2~1.1/bin/mingw/x86_64-w64-mingw32/include/String.h \
- C:/PROGRA~1/JETBRA~1/CLION2~1.1/bin/mingw/x86_64-w64-mingw32/include/sec_api/string_s.h \
- C:/PROGRA~1/JETBRA~1/CLION2~1.1/bin/mingw/x86_64-w64-mingw32/include/string.h \
  C:\Users\Lyubo\CLionProjects\Library_project\LibraryItem.h \
  C:\Users\Lyubo\CLionProjects\Library_project\Genre.h \
  C:\Users\Lyubo\CLionProjects\Library_project\Article.h \

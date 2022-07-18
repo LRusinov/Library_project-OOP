@@ -38,6 +38,8 @@ public:
 
     Genre get_genre() const;
 
+    std::string get_genreToString()const;
+
     std::string get_description() const;
 
     std::string get_isbn() const;

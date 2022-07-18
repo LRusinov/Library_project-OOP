@@ -65,7 +65,8 @@ public:
     void take(size_t id);
 
     void returnItem(size_t id);
-
+    void users_list();
+void addUsersFromFile(const std::string& fileName);
     void menu(); //меню, което съчетава в себе си всички функционалности
 
     static void help(); // принтира всички възможни команди

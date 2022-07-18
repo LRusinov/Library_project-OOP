@@ -1,16 +1,6 @@
-admin i<3c++ admin
-r1 abv 
-r2 a34 
-r3 aqq 
-r4 aff 
-admin i<3c++ admin
-r1 abv 
-r2 a34 
-r3 aqq 
-r4 aff 
-admin i<3c++ admin
-r1 abv 
-r2 a34 
-r3 aqq 
-r4 aff 
-admin i<3c++ admin
+admin|i<3c++|1
+r1|abv|0
+r2|a34|0
+r3|aqq|0
+r4|aff|0
+acc|sd |1

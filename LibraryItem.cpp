@@ -69,9 +69,21 @@ bool LibraryItem::cmp(const std::string& comp, const LibraryItem *item) const {
         return item->genre > genre;
     }
     else{
-        return false;
+        throw "Invalid key for comparison!";
     }
 }
+
+std::string LibraryItem::get_genreToString() const {
+    switch (genre) {
+        case Genre::g1: return "g1";
+        case Genre::g2: return "g2";
+        case Genre::g3: return "g3";
+        case Genre::g4: return "g4";
+    }
+
+}
+
+
 
 
 

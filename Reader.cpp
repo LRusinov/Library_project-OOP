@@ -20,13 +20,6 @@ void Reader::takingItem(LibraryItem *newItem) {
     numOfItems++;
 }
 
-Reader::~Reader() {
-    for (int i = 0; i < numOfItems; ++i) {
-        delete listOfItems[i];
-    }
-
-}
-
 
 
 
