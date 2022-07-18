@@ -2,6 +2,9 @@
 #define _BOOK_H_
 
 #include <vector>
+
+
+
 #include "LibraryItem.h"
 #include "Article.h"
 
@@ -28,6 +31,8 @@ public:
 
     void fullInfo() const override;
     std::string type()const override;
+
+    void setYear(size_t year);
 };
 
 

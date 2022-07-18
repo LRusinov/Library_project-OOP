@@ -12,6 +12,11 @@ protected:
     std::string author;
     std::vector<std::string> keyWords;
 public:
+    void setTitle(const std::string &title);
+
+    void setAuthor(const std::string &author);
+
+public:
     Article();
 
     Article(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords);

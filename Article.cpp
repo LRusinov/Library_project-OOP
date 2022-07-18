@@ -19,3 +19,11 @@ this->title = title;
 this->author = author;
 this->keyWords = keyWords;
 }
+
+void Article::setTitle(const std::string &title) {
+    Article::title = title;
+}
+
+void Article::setAuthor(const std::string &author) {
+    Article::author = author;
+}

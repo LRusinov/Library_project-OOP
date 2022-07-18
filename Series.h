@@ -21,6 +21,8 @@ public:
 
     size_t get_num() const;
 
+    void setNum(size_t num);
+
     std::vector<Article> get_content() const;
 
     Series &operator=(const Series &other);

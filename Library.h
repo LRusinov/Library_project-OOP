@@ -66,6 +66,8 @@ public:
 
     void returnItem(size_t id);
     void users_list();
+    void addBookFromFile(const std::string& fileName);
+    void addSeriesFromFile(const std::string& fileName);
 void addUsersFromFile(const std::string& fileName);
     void menu(); //меню, което съчетава в себе си всички функционалности
 

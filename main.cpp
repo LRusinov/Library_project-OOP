@@ -10,6 +10,8 @@ int main() {
     //Test::funcTests(l);
     //l.menu();
 l.addUsersFromFile("Users.txt");
+l.addBookFromFile("Books.txt");
+l.addSeriesFromFile("Series.txt");
     l.menu();
     return 0;
 }

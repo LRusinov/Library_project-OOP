@@ -44,6 +44,16 @@ public:
 
     std::string get_isbn() const;
 
+    void setPublisher(const std::string &publisher);
+
+    void setGenre(std::string genre);
+
+    void setShortDescription(const std::string &shortDescription);
+
+    void setRating(double rating);
+
+    void setIsbn(const std::string &isbn);
+
     bool getIfTaken() const;
 
     void set_ifTaken(bool ifTaken);

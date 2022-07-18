@@ -83,6 +83,40 @@ std::string LibraryItem::get_genreToString() const {
 
 }
 
+void LibraryItem::setPublisher(const std::string &publisher) {
+    LibraryItem::publisher = publisher;
+}
+
+
+void LibraryItem::setShortDescription(const std::string &shortDescription) {
+    LibraryItem::shortDescription = shortDescription;
+}
+
+void LibraryItem::setRating(double rating) {
+    LibraryItem::rating = rating;
+}
+
+void LibraryItem::setIsbn(const std::string &isbn) {
+    LibraryItem::isbn = isbn;
+}
+
+void LibraryItem::setGenre(std::string str) {
+if(str=="g1"){
+    this->genre = Genre::g1;
+}
+else if(str=="g2"){
+    this->genre = Genre::g3;
+}
+else if(str=="g3"){
+    this->genre = Genre::g3;
+}else if(str=="g4"){
+    this->genre = Genre::g4;
+}
+else{
+    this->genre = Genre::g1;
+}
+}
+
 
 
 

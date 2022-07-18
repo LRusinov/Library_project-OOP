@@ -75,4 +75,8 @@ std::string Series::type()const {
     return typeid(Series).name();
 }
 
+void Series::setNum(size_t num) {
+    Series::num = num;
+}
+
 

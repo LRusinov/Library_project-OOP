@@ -217,12 +217,11 @@ void Library::user_add(const std::string &username, const std::string &password,
     if (loginCheck() && rightsCheck()) {
         static bool flag = false;
         std::ofstream myFile;
-        if(flag) {
+        if (flag) {
             myFile.open("Users.txt", std::ios::app);//довавя потребителите във файл
-        }
-        else{
+        } else {
             myFile.open("Users.txt", std::ios::out);
-            flag= true;
+            flag = true;
         }
         if (myFile.is_open()) {
             myFile << username << "||" << password << "||" << admin;
@@ -233,7 +232,7 @@ void Library::user_add(const std::string &username, const std::string &password,
         } else {
             listOfUsers.push_back(new Reader(username, password, currentDate));
         }
-        myFile<<std::endl;
+        myFile << std::endl;
         myFile.close();
         listOfUsers[numOfUsers]->setLastSeenDate(currentDate);
         numOfUsers++;
@@ -611,27 +610,84 @@ void Library::users_list() {
     }
 }
 
-void Library::addUsersFromFile(const std::string& fileName) {
+void Library::addUsersFromFile(const std::string &fileName) {
     std::string username;
     std::string password;
     std::string admin;
     std::ifstream myFile;
     myFile.open(fileName, std::ios::in);
-    do {
-        std::getline(myFile, username, '|');
+    while (std::getline(myFile, username, '|')) {
         std::getline(myFile, password, '|');
-        std::getline(myFile, admin, '|');
-        if (admin == "0") {
+        std::getline(myFile, admin, '\n');
+
+        if (admin == "1") {
             listOfUsers.push_back(new Admin(username, password, currentDate));
             numOfUsers++;
         } else {
             listOfUsers.push_back(new Reader(username, password, currentDate));
             numOfUsers++;
         }
-    }while (myFile);
+    }
     myFile.close();
 
 }
+
+void Library::addBookFromFile(const std::string &fileName) {
+    std::string str;
+    std::ifstream myFile;
+    myFile.open(fileName, std::ios::in);
+    while (std::getline(myFile, str, '|')) {
+        Book *bookToAdd = new Book();
+        bookToAdd->setTitle(str);
+        std::getline(myFile, str, '|');
+        bookToAdd->setAuthor(str);
+        std::getline(myFile, str, '|');
+        bookToAdd->setYear(stoi(str));
+        std::getline(myFile, str, '|');
+        bookToAdd->setPublisher(str);
+        std::getline(myFile, str, '|');
+        bookToAdd->setGenre(str);
+        std::getline(myFile, str, '|');
+        bookToAdd->setRating(std::stof(str));
+        std::getline(myFile, str, '|');
+        bookToAdd->setShortDescription(str);
+        std::getline(myFile, str, '\n');
+        bookToAdd->setIsbn(str);
+        listOfLibItems.push_back(bookToAdd);
+        numOfLibItems++;
+    }
+    myFile.close();
+}
+
+void Library::addSeriesFromFile(const std::string &fileName) {
+    std::string str;
+    std::ifstream myFile;
+    myFile.open(fileName, std::ios::in);
+    while (std::getline(myFile, str, '|')) {
+        Series *seriesToAdd = new Series();
+        seriesToAdd->setTitle(str);
+        std::getline(myFile, str, '|');
+        seriesToAdd->setAuthor(str);
+        std::getline(myFile, str, '|');
+        seriesToAdd->setNum(stoi(str));
+        std::getline(myFile, str, '|');
+        seriesToAdd->setPublisher(str);
+        std::getline(myFile, str, '|');
+        seriesToAdd->setGenre(str);
+        std::getline(myFile, str, '|');
+        seriesToAdd->setRating(std::stof(str));
+        std::getline(myFile, str, '|');
+        seriesToAdd->setShortDescription(str);
+        std::getline(myFile, str, '\n');
+        seriesToAdd->setIsbn(str);
+        listOfLibItems.push_back(seriesToAdd);
+        numOfLibItems++;
+    }
+    myFile.close();
+
+}
+
+
 
 
 
