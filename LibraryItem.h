@@ -36,8 +36,6 @@ public:
 
     std::string get_publisher() const;
 
-    Genre get_genre() const;
-
     std::string get_genreToString()const;
 
     std::string get_description() const;
@@ -46,7 +44,7 @@ public:
 
     void setPublisher(const std::string &publisher);
 
-    void setGenre(std::string genre);
+    void setGenre(const std::string& str);
 
     void setShortDescription(const std::string &shortDescription);
 

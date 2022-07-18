@@ -1,5 +1,5 @@
-#ifndef _JOURNAL_H_
-#define _JOURNAL_H_
+#ifndef _SERIES_H_
+#define _SERIES_H_
 
 #include "LibraryItem.h"
 #include "Article.h"

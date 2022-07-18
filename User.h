@@ -16,23 +16,20 @@ public:
     User() = default;
 
     User(const std::string &username, const std::string &password, const Date &registrationDate) :
-    username(username),
-    password(password),
-    registrationDate(registrationDate),
-    lastSeenDate(registrationDate),
-    adminRights(false)
-    {}
-virtual ~User() = default;
+            username(username),
+            password(password),
+            registrationDate(registrationDate),
+            lastSeenDate(registrationDate),
+            adminRights(false) {}
 
-    bool getAdminRights()const{
+    virtual ~User() = default;
+
+    bool getAdminRights() const {
         return adminRights;
     }
-    void setRegistrationDate(const Date &registrationDate) {
-        this->registrationDate = registrationDate;
-    }
 
-    void setLastSeenDate(const Date &lastSeenDate) {
-        this->lastSeenDate = lastSeenDate;
+    void setLastSeenDate(const Date &newLastSeenDate) {
+        this->lastSeenDate = newLastSeenDate;
     }
 
     std::string get_username() const {
@@ -43,14 +40,15 @@ virtual ~User() = default;
         return password;
     }
 
-    void set_password(const std::string &password) {
-        this->password = password;
+    void set_password(const std::string &newPassword) {
+        this->password = newPassword;
     }
-virtual void takingItem(LibraryItem *newItem){};
+
+    virtual void takingItem(LibraryItem *newItem) {};
+
     virtual void print() const = 0;
 
 };
-
 
 
 #endif

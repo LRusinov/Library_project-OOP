@@ -2,9 +2,7 @@
 #define _LIBRARY_H_
 
 
-#include"User.h"
-#include"LibraryItem.h"
-#include"Series.h"
+
 #include"Admin.h"
 #include"Reader.h"
 
@@ -36,7 +34,7 @@ public:
     void logout();
 
     template<typename T>
-    void item_all() const;
+    void item_all() const;//използва се за командите book/series all
 
     void list_all() const;
 
@@ -61,19 +59,21 @@ public:
 
     void user_change(const std::string &username = "");
 
+    void users_list();
 
     void take(size_t id);
 
     void returnItem(size_t id);
-    void users_list();
-    void addBookFromFile(const std::string& fileName);
-    void addSeriesFromFile(const std::string& fileName);
-void addUsersFromFile(const std::string& fileName);
+
+    void addBookFromFile(const std::string &fileName);
+
+    void addSeriesFromFile(const std::string &fileName);
+
+    void addUsersFromFile(const std::string &fileName);
+
     void menu(); //меню, което съчетава в себе си всички функционалности
 
     static void help(); // принтира всички възможни команди
-
-
 };
 
 

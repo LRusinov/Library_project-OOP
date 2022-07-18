@@ -55,8 +55,8 @@ LibraryItem *Book::clone() const {
 size_t Book::getYear() const {
     return year;
 }
-void Book::setYear(size_t year) {
-    Book::year = year;
+void Book::setYear(size_t newYear) {
+    this->year = newYear;
 }
 
 void Book::fullInfo() const {

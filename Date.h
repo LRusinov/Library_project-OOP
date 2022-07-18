@@ -35,9 +35,6 @@ public:
     bool operator<=(const Date &other) const;
 
     //Functions
-    void printDate() const;
-
-    static Date addYears(Date &date, size_t yearsToAdd);
 
     Date nextMonth() const;
 

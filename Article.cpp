@@ -20,10 +20,10 @@ this->author = author;
 this->keyWords = keyWords;
 }
 
-void Article::setTitle(const std::string &title) {
-    Article::title = title;
+void Article::setTitle(const std::string &newTitle) {
+    this->title = newTitle;
 }
 
-void Article::setAuthor(const std::string &author) {
-    Article::author = author;
+void Article::setAuthor(const std::string &newAuthor) {
+    this->author = newAuthor;
 }
