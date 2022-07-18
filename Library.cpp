@@ -71,9 +71,9 @@ void Library::bookAdd(Book &book) {
             flag = true;
         }
         if (myFile.is_open()) {
-            myFile << book.get_title() << "||" << book.get_author() << "||" << book.get_ID() << "||";
-            myFile << book.getYear() << "||" << book.get_publisher() << "||" << book.get_genreToString() << "||";
-            myFile << book.get_rating() << "||" << book.get_description() << "||" << book.get_isbn() << std::endl;
+            myFile << book.get_title() << '\t' << book.get_author() << '\t';
+            myFile << book.getYear() << '\t' << book.get_publisher() << '\t' << book.get_genreToString() << '\t';
+            myFile << book.get_rating() << '\t' << book.get_description() << '\t' << book.get_isbn() << std::endl;
             myFile.close();
         }
     }
@@ -92,9 +92,9 @@ void Library::seriesAdd(Series &series) {
             flag = true;
         }
         if (myFile.is_open()) {
-            myFile << series.get_title() << "||" << series.get_author() << "||" << series.get_ID() << "||";
-            myFile << series.get_num() << "||" << series.get_publisher() << "||" << series.get_genreToString() << "||";
-            myFile << series.get_rating() << "||" << series.get_description() << "||" << series.get_isbn() << std::endl;
+            myFile << series.get_title() << '\t' << series.get_author() << '\t';
+            myFile << series.get_num() << '\t' << series.get_publisher() << '\t' << series.get_genreToString() <<'\t';
+            myFile << series.get_rating() << '\t' << series.get_description() << '\t'<< series.get_isbn() << std::endl;
             myFile.close();
         }
     }
@@ -224,11 +224,10 @@ void Library::user_add(const std::string &username, const std::string &password,
             flag = true;
         }
         if (myFile.is_open()) {
-            myFile << username << "||" << password << "||" << admin;
+            myFile << username << "\t" << password << "\t" << admin;
         }
         if (admin) {
             listOfUsers.push_back(new Admin(username, password, currentDate, email, sector));
-            myFile << "||" << email << "||" << sector;
         } else {
             listOfUsers.push_back(new Reader(username, password, currentDate));
         }
@@ -616,8 +615,8 @@ void Library::addUsersFromFile(const std::string &fileName) {
     std::string admin;
     std::ifstream myFile;
     myFile.open(fileName, std::ios::in);
-    while (std::getline(myFile, username, '|')) {
-        std::getline(myFile, password, '|');
+    while (std::getline(myFile, username, '\t')) {
+        std::getline(myFile, password, '\t');
         std::getline(myFile, admin, '\n');
 
         if (admin == "1") {
@@ -636,20 +635,20 @@ void Library::addBookFromFile(const std::string &fileName) {
     std::string str;
     std::ifstream myFile;
     myFile.open(fileName, std::ios::in);
-    while (std::getline(myFile, str, '|')) {
+    while (std::getline(myFile, str, '\t')) {
         Book *bookToAdd = new Book();
         bookToAdd->setTitle(str);
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         bookToAdd->setAuthor(str);
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         bookToAdd->setYear(stoi(str));
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         bookToAdd->setPublisher(str);
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         bookToAdd->setGenre(str);
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         bookToAdd->setRating(std::stof(str));
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         bookToAdd->setShortDescription(str);
         std::getline(myFile, str, '\n');
         bookToAdd->setIsbn(str);
@@ -663,20 +662,20 @@ void Library::addSeriesFromFile(const std::string &fileName) {
     std::string str;
     std::ifstream myFile;
     myFile.open(fileName, std::ios::in);
-    while (std::getline(myFile, str, '|')) {
+    while (std::getline(myFile, str, '\t')) {
         Series *seriesToAdd = new Series();
         seriesToAdd->setTitle(str);
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         seriesToAdd->setAuthor(str);
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         seriesToAdd->setNum(stoi(str));
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         seriesToAdd->setPublisher(str);
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         seriesToAdd->setGenre(str);
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         seriesToAdd->setRating(std::stof(str));
-        std::getline(myFile, str, '|');
+        std::getline(myFile, str, '\t');
         seriesToAdd->setShortDescription(str);
         std::getline(myFile, str, '\n');
         seriesToAdd->setIsbn(str);
