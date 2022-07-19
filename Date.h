@@ -5,9 +5,9 @@
 
 class Date {  //yyyy-mm-dd
 private:
-    size_t day;
-    size_t month;
-    size_t year;
+    int day;
+    int month;
+    int year;
 
     //helper function which validates the date
     void dateValidation();
@@ -16,16 +16,16 @@ public:
     //Constructors
     Date();
 
-    Date(size_t day, size_t month, size_t year);
+    Date(int day, int month, int year);
 
     Date(const Date &other);
 
     //Setters
-    void set_day(size_t day);
+    void set_day(int day);
 
-    void set_month(size_t month);
+    void set_month(int month);
 
-    void set_year(size_t year);
+    void set_year(int year);
 
     //Operators
     Date &operator=(const Date &other);

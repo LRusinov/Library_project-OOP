@@ -32,7 +32,7 @@ Date::Date() {
     year = 2020;
 }
 
-Date::Date(const size_t day, const size_t month, const size_t year) {
+Date::Date(const int day, const int month, const int year) {
     set_day(day);
     set_month(month);
     set_year(year);
@@ -47,7 +47,7 @@ Date::Date(const Date &other) {
 }
 
 //Setters
-void Date::set_day(const size_t newDay) {
+void Date::set_day(const int newDay) {
     if (newDay < 1 || newDay > 31) {
         std::cout << "Invalid day!";
         this->day = 1;
@@ -56,7 +56,7 @@ void Date::set_day(const size_t newDay) {
     }
 }
 
-void Date::set_month(const size_t newMonth) {
+void Date::set_month(const int newMonth) {
     if (newMonth < 1 || newMonth > 12) {
         std::cout << "Invalid month!";
         this->month = 1;
@@ -65,7 +65,7 @@ void Date::set_month(const size_t newMonth) {
     }
 }
 
-void Date::set_year(const size_t newYear) {
+void Date::set_year(const int newYear) {
     if (newYear < 1) {
         std::cout << "Invalid year!";
         this->year = 2020;

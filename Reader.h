@@ -6,14 +6,13 @@
 
 #include "User.h"
 
-
 class Reader : public User {
+
 private:
-
     std::vector<LibraryItem *> listOfItems;
-    size_t numOfItems;
-public:
+    int numOfItems;
 
+public:
 
     Reader(const std::string &username, const std::string &password, const Date &registrationDate);
 

@@ -2,28 +2,30 @@
 
 Book::Book() : LibraryItem(), year(0) {}
 
-Book::Book(const Book &other) : LibraryItem(other.title,other.author,other.keyWords,other.publisher,other.genre,
-                                            other.shortDescription,other.rating,
-                                            other.isbn) {
-    this->year = other.year;
+Book::Book(const Book &other) : LibraryItem(other.title, other.author, other.keyWords,
+                                            other.publisher, other.genre,
+                                            other.shortDescription, other.rating, other.isbn) {
+    setYear(other.year);
 }
-Book::Book(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
-           const std::string &publisher, Genre genre, const std::string &shortDescription,
-           double rating, size_t year, const std::string &isbn) :
-        LibraryItem(title, author, keyWords, publisher, genre, shortDescription, rating, isbn),
-        year(year) {}
 
-Book &Book::operator=(const Book &other) {
-    this->author = other.author;
-    this->genre = other.genre;
-    this->isbn = other.isbn;
-    this->keyWords = other.keyWords;
-    this->publisher = other.publisher;
-    this->rating = other.rating;
-    this->shortDescription = other.shortDescription;
-    this->title = other.title;
-    this->year = other.year;
-    return *this;
+Book::Book(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
+           const std::string &publisher, Genre genre, const std::string &shortDescription, double rating,
+           int year, const std::string &isbn) :
+        LibraryItem(title, author, keyWords, publisher, genre, shortDescription, rating, isbn) {
+    setYear(year);
+}
+
+int Book::getYear() const {
+    return year;
+}
+
+void Book::setYear(int newYear) {
+    if (newYear > 0) {
+        this->year = newYear;
+    } else {
+        std::cout << "Invalid year!It's set to 2000!\n";
+        this->year = 2000;
+    }
 }
 
 void Book::printInfo() const {
@@ -48,17 +50,6 @@ void Book::printInfo() const {
 
 }
 
-LibraryItem *Book::clone() const {
-    return new Book(*this);
-}
-
-size_t Book::getYear() const {
-    return year;
-}
-void Book::setYear(size_t newYear) {
-    this->year = newYear;
-}
-
 void Book::fullInfo() const {
     printInfo();
     std::cout << "Author: " << author << std::endl;
@@ -68,10 +59,28 @@ void Book::fullInfo() const {
     std::cout << "Rating: " << rating << std::endl;
 }
 
-std::string Book::type()const {
+LibraryItem *Book::clone() const {
+    return new Book(*this);
+}
+
+std::string Book::type() const {
     return typeid(Book).name();
 }
 
+Book &Book::operator=(const Book &other) {
+    if (this != &other) {
+        this->author = other.author;
+        this->genre = other.genre;
+        this->isbn = other.isbn;
+        this->keyWords = other.keyWords;
+        this->publisher = other.publisher;
+        this->rating = other.rating;
+        this->shortDescription = other.shortDescription;
+        this->title = other.title;
+        this->year = other.year;
+    }
+    return *this;
+}
 
 
 

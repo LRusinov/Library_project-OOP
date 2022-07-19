@@ -148,7 +148,7 @@ template<typename T>
 void Library::item_all() const {
     if (loginCheck()) {
         int counter = 0;
-        for (size_t i = 0; i < numOfLibItems; i++) {
+        for (int i = 0; i < numOfLibItems; i++) {
             if (listOfLibItems[i]->type() == typeid(T).name()) {
                 listOfLibItems[i]->printInfo();
                 counter++;
@@ -189,7 +189,7 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
     if (loginCheck()) {
         std::vector<LibraryItem *> matchesList;
 
-        for (size_t i = 0; i < numOfLibItems; i++) {
+        for (int i = 0; i < numOfLibItems; i++) {
             if (listOfLibItems[i]->type() == typeid(T).name()) {
                 if (option == "title") {
                     if (listOfLibItems[i]->get_title() == str) {
@@ -202,8 +202,8 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
 
                 } else if (option == "tag") {
 
-                    size_t numOfKeyWords = listOfLibItems[i]->get_keyWords().size();
-                    for (size_t j = 0; j < numOfKeyWords; j++) {
+                    int numOfKeyWords = listOfLibItems[i]->get_keyWords().size();
+                    for (int j = 0; j < numOfKeyWords; j++) {
                         if (listOfLibItems[i]->get_keyWords()[j] == str) {
                             matchesList.push_back(listOfLibItems[i]);
                         }
@@ -215,7 +215,7 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
                 }
             }
         }
-        size_t numOfMatches = matchesList.size();
+        int numOfMatches = matchesList.size();
 
         if (numOfMatches == 0) {
             std::cout << "No matches found!\n";
@@ -305,7 +305,7 @@ void Library::user_change(const std::string &username) {
             std::cout << "Password changed successfully!\n";
         }
         if (adminRights) {
-            for (size_t i = 0; i < numOfUsers; i++) {
+            for (int i = 0; i < numOfUsers; i++) {
                 if (listOfUsers[i]->get_username() == username) {
                     passwordCheck();
 
@@ -334,13 +334,13 @@ void Library::users_list() {
     }
 }
 
-void Library::take(const size_t id) {
+void Library::take(const int id) {
     if (adminRights) {
         std::cout << "Administrator accounts can not take items!\n";
         return;
     }
     if (loginCheck()) {
-        for (size_t i = 0; i < numOfLibItems; i++) {
+        for (int i = 0; i < numOfLibItems; i++) {
             if (listOfLibItems[i]->get_ID() == id) {
                 if (listOfLibItems[i]->getIfTaken()) {
                     std::cout << "The item is already taken!\n";
@@ -357,9 +357,9 @@ void Library::take(const size_t id) {
     }
 }
 
-void Library::returnItem(size_t id) {
+void Library::returnItem(int id) {
     if (loginCheck()) {
-        for (size_t i = 0; i < numOfLibItems; i++) {
+        for (int i = 0; i < numOfLibItems; i++) {
             if (listOfLibItems[i]->get_ID() == id) {
                 if (!listOfLibItems[i]->getIfTaken()) {
                     std::cout << "Invalid return!\n";
@@ -441,8 +441,11 @@ void Library::addSeriesFromFile(const std::string &fileName) {
         seriesToAdd->setRating(std::stof(str));
         std::getline(myFile, str, '\t');
         seriesToAdd->setShortDescription(str);
+        std::getline(myFile, str, '\t');
+        seriesToAdd->setContent(articlesFromFile(std::stoi(str),"Articles.txt"));
         std::getline(myFile, str, '\n');
         seriesToAdd->setIsbn(str);
+
         listOfLibItems.push_back(seriesToAdd);
         numOfLibItems++;
     }
@@ -454,7 +457,7 @@ void Library::menu() {
     std::cout << "Enter command:\n";
     std::getline(std::cin, input);
     std::string firstWord = input.substr(0, input.find(' '));
-    size_t len = input.length();
+    int len = input.length();
 
     if (firstWord == "help") {
         help();
@@ -473,7 +476,7 @@ void Library::menu() {
                     find<Book>("author", str);
                 } else {
                     std::string key;
-                    size_t sortPos = input.find("sort");
+                    int sortPos = input.find("sort");
                     str = input.substr(18, sortPos - 19);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -492,7 +495,7 @@ void Library::menu() {
                     find<Book>("title", str);
                 } else {
                     std::string key;
-                    size_t sortPos = input.find("sort");
+                    int sortPos = input.find("sort");
                     str = input.substr(17, sortPos - 18);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -512,7 +515,7 @@ void Library::menu() {
                     find<Book>("tag", str);
                 } else {
                     std::string key;
-                    size_t sortPos = input.find("sort");
+                    int sortPos = input.find("sort");
                     str = input.substr(14, sortPos - 15);
 
                     if (input.find("dsc") != std::string::npos) {
@@ -541,7 +544,7 @@ void Library::menu() {
                     find<Series>("author", str);
                 } else {
                     std::string key;
-                    size_t sortPos = input.find("sort");
+                    int sortPos = input.find("sort");
                     str = input.substr(19, sortPos - 20);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -560,7 +563,7 @@ void Library::menu() {
                     find<Series>("title", str);
                 } else {
                     std::string key;
-                    size_t sortPos = input.find("sort");
+                    int sortPos = input.find("sort");
                     str = input.substr(18, sortPos - 19);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -579,7 +582,7 @@ void Library::menu() {
                     find<Book>("tag", str);
                 } else {
                     std::string key;
-                    size_t sortPos = input.find("sort");
+                    int sortPos = input.find("sort");
                     str = input.substr(15, sortPos - 16);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -670,4 +673,44 @@ void Library::help() {
     std::cout << "user add\n";
     std::cout << "users list\n";
     std::cout << "user remove\n";
+}
+
+std::vector<Article> Library::articlesFromFile(int numOfArticles,const std::string& fileName) {
+    static int x = 1;
+
+    std::vector<Article> res;
+
+    std::ifstream myFile;
+    myFile.open(fileName, std::ios::in);
+    std::string str;
+    while(str!=std::to_string(x)){
+        std::getline(myFile, str);
+    }
+    while (std::getline(myFile, str, '\t')&&numOfArticles>0) {
+        Article* article = new Article();
+        article->setTitle(str);
+        std::getline(myFile, str, '\t');
+        article->setAuthor(str);
+        std::getline(myFile, str, '\n');
+        std::string buff;
+        std::vector<std::string> vec;
+        int counter = 0;
+        for (int i = 0; i <str.length() ; ++i) {
+            if(str[i]==','||i+1==str.length()){
+                i++;
+                vec.push_back(buff);
+                buff.clear();
+                counter = 0;
+            }
+
+            buff.push_back(str[i]);
+            counter++;
+        }
+        article->setKeyWords(vec);
+        vec.clear();
+        numOfArticles--;
+        res.push_back(*article);
+    }
+    x++;
+    return res;
 }

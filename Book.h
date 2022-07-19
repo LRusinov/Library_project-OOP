@@ -4,35 +4,36 @@
 #include <vector>
 
 
-
 #include "LibraryItem.h"
 #include "Article.h"
 
 class Book : public LibraryItem {
 
 private:
-    size_t year;
+    int year;
+
 public:
     Book();
 
     Book(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
          const std::string &publisher, Genre genre, const std::string &shortDescription, double rating,
-         size_t year,const std::string &isbn = "");
+         int year, const std::string &isbn = "");
 
     Book(const Book &other);
 
-    Book &operator=(const Book &other);
+    int getYear() const;
 
-    void printInfo() const override;
+    void setYear(int year);
 
     LibraryItem *clone() const override;
 
-    size_t getYear() const;
+    void printInfo() const override;
 
     void fullInfo() const override;
-    std::string type()const override;
 
-    void setYear(size_t year);
+    std::string type() const override;
+
+    Book &operator=(const Book &other);
 };
 
 

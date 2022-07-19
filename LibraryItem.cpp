@@ -36,35 +36,8 @@ std::string LibraryItem::get_isbn() const {
     return isbn;
 }
 
-void LibraryItem::set_ifTaken(const bool newIfTaken) {
-
-    this->ifTaken = newIfTaken;
-}
-
 bool LibraryItem::getIfTaken() const {
     return ifTaken;
-}
-
-void LibraryItem::setTakingDate(const Date &newTakingDate) {
-    this->takingDate = newTakingDate;
-}
-
-void LibraryItem::setReturnDate(const Date &newReturnDate) {
-    this->returnDate = newReturnDate;
-}
-
-bool LibraryItem::cmp(const std::string &comp, const LibraryItem *item) const {
-    if (comp == "title") {
-        return item->title > title;
-    } else if (comp == "author") {
-        return item->author > author;
-    } else if (comp == "id") {
-        return item->ID > ID;
-    } else if (comp == "genre") {
-        return item->genre > genre;
-    } else {
-        throw "Invalid key for comparison!";
-    }
 }
 
 std::string LibraryItem::get_genreToString() const {
@@ -81,10 +54,21 @@ std::string LibraryItem::get_genreToString() const {
 
 }
 
+void LibraryItem::set_ifTaken(const bool newIfTaken) {
+    this->ifTaken = newIfTaken;
+}
+
+void LibraryItem::setTakingDate(const Date &newTakingDate) {
+    this->takingDate = newTakingDate;
+}
+
+void LibraryItem::setReturnDate(const Date &newReturnDate) {
+    this->returnDate = newReturnDate;
+}
+
 void LibraryItem::setPublisher(const std::string &newPublisher) {
     this->publisher = newPublisher;
 }
-
 
 void LibraryItem::setShortDescription(const std::string &newShortDescription) {
     this->shortDescription = newShortDescription;
@@ -107,6 +91,20 @@ void LibraryItem::setGenre(const std::string &str) {
         this->genre = Genre::g4;
     } else {
         this->genre = Genre::g1;
+    }
+}
+
+bool LibraryItem::cmp(const std::string &comp, const LibraryItem *item) const {
+    if (comp == "title") {
+        return item->title > title;
+    } else if (comp == "author") {
+        return item->author > author;
+    } else if (comp == "id") {
+        return item->ID > ID;
+    } else if (comp == "genre") {
+        return item->genre > genre;
+    } else {
+        throw "Invalid key for comparison!";
     }
 }
 

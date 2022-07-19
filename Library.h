@@ -61,15 +61,17 @@ public:
 
     void users_list();
 
-    void take(size_t id);
+    void take(int id);
 
-    void returnItem(size_t id);
+    void returnItem(int id);
 
     void addBookFromFile(const std::string &fileName);
 
     void addSeriesFromFile(const std::string &fileName);
 
     void addUsersFromFile(const std::string &fileName);
+
+    std::vector<Article> articlesFromFile(int n, const std::string& fileName);
 
     void menu(); //меню, което съчетава в себе си всички функционалности
 

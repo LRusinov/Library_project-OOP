@@ -6,9 +6,8 @@
 
 class LibraryItem : public Article {
 
-
 protected:
-    static int nextLibItemID;
+    static int nextLibItemID; //използва се за уникалност на ID
     std::string publisher;
     Genre genre;
     std::string shortDescription;
@@ -30,8 +29,6 @@ public:
 
     int get_ID() const;
 
-    virtual std::string type() const = 0;
-
     double get_rating() const;
 
     std::string get_publisher() const;
@@ -41,6 +38,8 @@ public:
     std::string get_description() const;
 
     std::string get_isbn() const;
+
+    bool getIfTaken() const;
 
     void setPublisher(const std::string &publisher);
 
@@ -52,21 +51,22 @@ public:
 
     void setIsbn(const std::string &isbn);
 
-    bool getIfTaken() const;
-
     void set_ifTaken(bool ifTaken);
 
     void setTakingDate(const Date &takingDate);
 
     void setReturnDate(const Date &returnDate);
 
-    bool cmp(const std::string &comp, const LibraryItem *item) const;
+    bool cmp(const std::string &comp, const LibraryItem *item) const;//сравнява два обекта по подаден признак
+                                                                    // (заглавие,автор,...)
 
     virtual LibraryItem *clone() const = 0;
 
-    virtual void printInfo() const = 0;
+    virtual void printInfo() const = 0;//принтира само някои от характеристиките на обекта
 
-    virtual void fullInfo() const = 0;
+    virtual void fullInfo() const = 0;//принтира всички характеристики
+
+    virtual std::string type() const = 0;//връща typeid на обекта като стринг
 
 };
 
