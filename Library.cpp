@@ -444,6 +444,7 @@ void Library::menu() {
     } else if (firstWord == "logout") {
         logout();
     } else if (firstWord == "exit") {
+        dataSave("Users.txt","Articles.txt","Books.txt","Series.txt");
         return;
     } else if (input.find("books find") == 0 && len > 11) {
         try {
@@ -653,9 +654,9 @@ void Library::help() {
     std::cout << "user remove\n";
 }
 
-std::vector<Article> Library::articlesFromFile(int numOfArticles, const std::string &fileName) {
+std::vector<Article*> Library::articlesFromFile(int numOfArticles, const std::string &fileName) {
     static int x = 1;
-    std::vector<Article> res;
+    std::vector<Article*> res;
     std::ifstream myFile;
     myFile.open(fileName, std::ios::in);
     if (myFile.is_open()) {
@@ -671,7 +672,7 @@ std::vector<Article> Library::articlesFromFile(int numOfArticles, const std::str
             std::getline(myFile, str, '\n');
             article->setKeyWords(keyWordsHelper(str));
             numOfArticles--;
-            res.push_back(*article);
+            res.push_back(article);
         }
         x++;
     } else {
@@ -685,12 +686,18 @@ std::vector<std::string> Library::keyWordsHelper(const std::string &str) {
     std::vector<std::string> vec;
     int counter = 0, len = str.length();
     for (int i = 0; i < len; ++i) {
-        if (str[i] == ',' || i + 1 == len) {
+        if(i+1 == len){
+            buff.push_back(str[i]);
+            vec.push_back(buff);
+            break;
+        }
+        else if (str[i] == ',' ) {
             i++;
             vec.push_back(buff);
             buff.clear();
             counter = 0;
         }
+
 
         buff.push_back(str[i]);
         counter++;
@@ -709,14 +716,14 @@ void Library::dataSave(const std::string &uFilename, const std::string &aFileNam
                        const std::string &sFileName) {
 
     for (int i = 0; i < numOfUsers; ++i) {
-        listOfUsers[i]->writeToFile("Users.txt");
+        listOfUsers[i]->writeToFile(uFilename);
     }
 
     for (int i = 0; i < numOfLibItems; ++i) {
         if (listOfLibItems[i]->type() == typeid(Book).name()) {
-            listOfLibItems[i]->writeToFile("Book.txt");
+            listOfLibItems[i]->writeToFile(bFileName);
         } else if (listOfLibItems[i]->type() == typeid(Series).name()) {
-            listOfLibItems[i]->writeToFile("Series.txt", "Articles.txt");
+            listOfLibItems[i]->writeToFile(sFileName, aFileName);
         }
     }
 

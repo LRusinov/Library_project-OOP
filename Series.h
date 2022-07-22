@@ -9,20 +9,20 @@ class Series : public LibraryItem {
 private:
     Date published;
     int num;
-    std::vector<Article> content;
+    std::vector<Article*> content;
 
 public:
     Series();
 
     Series(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
            const std::string &publisher, Genre genre, const std::string &shortDescription, double rating,
-           const Date &published, int num, const std::vector<Article> &content, const std::string &isbn = "");
+           const Date &published, int num, const std::vector<Article*> &content, const std::string &isbn = "");
 
     Date get_published() const;
 
     int get_num() const;
 
-    std::vector<Article> get_content() const;
+    std::vector<Article*> get_content() const;
 
     void setNum(int num);
 
@@ -36,7 +36,7 @@ public:
 
     Series &operator=(const Series &other);
 
-    void setContent(const std::vector<Article> &content);
+    void setContent(std::vector<Article *> content);
 
     void writeToFile(const std::string& fileName,const std::string& fileNameArt) const override;
 };

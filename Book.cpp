@@ -91,9 +91,10 @@ void Book::writeToFile(const std::string& fileName,const std::string& fileNameAr
         myFile.open(fileName, std::ios::app);
     } else {
         myFile.open(fileName, std::ios::out);
-        flag = true;
+
     }
     if (myFile.is_open()) {
+        flag = true;
         myFile << title << '\t' << author << '\t';
         myFile << year << '\t' << publisher << '\t' << get_genreToString() << '\t';
         myFile << rating << '\t' << shortDescription << '\t';

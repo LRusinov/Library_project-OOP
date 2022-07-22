@@ -23,7 +23,7 @@ public:
     Article();
 
     Article(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords);
-
+    ~Article() = default;
     std::string get_title() const;
 
     std::string get_author() const;

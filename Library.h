@@ -73,7 +73,7 @@ public:
 
     void addUsersFromFile(const std::string &fileName);
 
-    std::vector<Article> articlesFromFile(int n, const std::string& fileName);
+    std::vector<Article*> articlesFromFile(int n, const std::string& fileName);
 
     void menu(); //меню, което съчетава в себе си всички функционалности
 

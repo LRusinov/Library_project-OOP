@@ -50,19 +50,12 @@ void Article::keyWordsPrint() const {
 }
 
 void Article::writeArticleToFile(const std::string &fileName) const {
-    static int x = 1;
     std::ofstream myFile;
-    if (x == 1) {             //проверява дали файлът се отваря за първи път
-        myFile.open(fileName, std::ios::app);
-    } else {
-        myFile.open(fileName, std::ios::out);
-    }
+    myFile.open(fileName, std::ios::app);
     if (myFile.is_open()) {
-        myFile << x << "\n";
         myFile << title << "\t" << author << "\t";
         keyWordsToFile(myFile);
         myFile << "\n";
-        x++;
     }
 }
 

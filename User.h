@@ -55,10 +55,11 @@ public:
             myFile.open(filename, std::ios::app);
         } else {
             myFile.open(filename, std::ios::out);
-            flag = true;
+
         }
         if (myFile.is_open()) {
-            myFile << username << "\t" << password << "\t" << adminRights;
+            myFile << username << "\t" << password << "\t" << adminRights << "\n";
+            flag = true;
             myFile.close();
         } else {
             throw "File could not be opened for writing!";

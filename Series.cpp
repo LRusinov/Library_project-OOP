@@ -9,7 +9,7 @@ Series::Series() : LibraryItem() {
 
 Series::Series(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
                const std::string &publisher, Genre genre, const std::string &shortDescription, double rating,
-               const Date &published, int num, const std::vector<Article> &content, const std::string &isbn) :
+               const Date &published, int num, const std::vector<Article *> &content, const std::string &isbn) :
         LibraryItem(title, author, keyWords, publisher, genre, shortDescription, rating, isbn),
         published(published), content(content) {
     setNum(num);
@@ -23,7 +23,7 @@ int Series::get_num() const {
     return num;
 }
 
-std::vector<Article> Series::get_content() const {
+std::vector<Article *> Series::get_content() const {
     return content;
 }
 
@@ -86,7 +86,7 @@ void Series::fullInfo() const {
     keyWordsPrint();
     size_t numOfArticles = content.size();
     for (size_t i = 0; i < numOfArticles; ++i) {
-        content[i].print();
+        content[i]->print();
     }
 }
 
@@ -94,32 +94,45 @@ std::string Series::type() const {
     return typeid(Series).name();
 }
 
-void Series::setContent(const std::vector<Article> &content) {
+void Series::setContent(std::vector<Article *> content) {
     Series::content = content;
 }
 
-void Series::writeToFile(const std::string& fileName,const std::string& fileNameArt) const{
-    static bool flag = false;
-    std::ofstream myFile;
+void Series::writeToFile(const std::string &fileName, const std::string &fileNameArt) const {
+    static int count = 1;
+    static bool flag = false, flag2 = false;
+    std::ofstream myFile, file2;
     if (flag) {             //проверява дали файлът се отваря за първи път
         myFile.open(fileName, std::ios::app);
     } else {
         myFile.open(fileName, std::ios::out);
-        flag = true;
     }
     if (myFile.is_open()) {
         myFile << title << '\t' << author << '\t';
         myFile << num << '\t' << publisher << '\t' << get_genreToString() << '\t';
         myFile << rating << '\t' << shortDescription << '\t';
         keyWordsToFile(myFile);
-        myFile<<"\t";
-        myFile<< isbn << std::endl;
+        myFile << "\t";
+        myFile << content.size() << "\t";
+        myFile << isbn << std::endl;
         myFile.close();
-        int numOfArticles = content.size();
-        for (int i = 0; i <numOfArticles ; ++i) {
-            content[i].writeArticleToFile(fileNameArt);
+        if (flag2) {             //проверява дали файлът се отваря за първи път
+            file2.open(fileNameArt, std::ios::app);
+        } else {
+            file2.open(fileNameArt, std::ios::out);
         }
-    }else{
+        if (file2.is_open()) {
+            file2 << count << "\n";
+            count++;
+            file2.close();
+            int numOfArticles = content.size();
+            for (int i = 0; i < numOfArticles; ++i) {
+                content[i]->writeArticleToFile(fileNameArt);
+            }
+            flag2 = true;
+        }
+        flag = true;
+    } else {
         throw "File could not be opened for writing!";
     }
 }
