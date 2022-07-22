@@ -137,6 +137,13 @@ void Series::writeToFile(const std::string &fileName, const std::string &fileNam
     }
 }
 
+Series::~Series() {
+int numOfArticles = content.size();
+    for (int i = 0; i <numOfArticles ; ++i) {
+        delete content[i];
+    }
+}
+
 
 
 

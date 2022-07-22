@@ -18,6 +18,7 @@ public:
            const std::string &publisher, Genre genre, const std::string &shortDescription, double rating,
            const Date &published, int num, const std::vector<Article*> &content, const std::string &isbn = "");
 
+    ~Series()override;
     Date get_published() const;
 
     int get_num() const;
