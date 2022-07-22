@@ -3,6 +3,12 @@
 Reader::Reader(const std::string &username, const std::string &password, const Date &registrationDate) :
         User(username, password, registrationDate), numOfItems(0) {}
 
+Reader::~Reader() {
+    for (int i = 0; i <numOfItems ; ++i) {
+        delete listOfItems[i];
+    }
+}
+
 void Reader::print() const {
     std::cout << "Username: " << username << std::endl;
     std::cout << "Taken items:\n";
@@ -17,6 +23,8 @@ void Reader::takingItem(LibraryItem *newItem) {
     listOfItems.push_back(newItem);
     numOfItems++;
 }
+
+
 
 
 

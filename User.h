@@ -1,6 +1,7 @@
 #ifndef _USER_H_
 #define _USER_H_
 
+#include <fstream>
 #include "Date.h"
 #include"LibraryItem.h"
 #include"Book.h"
@@ -18,8 +19,8 @@ public:
     User() = default;
 
     User(const std::string &username, const std::string &password, const Date &registrationDate) :
-            username(username),password(password),registrationDate(registrationDate),
-            lastSeenDate(registrationDate),adminRights(false) {}
+            username(username), password(password), registrationDate(registrationDate),
+            lastSeenDate(registrationDate), adminRights(false) {}
 
     virtual ~User() = default;
 
@@ -47,7 +48,24 @@ public:
 
     virtual void print() const = 0;
 
-};
+    void writeToFile(const std::string &filename) const {
+        static bool flag = false;
+        std::ofstream myFile;
+        if (flag) {                             //проверява дали файлът се отваря за първи път
+            myFile.open(filename, std::ios::app);
+        } else {
+            myFile.open(filename, std::ios::out);
+            flag = true;
+        }
+        if (myFile.is_open()) {
+            myFile << username << "\t" << password << "\t" << adminRights;
+            myFile.close();
+        } else {
+            throw "File could not be opened for writing!";
+        }
+    }
 
+
+};
 
 #endif

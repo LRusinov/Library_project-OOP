@@ -37,6 +37,8 @@ public:
     Series &operator=(const Series &other);
 
     void setContent(const std::vector<Article> &content);
+
+    void writeToFile(const std::string& fileName,const std::string& fileNameArt) const override;
 };
 
 

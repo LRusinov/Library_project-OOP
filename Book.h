@@ -34,6 +34,8 @@ public:
     std::string type() const override;
 
     Book &operator=(const Book &other);
+
+    void writeToFile(const std::string& fileName, const std::string& fileNameArt = "")const override;
 };
 
 

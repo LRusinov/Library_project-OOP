@@ -104,43 +104,17 @@ void Library::itemAdd(LibraryItem *libItem) {
 }
 
 void Library::bookAdd(Book &book) {
-    static bool flag = false;
+
     if (loginCheck()) {
         itemAdd(&book);
-        std::ofstream myFile;
-        if (flag) {                                             //проверява дали файлът се отваря за първи път
-            myFile.open("Books.txt", std::ios::app);
-        } else {
-            myFile.open("Books.txt", std::ios::out);
-            flag = true;
-        }
-        if (myFile.is_open()) {
-            myFile << book.get_title() << '\t' << book.get_author() << '\t';
-            myFile << book.getYear() << '\t' << book.get_publisher() << '\t' << book.get_genreToString() << '\t';
-            myFile << book.get_rating() << '\t' << book.get_description() << '\t' << book.get_isbn() << std::endl;
-            myFile.close();
-        }
+
     }
 }
 
 
 void Library::seriesAdd(Series &series) {
-    static bool flag = false;
     if (loginCheck()) {
         itemAdd(&series);
-        std::ofstream myFile;
-        if (flag) {             //проверява дали файлът се отваря за първи път
-            myFile.open("Series.txt", std::ios::app);
-        } else {
-            myFile.open("Series.txt", std::ios::out);
-            flag = true;
-        }
-        if (myFile.is_open()) {
-            myFile << series.get_title() << '\t' << series.get_author() << '\t';
-            myFile << series.get_num() << '\t' << series.get_publisher() << '\t' << series.get_genreToString() << '\t';
-            myFile << series.get_rating() << '\t' << series.get_description() << '\t' << series.get_isbn() << std::endl;
-            myFile.close();
-        }
     }
 }
 
@@ -257,24 +231,11 @@ void Library::user_add(const std::string &username, const std::string &password,
         }
     }
     if (loginCheck() && rightsCheck()) {
-        static bool flag = false;
-        std::ofstream myFile;
-        if (flag) {                             //проверява дали файлът се отваря за първи път
-            myFile.open("Users.txt", std::ios::app);
-        } else {
-            myFile.open("Users.txt", std::ios::out);
-            flag = true;
-        }
-        if (myFile.is_open()) {
-            myFile << username << "\t" << password << "\t" << admin;
-        }
         if (admin) {
             listOfUsers.push_back(new Admin(username, password, currentDate, email, sector));
         } else {
             listOfUsers.push_back(new Reader(username, password, currentDate));
         }
-        myFile << std::endl;
-        myFile.close();
         listOfUsers[numOfUsers]->setLastSeenDate(currentDate);
         numOfUsers++;
     }
@@ -399,57 +360,74 @@ void Library::addBookFromFile(const std::string &fileName) {
     std::string str;
     std::ifstream myFile;
     myFile.open(fileName, std::ios::in);
-    while (std::getline(myFile, str, '\t')) {
-        Book *bookToAdd = new Book();
-        bookToAdd->setTitle(str);
-        std::getline(myFile, str, '\t');
-        bookToAdd->setAuthor(str);
-        std::getline(myFile, str, '\t');
-        bookToAdd->setYear(stoi(str));
-        std::getline(myFile, str, '\t');
-        bookToAdd->setPublisher(str);
-        std::getline(myFile, str, '\t');
-        bookToAdd->setGenre(str);
-        std::getline(myFile, str, '\t');
-        bookToAdd->setRating(std::stof(str));
-        std::getline(myFile, str, '\t');
-        bookToAdd->setShortDescription(str);
-        std::getline(myFile, str, '\n');
-        bookToAdd->setIsbn(str);
-        listOfLibItems.push_back(bookToAdd);
-        numOfLibItems++;
+    if (myFile.is_open()) {
+        while (std::getline(myFile, str, '\t')) {
+            Book *bookToAdd = new Book();
+            bookToAdd->setTitle(str);
+            std::getline(myFile, str, '\t');
+            bookToAdd->setAuthor(str);
+            std::getline(myFile, str, '\t');
+            bookToAdd->setYear(stoi(str));
+            std::getline(myFile, str, '\t');
+            bookToAdd->setPublisher(str);
+            std::getline(myFile, str, '\t');
+            bookToAdd->setGenre(str);
+            std::getline(myFile, str, '\t');
+            bookToAdd->setRating(std::stof(str));
+            std::getline(myFile, str, '\t');
+            bookToAdd->setShortDescription(str);
+            std::getline(myFile, str, '\t');
+            bookToAdd->setKeyWords(keyWordsHelper(str));
+            std::getline(myFile, str, '\n');
+            bookToAdd->setIsbn(str);
+            listOfLibItems.push_back(bookToAdd);
+            numOfLibItems++;
+        }
+        myFile.close();
+    } else {
+        throw "Books can not be loaded from file!\n";
     }
-    myFile.close();
 }
 
-void Library::addSeriesFromFile(const std::string &fileName) {
+void Library::addSeriesFromFile(const std::string &fileName, const std::string &articlesFilename) {
     std::string str;
     std::ifstream myFile;
     myFile.open(fileName, std::ios::in);
-    while (std::getline(myFile, str, '\t')) {
-        Series *seriesToAdd = new Series();
-        seriesToAdd->setTitle(str);
-        std::getline(myFile, str, '\t');
-        seriesToAdd->setAuthor(str);
-        std::getline(myFile, str, '\t');
-        seriesToAdd->setNum(stoi(str));
-        std::getline(myFile, str, '\t');
-        seriesToAdd->setPublisher(str);
-        std::getline(myFile, str, '\t');
-        seriesToAdd->setGenre(str);
-        std::getline(myFile, str, '\t');
-        seriesToAdd->setRating(std::stof(str));
-        std::getline(myFile, str, '\t');
-        seriesToAdd->setShortDescription(str);
-        std::getline(myFile, str, '\t');
-        seriesToAdd->setContent(articlesFromFile(std::stoi(str),"Articles.txt"));
-        std::getline(myFile, str, '\n');
-        seriesToAdd->setIsbn(str);
+    if (myFile.is_open()) {
+        while (std::getline(myFile, str, '\t')) {
+            Series *seriesToAdd = new Series();
+            seriesToAdd->setTitle(str);
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setAuthor(str);
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setNum(stoi(str));
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setPublisher(str);
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setGenre(str);
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setRating(std::stof(str));
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setShortDescription(str);
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setKeyWords(keyWordsHelper(str));
+            std::getline(myFile, str, '\t');
+            try {
+                seriesToAdd->setContent(articlesFromFile(std::stoi(str), articlesFilename));
+            }
+            catch (...) {
+                std::cout << "For series: " << seriesToAdd->get_title() << " articles can not be loaded from file!\n";
+            }
+            std::getline(myFile, str, '\n');
+            seriesToAdd->setIsbn(str);
 
-        listOfLibItems.push_back(seriesToAdd);
-        numOfLibItems++;
+            listOfLibItems.push_back(seriesToAdd);
+            numOfLibItems++;
+        }
+        myFile.close();
+    } else {
+        throw "Series can not be loaded from file!\n";
     }
-    myFile.close();
 }
 
 void Library::menu() {
@@ -675,42 +653,71 @@ void Library::help() {
     std::cout << "user remove\n";
 }
 
-std::vector<Article> Library::articlesFromFile(int numOfArticles,const std::string& fileName) {
+std::vector<Article> Library::articlesFromFile(int numOfArticles, const std::string &fileName) {
     static int x = 1;
-
     std::vector<Article> res;
-
     std::ifstream myFile;
     myFile.open(fileName, std::ios::in);
-    std::string str;
-    while(str!=std::to_string(x)){
-        std::getline(myFile, str);
-    }
-    while (std::getline(myFile, str, '\t')&&numOfArticles>0) {
-        Article* article = new Article();
-        article->setTitle(str);
-        std::getline(myFile, str, '\t');
-        article->setAuthor(str);
-        std::getline(myFile, str, '\n');
-        std::string buff;
-        std::vector<std::string> vec;
-        int counter = 0;
-        for (int i = 0; i <str.length() ; ++i) {
-            if(str[i]==','||i+1==str.length()){
-                i++;
-                vec.push_back(buff);
-                buff.clear();
-                counter = 0;
-            }
-
-            buff.push_back(str[i]);
-            counter++;
+    if (myFile.is_open()) {
+        std::string str;
+        while (str != std::to_string(x)) {
+            std::getline(myFile, str);
         }
-        article->setKeyWords(vec);
-        vec.clear();
-        numOfArticles--;
-        res.push_back(*article);
+        while (std::getline(myFile, str, '\t') && numOfArticles > 0) {
+            Article *article = new Article();
+            article->setTitle(str);
+            std::getline(myFile, str, '\t');
+            article->setAuthor(str);
+            std::getline(myFile, str, '\n');
+            article->setKeyWords(keyWordsHelper(str));
+            numOfArticles--;
+            res.push_back(*article);
+        }
+        x++;
+    } else {
+        throw "File can not be opened!";
     }
-    x++;
     return res;
+}
+
+std::vector<std::string> Library::keyWordsHelper(const std::string &str) {
+    std::string buff;
+    std::vector<std::string> vec;
+    int counter = 0, len = str.length();
+    for (int i = 0; i < len; ++i) {
+        if (str[i] == ',' || i + 1 == len) {
+            i++;
+            vec.push_back(buff);
+            buff.clear();
+            counter = 0;
+        }
+
+        buff.push_back(str[i]);
+        counter++;
+    }
+    return vec;
+}
+
+void Library::dataLoad(const std::string &uFilename, const std::string &aFileName, const std::string &bFileName,
+                       const std::string &sFileName) {
+    addBookFromFile(bFileName);
+    addSeriesFromFile(sFileName, aFileName);
+    addUsersFromFile(uFilename);
+}
+
+void Library::dataSave(const std::string &uFilename, const std::string &aFileName, const std::string &bFileName,
+                       const std::string &sFileName) {
+
+    for (int i = 0; i < numOfUsers; ++i) {
+        listOfUsers[i]->writeToFile("Users.txt");
+    }
+
+    for (int i = 0; i < numOfLibItems; ++i) {
+        if (listOfLibItems[i]->type() == typeid(Book).name()) {
+            listOfLibItems[i]->writeToFile("Book.txt");
+        } else if (listOfLibItems[i]->type() == typeid(Series).name()) {
+            listOfLibItems[i]->writeToFile("Series.txt", "Articles.txt");
+        }
+    }
+
 }

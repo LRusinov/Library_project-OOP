@@ -6,9 +6,7 @@
 int main() {
 
     Library l;
-    l.addUsersFromFile("Users.txt");
-    l.addBookFromFile("Books.txt");
-    l.addSeriesFromFile("Series.txt");
+l.dataLoad("Users.txt","Articles.txt","Books.txt","Series.txt");
   l.menu();
 
 

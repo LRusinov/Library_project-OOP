@@ -23,6 +23,8 @@ private:
     bool rightsCheck() const;//проверява дали логнатия потребител има администраторски права
 
     bool loginCheck() const;//проверява дали имаме логнат потребител
+
+    std::vector<std::string > keyWordsHelper(const std::string& str);
 public:
 
     Library();
@@ -67,7 +69,7 @@ public:
 
     void addBookFromFile(const std::string &fileName);
 
-    void addSeriesFromFile(const std::string &fileName);
+    void addSeriesFromFile(const std::string &fileName, const std::string &articlesFilename);
 
     void addUsersFromFile(const std::string &fileName);
 
@@ -76,6 +78,10 @@ public:
     void menu(); //меню, което съчетава в себе си всички функционалности
 
     static void help(); // принтира всички възможни команди
+
+    void dataLoad(const std::string& uFilename, const std::string& aFileName,const std::string& bFileName,const std::string& sFileName);
+
+    void dataSave(const std::string& uFilename, const std::string& aFileName,const std::string& bFileName,const std::string& sFileName);
 };
 
 

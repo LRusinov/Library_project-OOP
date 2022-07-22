@@ -1,3 +1,4 @@
+#include <fstream>
 #include "Article.h"
 
 Article::Article() = default;
@@ -30,4 +31,48 @@ void Article::setAuthor(const std::string &newAuthor) {
 
 void Article::setKeyWords(const std::vector<std::string> &keyWords) {
     this->keyWords = keyWords;
+}
+
+void Article::print() const {
+    std::cout << "\t" << "Article title: " << title << std::endl;
+    std::cout << "\t" << "Author: " << author << std::endl;
+    std::cout << "\t";
+    keyWordsPrint();
+}
+
+void Article::keyWordsPrint() const {
+    size_t numOfKeyWords = keyWords.size();
+    std::cout << "Key words: ";
+    for (size_t i = 0; i < numOfKeyWords; ++i) {
+        std::cout << keyWords[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+void Article::writeArticleToFile(const std::string &fileName) const {
+    static int x = 1;
+    std::ofstream myFile;
+    if (x == 1) {             //проверява дали файлът се отваря за първи път
+        myFile.open(fileName, std::ios::app);
+    } else {
+        myFile.open(fileName, std::ios::out);
+    }
+    if (myFile.is_open()) {
+        myFile << x << "\n";
+        myFile << title << "\t" << author << "\t";
+        keyWordsToFile(myFile);
+        myFile << "\n";
+        x++;
+    }
+}
+
+void Article::keyWordsToFile(std::ostream &file) const {
+    int numOfKeyWords = keyWords.size();
+    for (int i = 0; i < numOfKeyWords; ++i) {
+        if (i + 1 == numOfKeyWords) {
+            file << keyWords[i];
+            break;
+        }
+        file << keyWords[i] << ",";
+    }
 }

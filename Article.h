@@ -29,6 +29,14 @@ public:
     std::string get_author() const;
 
     std::vector<std::string> get_keyWords() const;
+
+    void print()const ;
+
+    void keyWordsPrint()const;
+
+    virtual void keyWordsToFile(std::ostream& file) const;
+
+    void writeArticleToFile(const std::string& fileName) const;
 };
 
 #endif //_ARTICLE_H_

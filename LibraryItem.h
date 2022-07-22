@@ -68,6 +68,8 @@ public:
 
     virtual std::string type() const = 0;//връща typeid на обекта като стринг
 
+    virtual void writeToFile(const std::string& fileName,const std::string& fileNameArt= "")const = 0;
+
 };
 
 #endif

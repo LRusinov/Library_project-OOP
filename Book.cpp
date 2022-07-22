@@ -1,3 +1,4 @@
+#include <fstream>
 #include "Book.h"
 
 Book::Book() : LibraryItem(), year(0) {}
@@ -57,6 +58,7 @@ void Book::fullInfo() const {
     std::cout << "Publisher: " << publisher << std::endl;
     std::cout << "Description: " << shortDescription << std::endl;
     std::cout << "Rating: " << rating << std::endl;
+    keyWordsPrint();
 }
 
 LibraryItem *Book::clone() const {
@@ -80,6 +82,28 @@ Book &Book::operator=(const Book &other) {
         this->year = other.year;
     }
     return *this;
+}
+
+void Book::writeToFile(const std::string& fileName,const std::string& fileNameArt) const {
+    static bool flag = false;
+    std::ofstream myFile;
+    if (flag) {                                             //проверява дали файлът се отваря за първи път
+        myFile.open(fileName, std::ios::app);
+    } else {
+        myFile.open(fileName, std::ios::out);
+        flag = true;
+    }
+    if (myFile.is_open()) {
+        myFile << title << '\t' << author << '\t';
+        myFile << year << '\t' << publisher << '\t' << get_genreToString() << '\t';
+        myFile << rating << '\t' << shortDescription << '\t';
+        keyWordsToFile(myFile);
+        myFile<<"\t";
+        myFile<< isbn << std::endl;
+        myFile.close();
+    }else{
+        throw "File could not be opened for writing!";
+    }
 }
 
 

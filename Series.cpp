@@ -1,5 +1,6 @@
 
 #include <vector>
+#include <fstream>
 #include"Series.h"
 
 Series::Series() : LibraryItem() {
@@ -82,9 +83,10 @@ void Series::fullInfo() const {
     std::cout << "Published: " << published << std::endl;
     std::cout << "Description: " << shortDescription << std::endl;
     std::cout << "Rating: " << rating << std::endl;
-    int numOfArticles = content.size();
-    for (int i = 0; i < numOfArticles; ++i) {
-        std::cout<< content[i].get_title()<<" "<< content[i].get_author()<<std::endl;
+    keyWordsPrint();
+    size_t numOfArticles = content.size();
+    for (size_t i = 0; i < numOfArticles; ++i) {
+        content[i].print();
     }
 }
 
@@ -94,6 +96,32 @@ std::string Series::type() const {
 
 void Series::setContent(const std::vector<Article> &content) {
     Series::content = content;
+}
+
+void Series::writeToFile(const std::string& fileName,const std::string& fileNameArt) const{
+    static bool flag = false;
+    std::ofstream myFile;
+    if (flag) {             //проверява дали файлът се отваря за първи път
+        myFile.open(fileName, std::ios::app);
+    } else {
+        myFile.open(fileName, std::ios::out);
+        flag = true;
+    }
+    if (myFile.is_open()) {
+        myFile << title << '\t' << author << '\t';
+        myFile << num << '\t' << publisher << '\t' << get_genreToString() << '\t';
+        myFile << rating << '\t' << shortDescription << '\t';
+        keyWordsToFile(myFile);
+        myFile<<"\t";
+        myFile<< isbn << std::endl;
+        myFile.close();
+        int numOfArticles = content.size();
+        for (int i = 0; i <numOfArticles ; ++i) {
+            content[i].writeArticleToFile(fileNameArt);
+        }
+    }else{
+        throw "File could not be opened for writing!";
+    }
 }
 
 

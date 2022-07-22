@@ -1,3 +1,3 @@
-series Title	author1	2	publisher1	g2	2	descrb1	2	isbn5
-series Title2	author1	2	publisher1	g4	2	descrb2	1	isbn6
-series Title3	author3	2	publisher1	g1	2	descrb3	1	isbn7
+series Title	author1	2	publisher1	g2	2	descrb1	word1,word2,word3,word4	2	isbn5
+series Title2	author1	2	publisher1	g4	2	descrb2	word5,word6	1	isbn6
+series Title3	author3	2	publisher1	g1	2	descrb3	word7	1	isbn7
