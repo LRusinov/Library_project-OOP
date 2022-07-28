@@ -15,6 +15,13 @@ Series::Series(const std::string &title, const std::string &author, const std::v
     setNum(num);
 }
 
+Series::~Series() {
+    int numOfArticles = content.size();
+    for (int i = 0; i <numOfArticles ; ++i) {
+        delete content[i];
+    }
+}
+
 Date Series::get_published() const {
     return published;
 }
@@ -137,12 +144,7 @@ void Series::writeToFile(const std::string &fileName, const std::string &fileNam
     }
 }
 
-Series::~Series() {
-int numOfArticles = content.size();
-    for (int i = 0; i <numOfArticles ; ++i) {
-        delete content[i];
-    }
-}
+
 
 
 
