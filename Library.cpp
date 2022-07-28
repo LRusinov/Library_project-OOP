@@ -107,7 +107,6 @@ void Library::bookAdd(Book &book) {
 
     if (loginCheck()) {
         itemAdd(&book);
-
     }
 }
 
@@ -169,19 +168,18 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
                     if (listOfLibItems[i]->get_title() == str) {
                         matchesList.push_back(listOfLibItems[i]);
                     }
+
                 } else if (option == "author") {
                     if (listOfLibItems[i]->get_author() == str) {
                         matchesList.push_back(listOfLibItems[i]);
                     }
 
                 } else if (option == "tag") {
-
                     int numOfKeyWords = listOfLibItems[i]->get_keyWords().size();
                     for (int j = 0; j < numOfKeyWords; j++) {
                         if (listOfLibItems[i]->get_keyWords()[j] == str) {
                             matchesList.push_back(listOfLibItems[i]);
                         }
-
                     }
                 } else {
                     std::cout << "Unknown option!";
@@ -189,8 +187,8 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
                 }
             }
         }
-        int numOfMatches = matchesList.size();
 
+        int numOfMatches = matchesList.size();
         if (numOfMatches == 0) {
             std::cout << "No matches found!\n";
             return;
@@ -200,17 +198,11 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
                 for (int j = 1; j < numOfMatches; ++j) {
                     if (asc) {
                         if (!matchesList[i]->cmp(key, matchesList[j])) {
-                            LibraryItem *temp = matchesList[i];
-                            matchesList[i] = matchesList[j];
-                            matchesList[j] = temp;
+                            swap(matchesList[i], matchesList[j]);
                         }
-
                     } else {
-
                         if (matchesList[i]->cmp(key, matchesList[j])) {
-                            LibraryItem *temp = matchesList[i];
-                            matchesList[i] = matchesList[j];
-                            matchesList[j] = temp;
+                            swap(matchesList[i], matchesList[j]);
                         }
                     }
                 }
@@ -353,7 +345,6 @@ void Library::addUsersFromFile(const std::string &fileName) {
         }
     }
     myFile.close();
-
 }
 
 void Library::addBookFromFile(const std::string &fileName) {
@@ -444,7 +435,7 @@ void Library::menu() {
     } else if (firstWord == "logout") {
         logout();
     } else if (firstWord == "exit") {
-        dataSave("Users.txt","Articles.txt","Books.txt","Series.txt");
+        dataSave("Users.txt", "Articles.txt", "Books.txt", "Series.txt");
         return;
     } else if (input.find("books find") == 0 && len > 11) {
         try {
@@ -654,9 +645,9 @@ void Library::help() {
     std::cout << "user remove\n";
 }
 
-std::vector<Article*> Library::articlesFromFile(int numOfArticles, const std::string &fileName) {
+std::vector<Article *> Library::articlesFromFile(int numOfArticles, const std::string &fileName) {
     static int x = 1;
-    std::vector<Article*> res;
+    std::vector<Article *> res;
     std::ifstream myFile;
     myFile.open(fileName, std::ios::in);
     if (myFile.is_open()) {
@@ -686,19 +677,16 @@ std::vector<std::string> Library::keyWordsHelper(const std::string &str) {
     std::vector<std::string> vec;
     int counter = 0, len = str.length();
     for (int i = 0; i < len; ++i) {
-        if(i+1 == len){
+        if (i + 1 == len) {
             buff.push_back(str[i]);
             vec.push_back(buff);
             break;
-        }
-        else if (str[i] == ',' ) {
+        } else if (str[i] == ',') {
             i++;
             vec.push_back(buff);
             buff.clear();
             counter = 0;
         }
-
-
         buff.push_back(str[i]);
         counter++;
     }
@@ -727,4 +715,11 @@ void Library::dataSave(const std::string &uFilename, const std::string &aFileNam
         }
     }
 
+}
+
+template<typename T>
+void Library::swap(T &obj1, T &obj2) {
+    T temp = obj1;
+    obj1 = obj2;
+    obj2 = temp;
 }

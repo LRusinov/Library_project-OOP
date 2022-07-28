@@ -2,7 +2,6 @@
 #define _LIBRARY_H_
 
 
-
 #include"Admin.h"
 #include"Reader.h"
 
@@ -24,7 +23,8 @@ private:
 
     bool loginCheck() const;//проверява дали имаме логнат потребител
 
-    std::vector<std::string > keyWordsHelper(const std::string& str);
+    std::vector<std::string> keyWordsHelper(const std::string &str);
+
 public:
 
     Library();
@@ -53,6 +53,8 @@ public:
               const std::string &key = "",
               bool asc = true);
 
+    template<typename T>
+    void swap(T &obj1,T &obj2);
 
     void user_add(const std::string &username, const std::string &password, bool admin = false,
                   const std::string &email = "", const std::string &sector = "");
@@ -73,15 +75,17 @@ public:
 
     void addUsersFromFile(const std::string &fileName);
 
-    std::vector<Article*> articlesFromFile(int n, const std::string& fileName);
+    std::vector<Article *> articlesFromFile(int n, const std::string &fileName);
 
     void menu(); //меню, което съчетава в себе си всички функционалности
 
     static void help(); // принтира всички възможни команди
 
-    void dataLoad(const std::string& uFilename, const std::string& aFileName,const std::string& bFileName,const std::string& sFileName);
+    void dataLoad(const std::string &uFilename, const std::string &aFileName, const std::string &bFileName,
+                  const std::string &sFileName);
 
-    void dataSave(const std::string& uFilename, const std::string& aFileName,const std::string& bFileName,const std::string& sFileName);
+    void dataSave(const std::string &uFilename, const std::string &aFileName, const std::string &bFileName,
+                  const std::string &sFileName);
 };
 
 
