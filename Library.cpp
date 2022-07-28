@@ -230,6 +230,7 @@ void Library::user_add(const std::string &username, const std::string &password,
         }
         listOfUsers[numOfUsers]->setLastSeenDate(currentDate);
         numOfUsers++;
+        std::cout<<"User """<<username<<"""added successfully!\n";
     }
 }
 
@@ -243,6 +244,7 @@ void Library::user_remove(const std::string &username) {
                 delete listOfUsers[i];
                 listOfUsers.erase(listOfUsers.begin() + i);
                 numOfUsers--;
+                std::cout<<"User Deleted successfully!\n";
                 return;
             }
         }
@@ -256,6 +258,7 @@ void Library::user_change(const std::string &username) {
             passwordCheck();
             listOfUsers[currentUser]->set_password(passwordChange());
             std::cout << "Password changed successfully!\n";
+            return;
         }
         if (adminRights) {
             for (int i = 0; i < numOfUsers; i++) {
@@ -303,6 +306,7 @@ void Library::take(const int id) {
                 listOfLibItems[i]->setTakingDate(currentDate);
                 listOfLibItems[i]->setReturnDate(currentDate.nextMonth());
                 listOfUsers[currentUser]->takingItem(listOfLibItems[i]);
+                std::cout<<"You took """<<listOfLibItems[i]->get_title()<<"""!\n";
                 return;
             }
         }
@@ -319,6 +323,7 @@ void Library::returnItem(int id) {
                     return;
                 }
                 listOfLibItems[i]->set_ifTaken(false);
+                std::cout<<"You returned """<<listOfLibItems[i]->get_title()<<"""!\n";
                 return;
             }
         }
