@@ -202,6 +202,7 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
 
         for (int i = 0; i < numOfLibItems; i++) {
             if (listOfLibItems[i]->type() == typeid(T).name()) {
+
                 if (option == "title") {
                     if (listOfLibItems[i]->get_title() == str) {
                         matchesList.push_back(listOfLibItems[i]);
@@ -437,12 +438,12 @@ void Library::menu() {
                 }
             } else if (input.find("tag") == 11) {
                 if (input.find("sort") == std::string::npos) {
-                    str = input.substr(14);
+                    str = input.substr(15);
                     find<Book>("tag", str);
                 } else {
                     std::string key;
                     size_t sortPos = input.find("sort");
-                    str = input.substr(14, sortPos - 15);
+                    str = input.substr(15, sortPos - 16);
 
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -504,21 +505,21 @@ void Library::menu() {
                 }
             } else if (input.find("tag") == 12) {
                 if (input.find("sort") == std::string::npos) {
-                    str = input.substr(15);
-                    find<Book>("tag", str);
+                    str = input.substr(16);
+                    find<Series>("tag", str);
                 } else {
                     std::string key;
                     size_t sortPos = input.find("sort");
-                    str = input.substr(15, sortPos - 16);
+                    str = input.substr(16, sortPos - 17);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
-                        find<Book>("tag", str, "sort", key, false);
+                        find<Series>("tag", str, "sort", key, false);
                     } else if (input.find("asc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
-                        find<Book>("tag", str, "sort", key, true);
+                        find<Series>("tag", str, "sort", key, true);
                     } else {
                         key = input.substr(sortPos + 5);
-                        find<Book>("tag", str, "sort", key);
+                        find<Series>("tag", str, "sort", key);
                     }
                 }
             } else {
