@@ -18,53 +18,25 @@ protected:
 public:
     User() = default;
 
-    User(const std::string &username, const std::string &password, const Date &registrationDate) :
-            username(username), password(password), registrationDate(registrationDate),
-            lastSeenDate(registrationDate), adminRights(false) {}
+    User(const std::string &username, const std::string &password, const Date &registrationDate);
 
     virtual ~User() = default;
 
-    bool getAdminRights() const {
-        return adminRights;
-    }
+    bool getAdminRights() const;
 
-    std::string get_username() const {
-        return username;
-    }
+    const Date &getLastSeenDate() const;
 
-    std::string get_password() const {
-        return password;
-    }
+    std::string get_username() const;
 
-    void setLastSeenDate(const Date &newLastSeenDate) {
-        this->lastSeenDate = newLastSeenDate;
-    }
+    std::string get_password() const;
 
-    void set_password(const std::string &newPassword) {
-        this->password = newPassword;
-    }
+    void setLastSeenDate(const Date &newLastSeenDate);
+
+    void set_password(const std::string &newPassword);
 
     virtual void takingItem(LibraryItem *newItem) {};
 
-    virtual void print() const = 0;
-
-    void writeToFile(const std::string &filename) const {
-        static bool flag = false;
-        std::ofstream myFile;
-        if (flag) {                             //проверява дали файлът се отваря за първи път
-            myFile.open(filename, std::ios::app);
-        } else {
-            myFile.open(filename, std::ios::out);
-
-        }
-        if (myFile.is_open()) {
-            myFile << username << "\t" << password << "\t" << adminRights << "\n";
-            flag = true;
-            myFile.close();
-        } else {
-            throw "File could not be opened for writing!";
-        }
-    }
+    void writeToFile(const std::string &filename) const;
 
 
 };

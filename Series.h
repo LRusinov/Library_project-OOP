@@ -19,11 +19,8 @@ public:
            const Date &published, int num, const std::vector<Article*> &content, const std::string &isbn = "");
 
     ~Series()override;
-    Date get_published() const;
 
-    int get_num() const;
-
-    std::vector<Article*> get_content() const;
+    void setPublished(const Date &published);
 
     void setNum(int num);
 
@@ -37,7 +34,7 @@ public:
 
     Series &operator=(const Series &other);
 
-    void setContent(std::vector<Article *> content);
+    void setContent(const std::vector<Article *>& content);
 
     void writeToFile(const std::string& fileName,const std::string& fileNameArt) const override;
 };

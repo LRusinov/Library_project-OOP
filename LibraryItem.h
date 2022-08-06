@@ -29,13 +29,7 @@ public:
 
     int get_ID() const;
 
-    double get_rating() const;
-
-    std::string get_publisher() const;
-
     std::string get_genreToString()const;
-
-    std::string get_description() const;
 
     std::string get_isbn() const;
 
@@ -68,7 +62,7 @@ public:
 
     virtual std::string type() const = 0;//връща typeid на обекта като стринг
 
-    virtual void writeToFile(const std::string& fileName,const std::string& fileNameArt= "")const = 0;
+    virtual void writeToFile(const std::string& fileName,const std::string& fileNameArt)const = 0;
 
 };
 

@@ -21,8 +21,6 @@ public:
 
     Book(const Book &other);
 
-    int getYear() const;
-
     void setYear(int year);
 
     LibraryItem *clone() const override;
@@ -35,7 +33,7 @@ public:
 
     Book &operator=(const Book &other);
 
-    void writeToFile(const std::string& fileName, const std::string& fileNameArt = "")const override;
+    void writeToFile(const std::string& fileName, const std::string& fileNameArt)const override;
 };
 
 

@@ -16,10 +16,6 @@ Book::Book(const std::string &title, const std::string &author, const std::vecto
     setYear(year);
 }
 
-int Book::getYear() const {
-    return year;
-}
-
 void Book::setYear(int newYear) {
     if (newYear > 0) {
         this->year = newYear;
@@ -34,17 +30,17 @@ void Book::printInfo() const {
     std::cout << "Book title: " << title;
     std::cout << "\nGenre: ";
     switch (genre) {
-        case Genre::g1:
-            std::cout << " g1\n";
+        case Genre::historical:
+            std::cout << " historical\n";
             break;
-        case Genre::g2:
-            std::cout << " g2\n";
+        case Genre::adventure:
+            std::cout << " adventure\n";
             break;
-        case Genre::g3:
-            std::cout << " g3\n";
+        case Genre::fantasy:
+            std::cout << " fantasy\n";
             break;
-        case Genre::g4:
-            std::cout << " g4\n";
+        case Genre::comedie:
+            std::cout << " comedie\n";
             break;
     }
     std::cout << "ID: " << ID << std::endl;
@@ -98,6 +94,7 @@ void Book::writeToFile(const std::string& fileName,const std::string& fileNameAr
         myFile << title << '\t' << author << '\t';
         myFile << year << '\t' << publisher << '\t' << get_genreToString() << '\t';
         myFile << rating << '\t' << shortDescription << '\t';
+        myFile<<year<<"\t";
         keyWordsToFile(myFile);
         myFile<<"\t";
         myFile<< isbn << std::endl;

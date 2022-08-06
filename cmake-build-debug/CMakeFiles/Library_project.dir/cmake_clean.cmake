@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Library_project.dir/Reader.cpp.obj.d"
   "CMakeFiles/Library_project.dir/Series.cpp.obj"
   "CMakeFiles/Library_project.dir/Series.cpp.obj.d"
+  "CMakeFiles/Library_project.dir/User.cpp.obj"
+  "CMakeFiles/Library_project.dir/User.cpp.obj.d"
   "CMakeFiles/Library_project.dir/main.cpp.obj"
   "CMakeFiles/Library_project.dir/main.cpp.obj.d"
   "Library_project.exe"

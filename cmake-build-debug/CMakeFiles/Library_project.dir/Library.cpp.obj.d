@@ -137,6 +137,7 @@ CMakeFiles/Library_project.dir/Library.cpp.obj: \
  C:/PROGRA~1/JETBRA~1/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/c++io.h \
  C:/PROGRA~1/JETBRA~1/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/fstream.tcc \
  C:\Users\Lyubo\CLionProjects\Library_project\Library.h \
+ C:/PROGRA~1/JETBRA~1/CLION2~1.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ctime \
  C:\Users\Lyubo\CLionProjects\Library_project\Admin.h \
  C:\Users\Lyubo\CLionProjects\Library_project\User.h \
  C:\Users\Lyubo\CLionProjects\Library_project\Date.h \

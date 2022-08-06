@@ -16,22 +16,10 @@ Series::Series(const std::string &title, const std::string &author, const std::v
 }
 
 Series::~Series() {
-    int numOfArticles = content.size();
-    for (int i = 0; i <numOfArticles ; ++i) {
+    size_t numOfArticles = content.size();
+    for (size_t i = 0; i <numOfArticles ; ++i) {
         delete content[i];
     }
-}
-
-Date Series::get_published() const {
-    return published;
-}
-
-int Series::get_num() const {
-    return num;
-}
-
-std::vector<Article *> Series::get_content() const {
-    return content;
 }
 
 void Series::setNum(int newNum) {
@@ -66,17 +54,17 @@ void Series::printInfo() const {
     std::cout << "Series title: " << title;
     std::cout << "\nGenre: ";
     switch (genre) {
-        case Genre::g1:
-            std::cout << "g1\n";
+        case Genre::historical:
+            std::cout << "historical\n";
             break;
-        case Genre::g2:
-            std::cout << "g2\n";
+        case Genre::adventure:
+            std::cout << "adventure\n";
             break;
-        case Genre::g3:
-            std::cout << "g3\n";
+        case Genre::fantasy:
+            std::cout << "fantasy\n";
             break;
-        case Genre::g4:
-            std::cout << "g4\n";
+        case Genre::comedie:
+            std::cout << "comedie\n";
             break;
     }
     std::cout << "ID: " << ID << std::endl;
@@ -101,8 +89,8 @@ std::string Series::type() const {
     return typeid(Series).name();
 }
 
-void Series::setContent(std::vector<Article *> content) {
-    Series::content = content;
+void Series::setContent(const std::vector<Article *>& newContent) {
+    this->content = newContent;
 }
 
 void Series::writeToFile(const std::string &fileName, const std::string &fileNameArt) const {
@@ -118,6 +106,7 @@ void Series::writeToFile(const std::string &fileName, const std::string &fileNam
         myFile << title << '\t' << author << '\t';
         myFile << num << '\t' << publisher << '\t' << get_genreToString() << '\t';
         myFile << rating << '\t' << shortDescription << '\t';
+        myFile<<published.getYear()<<"-"<<published.getMonth()<<"\t";
         keyWordsToFile(myFile);
         myFile << "\t";
         myFile << content.size() << "\t";
@@ -132,7 +121,7 @@ void Series::writeToFile(const std::string &fileName, const std::string &fileNam
             file2 << count << "\n";
             count++;
             file2.close();
-            int numOfArticles = content.size();
+            size_t numOfArticles = content.size();
             for (int i = 0; i < numOfArticles; ++i) {
                 content[i]->writeArticleToFile(fileNameArt);
             }
@@ -142,6 +131,10 @@ void Series::writeToFile(const std::string &fileName, const std::string &fileNam
     } else {
         throw "File could not be opened for writing!";
     }
+}
+
+void Series::setPublished(const Date &newPublished) {
+    this->published = newPublished;
 }
 
 

@@ -27,6 +27,12 @@ public:
 
     void set_year(int year);
 
+    int getDay() const;
+
+    int getMonth() const;
+
+    int getYear() const;
+
     //Operators
     Date &operator=(const Date &other);
 
@@ -39,7 +45,9 @@ public:
     Date nextMonth() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Date &date) {
-        os << date.year << "-" << date.month << "-" << date.day;
+        os << date.year << "-";
+        if (date.month < 10)os << "0";
+        os << date.month<<std::endl;
 
         return os;
     }

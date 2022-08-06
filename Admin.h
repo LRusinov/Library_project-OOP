@@ -12,8 +12,6 @@ public:
     Admin(const std::string &username, const std::string &password, const Date &registrationDate,
           const std::string &email="", const std::string &sector="");
 
-    void print() const override;
-
     Admin &operator=(const Admin &other);
 };
 

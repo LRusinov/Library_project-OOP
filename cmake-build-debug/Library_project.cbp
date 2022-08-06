@@ -133,6 +133,9 @@
 		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/Series.h">
 			<Option target="Library_project"/>
 		</Unit>
+		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/User.cpp">
+			<Option target="Library_project"/>
+		</Unit>
 		<Unit filename="C:/Users/Lyubo/CLionProjects/Library_project/User.h">
 			<Option target="Library_project"/>
 		</Unit>

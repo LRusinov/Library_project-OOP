@@ -5,7 +5,7 @@ int LibraryItem::nextLibItemID = 0;
 LibraryItem::LibraryItem() :
         Article(),
         ifTaken(false),
-        genre(Genre::g1),
+        genre(Genre::historical),
         rating(0.0) {}
 
 LibraryItem::LibraryItem(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords,
@@ -20,18 +20,6 @@ int LibraryItem::get_ID() const {
     return ID;
 }
 
-double LibraryItem::get_rating() const {
-    return rating;
-}
-
-std::string LibraryItem::get_publisher() const {
-    return publisher;
-}
-
-std::string LibraryItem::get_description() const {
-    return shortDescription;
-}
-
 std::string LibraryItem::get_isbn() const {
     return isbn;
 }
@@ -42,16 +30,17 @@ bool LibraryItem::getIfTaken() const {
 
 std::string LibraryItem::get_genreToString() const {
     switch (genre) {
-        case Genre::g1:
-            return "g1";
-        case Genre::g2:
-            return "g2";
-        case Genre::g3:
-            return "g3";
-        case Genre::g4:
-            return "g4";
+        case Genre::historical:
+            return "historical";
+        case Genre::adventure:
+            return "adventure";
+        case Genre::fantasy:
+            return "fantasy";
+        case Genre::comedie:
+            return "comedie";
+        default:
+            return "historical";
     }
-
 }
 
 void LibraryItem::set_ifTaken(const bool newIfTaken) {
@@ -83,14 +72,14 @@ void LibraryItem::setIsbn(const std::string &newIsbn) {
 }
 
 void LibraryItem::setGenre(const std::string &str) {
-    if (str == "g2") {
-        this->genre = Genre::g2;
-    } else if (str == "g3") {
-        this->genre = Genre::g3;
-    } else if (str == "g4") {
-        this->genre = Genre::g4;
+    if (str == "adventure") {
+        this->genre = Genre::adventure;
+    } else if (str == "fantasy") {
+        this->genre = Genre::fantasy;
+    } else if (str == "comedie") {
+        this->genre = Genre::comedie;
     } else {
-        this->genre = Genre::g1;
+        this->genre = Genre::historical;
     }
 }
 

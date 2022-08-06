@@ -16,8 +16,6 @@ public:
 
     Reader(const std::string &username, const std::string &password, const Date &registrationDate);
 
-    void print() const override;
-
     void takingItem(LibraryItem *newItem) override;
 
 };

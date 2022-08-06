@@ -1,4 +1,4 @@
-title1	author1	12	publisher1	g1	2	descrb1	word1,word2,word3	isbn1
-title2	author2	15	publisher2	g1	8.2	descrb2	word3,word4,word3	isbn2
-title3	author2	10	publisher3	g3	6	descrb3	word8	isbn3
-title4	author2	100	publisher4	g1	3.1	descrb4	word9,word2,word3,word5	isbn4
+Nemili-nedragi	Ivan Vazov	1883	Prosveta	historical	4.0	Povestta razkazva za jivota na bulgsrskite hushove.	hushove,Bulgaria,osvobojdenie	isbn1
+Harry Potter and the Sorcerer's Stone	 J.K. Rowling	2003	 Scholastic Inc	fanstasy	4.5	Harry Potter's life is miserable. His parents are dead and he's stuck with his heartless relatives, who force him to live in a tiny closet under the stairs.	harry,magic,hogwarts	isbn2
+The Hunger Games	Suzanne Collins	2008	Scholastic Press	adventure	4.3	Sixteen-year-old Katniss Everdeen, who lives alone with her mother and younger sister, regards it as a death sentence when she steps forward to take her sister's place in the Games.	collins	isbn3
+Pod Igoto	Ivan Vazov	1888	Anubis	historical	4.2	Purviqt bulgarski roman.	vustanie,osvobojdenie,Vazov,Bulgaria	isbn4

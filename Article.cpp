@@ -29,8 +29,8 @@ void Article::setAuthor(const std::string &newAuthor) {
     this->author = newAuthor;
 }
 
-void Article::setKeyWords(const std::vector<std::string> &keyWords) {
-    this->keyWords = keyWords;
+void Article::setKeyWords(const std::vector<std::string> &newKeyWords) {
+    this->keyWords = newKeyWords;
 }
 
 void Article::print() const {
@@ -60,8 +60,8 @@ void Article::writeArticleToFile(const std::string &fileName) const {
 }
 
 void Article::keyWordsToFile(std::ostream &file) const {
-    int numOfKeyWords = keyWords.size();
-    for (int i = 0; i < numOfKeyWords; ++i) {
+    size_t numOfKeyWords = keyWords.size();
+    for (size_t i = 0; i < numOfKeyWords; ++i) {
         if (i + 1 == numOfKeyWords) {
             file << keyWords[i];
             break;

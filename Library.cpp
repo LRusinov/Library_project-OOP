@@ -5,7 +5,13 @@ Library::Library() :
         numOfUsers(0),
         numOfLibItems(0),
         currentUser(0),
-        adminRights(true) {}
+        adminRights(true) {
+    time_t now = time(nullptr);
+    struct tm *tm = localtime(&now);
+    currentDate.set_day(tm->tm_mday);
+    currentDate.set_month(tm->tm_mon + 1);
+    currentDate.set_year(tm->tm_year + 1900);
+}
 
 Library::~Library() {
     for (int i = 0; i < numOfLibItems; ++i) {
@@ -62,6 +68,57 @@ void Library::passwordCheck() {
     std::cin.ignore();
 }
 
+template<typename T>
+void Library::swap(T &obj1, T &obj2) {
+    T temp = obj1;
+    obj1 = obj2;
+    obj2 = temp;
+}
+
+std::vector<std::string> Library::keyWordsHelper(const std::string &str) {
+    std::string buff;
+    std::vector<std::string> vec;
+    size_t len = str.length();
+    int counter = 0;
+    for (size_t i = 0; i < len; ++i) {
+        if (i + 1 == len) {
+            buff.push_back(str[i]);
+            vec.push_back(buff);
+            break;
+        } else if (str[i] == ',') {
+            i++;
+            vec.push_back(buff);
+            buff.clear();
+            counter = 0;
+        }
+        buff.push_back(str[i]);
+        counter++;
+    }
+    return vec;
+}
+
+Date Library::stringToDate(const std::string &str) {
+    size_t len = str.length();
+    if (len == 7 || len == 6) {
+        char *year = new char[4];
+        char *month = new char[2];
+        str.copy(year, 4, 0);
+        str.copy(month, 2, 5);
+        Date res;
+        try {
+            res.set_month(atoi(month));
+            res.set_year(atoi(year));
+        }
+        catch (...) {
+            std::cout << "Invalid date string\n";
+        }
+        delete[] month;
+        delete[] year;
+        return res;
+    }
+    return {};
+}
+
 void Library::login() {
     if (currentUser != -1) {
         std::cout << "You are already logged in!\n";
@@ -95,25 +152,6 @@ void Library::logout() {
         currentUser = -1;
         adminRights = false;
         std::cout << "Logged out successfully!\n";
-    }
-}
-
-void Library::itemAdd(LibraryItem *libItem) {
-    listOfLibItems.push_back(libItem->clone());
-    numOfLibItems++;
-}
-
-void Library::bookAdd(Book &book) {
-
-    if (loginCheck()) {
-        itemAdd(&book);
-    }
-}
-
-
-void Library::seriesAdd(Series &series) {
-    if (loginCheck()) {
-        itemAdd(&series);
     }
 }
 
@@ -175,8 +213,8 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
                     }
 
                 } else if (option == "tag") {
-                    int numOfKeyWords = listOfLibItems[i]->get_keyWords().size();
-                    for (int j = 0; j < numOfKeyWords; j++) {
+                    size_t numOfKeyWords = listOfLibItems[i]->get_keyWords().size();
+                    for (size_t j = 0; j < numOfKeyWords; j++) {
                         if (listOfLibItems[i]->get_keyWords()[j] == str) {
                             matchesList.push_back(listOfLibItems[i]);
                         }
@@ -188,7 +226,7 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
             }
         }
 
-        int numOfMatches = matchesList.size();
+        size_t numOfMatches = matchesList.size();
         if (numOfMatches == 0) {
             std::cout << "No matches found!\n";
             return;
@@ -196,14 +234,20 @@ Library::find(const std::string &option, const std::string &str, bool sort, cons
         if (sort) {
             for (int i = 0; i < numOfMatches - 1; ++i) {
                 for (int j = 1; j < numOfMatches; ++j) {
-                    if (asc) {
-                        if (!matchesList[i]->cmp(key, matchesList[j])) {
-                            swap(matchesList[i], matchesList[j]);
+                    try {
+                        if (asc) {
+                            if (!matchesList[i]->cmp(key, matchesList[j])) {
+                                swap(matchesList[i], matchesList[j]);
+                            }
+                        } else {
+                            if (matchesList[i]->cmp(key, matchesList[j])) {
+                                swap(matchesList[i], matchesList[j]);
+                            }
                         }
-                    } else {
-                        if (matchesList[i]->cmp(key, matchesList[j])) {
-                            swap(matchesList[i], matchesList[j]);
-                        }
+                    }
+                    catch (const std::string &message) {
+                        std::cout << message << std::endl;
+                        return;
                     }
                 }
             }
@@ -230,7 +274,7 @@ void Library::user_add(const std::string &username, const std::string &password,
         }
         listOfUsers[numOfUsers]->setLastSeenDate(currentDate);
         numOfUsers++;
-        std::cout<<"User """<<username<<"""added successfully!\n";
+        std::cout << "User """ << username << """added successfully!\n";
     }
 }
 
@@ -240,11 +284,12 @@ void Library::user_remove(const std::string &username) {
             if (listOfUsers[i]->get_username() == username) {
                 if (i == currentUser) {
                     std::cout << "Invalid operation! The user is currently logged in!\n";
+                    return;
                 }
                 delete listOfUsers[i];
                 listOfUsers.erase(listOfUsers.begin() + i);
                 numOfUsers--;
-                std::cout<<"User Deleted successfully!\n";
+                std::cout << "User deleted successfully!\n";
                 return;
             }
         }
@@ -264,12 +309,12 @@ void Library::user_change(const std::string &username) {
             for (int i = 0; i < numOfUsers; i++) {
                 if (listOfUsers[i]->get_username() == username) {
                     passwordCheck();
-
                     listOfUsers[i]->set_password(passwordChange());
                     std::cout << "Password changes successfully!\n";
                     return;
                 }
             }
+            std::cout << "User not found!\n";
         } else {
             std::cout << "You have no permissions!\n";
         }
@@ -284,8 +329,9 @@ void Library::users_list() {
         }
         for (int i = 0; i < numOfUsers; ++i) {
             std::cout << "Username: " << listOfUsers[i]->get_username();
-            if (listOfUsers[i]->getAdminRights()) { std::cout << " ADMINISTRATOR\n"; }
-            else { std::cout << " Password: " << listOfUsers[i]->get_password() << std::endl; }
+            if (listOfUsers[i]->getAdminRights()) { std::cout << " ADMINISTRATOR"; }
+            else { std::cout << " Password: " << listOfUsers[i]->get_password(); }
+            std::cout << "Last seen: " << listOfUsers[i]->getLastSeenDate() << std::endl;
         }
     }
 }
@@ -306,7 +352,7 @@ void Library::take(const int id) {
                 listOfLibItems[i]->setTakingDate(currentDate);
                 listOfLibItems[i]->setReturnDate(currentDate.nextMonth());
                 listOfUsers[currentUser]->takingItem(listOfLibItems[i]);
-                std::cout<<"You took """<<listOfLibItems[i]->get_title()<<"""!\n";
+                std::cout << "You took """ << listOfLibItems[i]->get_title() << """!\n";
                 return;
             }
         }
@@ -323,106 +369,11 @@ void Library::returnItem(int id) {
                     return;
                 }
                 listOfLibItems[i]->set_ifTaken(false);
-                std::cout<<"You returned """<<listOfLibItems[i]->get_title()<<"""!\n";
+                std::cout << "You returned """ << listOfLibItems[i]->get_title() << """!\n";
                 return;
             }
         }
         std::cout << "No matches found!\n";
-    }
-}
-
-void Library::addUsersFromFile(const std::string &fileName) {
-    std::string username;
-    std::string password;
-    std::string admin;
-    std::ifstream myFile;
-    myFile.open(fileName, std::ios::in);
-    while (std::getline(myFile, username, '\t')) {
-        std::getline(myFile, password, '\t');
-        std::getline(myFile, admin, '\n');
-
-        if (admin == "1") {
-            listOfUsers.push_back(new Admin(username, password, currentDate));
-            numOfUsers++;
-        } else {
-            listOfUsers.push_back(new Reader(username, password, currentDate));
-            numOfUsers++;
-        }
-    }
-    myFile.close();
-}
-
-void Library::addBookFromFile(const std::string &fileName) {
-    std::string str;
-    std::ifstream myFile;
-    myFile.open(fileName, std::ios::in);
-    if (myFile.is_open()) {
-        while (std::getline(myFile, str, '\t')) {
-            Book *bookToAdd = new Book();
-            bookToAdd->setTitle(str);
-            std::getline(myFile, str, '\t');
-            bookToAdd->setAuthor(str);
-            std::getline(myFile, str, '\t');
-            bookToAdd->setYear(stoi(str));
-            std::getline(myFile, str, '\t');
-            bookToAdd->setPublisher(str);
-            std::getline(myFile, str, '\t');
-            bookToAdd->setGenre(str);
-            std::getline(myFile, str, '\t');
-            bookToAdd->setRating(std::stof(str));
-            std::getline(myFile, str, '\t');
-            bookToAdd->setShortDescription(str);
-            std::getline(myFile, str, '\t');
-            bookToAdd->setKeyWords(keyWordsHelper(str));
-            std::getline(myFile, str, '\n');
-            bookToAdd->setIsbn(str);
-            listOfLibItems.push_back(bookToAdd);
-            numOfLibItems++;
-        }
-        myFile.close();
-    } else {
-        throw "Books can not be loaded from file!\n";
-    }
-}
-
-void Library::addSeriesFromFile(const std::string &fileName, const std::string &articlesFilename) {
-    std::string str;
-    std::ifstream myFile;
-    myFile.open(fileName, std::ios::in);
-    if (myFile.is_open()) {
-        while (std::getline(myFile, str, '\t')) {
-            Series *seriesToAdd = new Series();
-            seriesToAdd->setTitle(str);
-            std::getline(myFile, str, '\t');
-            seriesToAdd->setAuthor(str);
-            std::getline(myFile, str, '\t');
-            seriesToAdd->setNum(stoi(str));
-            std::getline(myFile, str, '\t');
-            seriesToAdd->setPublisher(str);
-            std::getline(myFile, str, '\t');
-            seriesToAdd->setGenre(str);
-            std::getline(myFile, str, '\t');
-            seriesToAdd->setRating(std::stof(str));
-            std::getline(myFile, str, '\t');
-            seriesToAdd->setShortDescription(str);
-            std::getline(myFile, str, '\t');
-            seriesToAdd->setKeyWords(keyWordsHelper(str));
-            std::getline(myFile, str, '\t');
-            try {
-                seriesToAdd->setContent(articlesFromFile(std::stoi(str), articlesFilename));
-            }
-            catch (...) {
-                std::cout << "For series: " << seriesToAdd->get_title() << " articles can not be loaded from file!\n";
-            }
-            std::getline(myFile, str, '\n');
-            seriesToAdd->setIsbn(str);
-
-            listOfLibItems.push_back(seriesToAdd);
-            numOfLibItems++;
-        }
-        myFile.close();
-    } else {
-        throw "Series can not be loaded from file!\n";
     }
 }
 
@@ -431,15 +382,15 @@ void Library::menu() {
     std::cout << "Enter command:\n";
     std::getline(std::cin, input);
     std::string firstWord = input.substr(0, input.find(' '));
-    int len = input.length();
+    size_t len = input.length();
 
-    if (firstWord == "help") {
+    if (input == "help") {
         help();
-    } else if (firstWord == "login") {
+    } else if (input == "login") {
         login();
-    } else if (firstWord == "logout") {
+    } else if (input == "logout") {
         logout();
-    } else if (firstWord == "exit") {
+    } else if (input == "exit") {
         dataSave("Users.txt", "Articles.txt", "Books.txt", "Series.txt");
         return;
     } else if (input.find("books find") == 0 && len > 11) {
@@ -451,7 +402,7 @@ void Library::menu() {
                     find<Book>("author", str);
                 } else {
                     std::string key;
-                    int sortPos = input.find("sort");
+                    size_t sortPos = input.find("sort");
                     str = input.substr(18, sortPos - 19);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -470,7 +421,7 @@ void Library::menu() {
                     find<Book>("title", str);
                 } else {
                     std::string key;
-                    int sortPos = input.find("sort");
+                    size_t sortPos = input.find("sort");
                     str = input.substr(17, sortPos - 18);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -490,7 +441,7 @@ void Library::menu() {
                     find<Book>("tag", str);
                 } else {
                     std::string key;
-                    int sortPos = input.find("sort");
+                    size_t sortPos = input.find("sort");
                     str = input.substr(14, sortPos - 15);
 
                     if (input.find("dsc") != std::string::npos) {
@@ -519,7 +470,7 @@ void Library::menu() {
                     find<Series>("author", str);
                 } else {
                     std::string key;
-                    int sortPos = input.find("sort");
+                    size_t sortPos = input.find("sort");
                     str = input.substr(19, sortPos - 20);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -538,7 +489,7 @@ void Library::menu() {
                     find<Series>("title", str);
                 } else {
                     std::string key;
-                    int sortPos = input.find("sort");
+                    size_t sortPos = input.find("sort");
                     str = input.substr(18, sortPos - 19);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -557,7 +508,7 @@ void Library::menu() {
                     find<Book>("tag", str);
                 } else {
                     std::string key;
-                    int sortPos = input.find("sort");
+                    size_t sortPos = input.find("sort");
                     str = input.substr(15, sortPos - 16);
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
@@ -577,8 +528,6 @@ void Library::menu() {
         catch (...) {
             std::cout << "Invalid command!\n";
         }
-    } else if (input.find("books remove") == 0 && len > 12) {
-        input.substr(13);
     } else if (firstWord == "take" && len > 5) {
         try {
             take(stoi(input.substr(5)));
@@ -595,7 +544,7 @@ void Library::menu() {
         }
     } else if (input.find("user add") == 0 && len > 9) {
         std::string password;
-        if (input.find("admin") != std::string::npos) {
+        if (input.find("admin") + 4 == input.length() - 1) {
             firstWord = input.substr(9, input.find(' ', 10) - 9);
             password = input.substr(input.find(' ', 10) + 1, input.length() - input.find("admin", 12) - 2);
             user_add(firstWord, password, true);
@@ -613,16 +562,16 @@ void Library::menu() {
         } else {
             user_change();
         }
-    } else if (input.find("list all") == 0 && len == 8) {
+    } else if (input == "list all") {
         list_all();
     } else if (input.find("list info") == 0 && len > 9) {
         list_info(input.substr(10));
 
-    } else if (input.find("book all") == 0 && len == 8) {
+    } else if (input == "book all") {
         item_all<Book>();
-    } else if (input.find("users list") == 0 && len == 10) {
+    } else if (input == "users list") {
         users_list();
-    } else if (input.find("series all") == 0 && len == 10) {
+    } else if (input == "series all") {
         item_all<Series>();
     } else {
         std::cout << "Wrong command!\n";
@@ -650,6 +599,70 @@ void Library::help() {
     std::cout << "user remove\n";
 }
 
+void Library::addUsersFromFile(const std::string &fileName) {
+    std::string username;
+    std::string password;
+    std::string admin;
+    std::ifstream myFile;
+    myFile.open(fileName, std::ios::in);
+    if (myFile.is_open()) {
+        while (std::getline(myFile, username, '\t')) {
+            std::getline(myFile, password, '\t');
+            std::getline(myFile, admin, '\n');
+
+            if (admin == "1") {
+                listOfUsers.push_back(new Admin(username, password, currentDate));
+                numOfUsers++;
+            } else {
+                listOfUsers.push_back(new Reader(username, password, currentDate));
+                numOfUsers++;
+            }
+        }
+        myFile.close();
+    } else {
+        throw "Users file can not be opened for reading!\n";
+    }
+}
+
+void Library::addBookFromFile(const std::string &fileName) {
+    std::string str;
+    std::ifstream myFile;
+    myFile.open(fileName, std::ios::in);
+    if (myFile.is_open()) {
+        while (std::getline(myFile, str, '\t')) {
+            Book *bookToAdd = new Book();
+            bookToAdd->setTitle(str);
+            std::getline(myFile, str, '\t');
+            bookToAdd->setAuthor(str);
+            std::getline(myFile, str, '\t');
+            try {
+                bookToAdd->setYear(stoi(str));
+            }
+            catch (...) {
+                std::cout << "Invalid string year!\n";
+                bookToAdd->setYear(2000);
+            }
+            std::getline(myFile, str, '\t');
+            bookToAdd->setPublisher(str);
+            std::getline(myFile, str, '\t');
+            bookToAdd->setGenre(str);
+            std::getline(myFile, str, '\t');
+            bookToAdd->setRating(std::stof(str));
+            std::getline(myFile, str, '\t');
+            bookToAdd->setShortDescription(str);
+            std::getline(myFile, str, '\t');
+            bookToAdd->setKeyWords(keyWordsHelper(str));
+            std::getline(myFile, str, '\n');
+            bookToAdd->setIsbn(str);
+            listOfLibItems.push_back(bookToAdd);
+            numOfLibItems++;
+        }
+        myFile.close();
+    } else {
+        throw "Books file can not be opened for reading!\n";
+    }
+}
+
 std::vector<Article *> Library::articlesFromFile(int numOfArticles, const std::string &fileName) {
     static int x = 1;
     std::vector<Article *> res;
@@ -672,59 +685,82 @@ std::vector<Article *> Library::articlesFromFile(int numOfArticles, const std::s
         }
         x++;
     } else {
-        throw "File can not be opened!";
+        throw "Articles file can not be opened for reading!\n";
     }
     return res;
 }
 
-std::vector<std::string> Library::keyWordsHelper(const std::string &str) {
-    std::string buff;
-    std::vector<std::string> vec;
-    int counter = 0, len = str.length();
-    for (int i = 0; i < len; ++i) {
-        if (i + 1 == len) {
-            buff.push_back(str[i]);
-            vec.push_back(buff);
-            break;
-        } else if (str[i] == ',') {
-            i++;
-            vec.push_back(buff);
-            buff.clear();
-            counter = 0;
+void Library::addSeriesFromFile(const std::string &fileName, const std::string &articlesFilename) {
+    std::string str;
+    std::ifstream myFile;
+    myFile.open(fileName, std::ios::in);
+    if (myFile.is_open()) {
+        while (std::getline(myFile, str, '\t')) {
+            Series *seriesToAdd = new Series();
+            seriesToAdd->setTitle(str);
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setAuthor(str);
+            std::getline(myFile, str, '\t');
+            try {
+                seriesToAdd->setNum(stoi(str));
+            }
+            catch (...) {
+                std::cout << "Invalid string NUM!It is set to 0!\n";
+                seriesToAdd->setNum(0);
+            }
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setPublisher(str);
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setGenre(str);
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setRating(std::stof(str));
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setShortDescription(str);
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setPublished(stringToDate(str));
+            std::getline(myFile, str, '\t');
+            seriesToAdd->setKeyWords(keyWordsHelper(str));
+            std::getline(myFile, str, '\t');
+            try {
+                seriesToAdd->setContent(articlesFromFile(std::stoi(str), articlesFilename));
+            }
+            catch (...) {
+                std::cout << "For series: " << seriesToAdd->get_title() << " articles can not be loaded from file!\n";
+            }
+            std::getline(myFile, str, '\n');
+            seriesToAdd->setIsbn(str);
+
+            listOfLibItems.push_back(seriesToAdd);
+            numOfLibItems++;
         }
-        buff.push_back(str[i]);
-        counter++;
+        myFile.close();
+    } else {
+        throw "Series file can not be opened for reading!\n";
     }
-    return vec;
 }
 
 void Library::dataLoad(const std::string &uFilename, const std::string &aFileName, const std::string &bFileName,
                        const std::string &sFileName) {
-    addBookFromFile(bFileName);
-    addSeriesFromFile(sFileName, aFileName);
-    addUsersFromFile(uFilename);
+    try {
+        addBookFromFile(bFileName);
+        addSeriesFromFile(sFileName, aFileName);
+        addUsersFromFile(uFilename);
+    }
+    catch (const std::string &message) {
+        std::cout << message;
+    }
 }
 
 void Library::dataSave(const std::string &uFilename, const std::string &aFileName, const std::string &bFileName,
                        const std::string &sFileName) {
-
     for (int i = 0; i < numOfUsers; ++i) {
         listOfUsers[i]->writeToFile(uFilename);
     }
-
     for (int i = 0; i < numOfLibItems; ++i) {
         if (listOfLibItems[i]->type() == typeid(Book).name()) {
-            listOfLibItems[i]->writeToFile(bFileName);
+            listOfLibItems[i]->writeToFile(bFileName,aFileName);
         } else if (listOfLibItems[i]->type() == typeid(Series).name()) {
             listOfLibItems[i]->writeToFile(sFileName, aFileName);
         }
     }
-
-}
-
-template<typename T>
-void Library::swap(T &obj1, T &obj2) {
-    T temp = obj1;
-    obj1 = obj2;
-    obj2 = temp;
 }

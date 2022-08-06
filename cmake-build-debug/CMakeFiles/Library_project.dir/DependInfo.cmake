@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/Lyubo/CLionProjects/Library_project/LibraryItem.cpp" "CMakeFiles/Library_project.dir/LibraryItem.cpp.obj" "gcc" "CMakeFiles/Library_project.dir/LibraryItem.cpp.obj.d"
   "C:/Users/Lyubo/CLionProjects/Library_project/Reader.cpp" "CMakeFiles/Library_project.dir/Reader.cpp.obj" "gcc" "CMakeFiles/Library_project.dir/Reader.cpp.obj.d"
   "C:/Users/Lyubo/CLionProjects/Library_project/Series.cpp" "CMakeFiles/Library_project.dir/Series.cpp.obj" "gcc" "CMakeFiles/Library_project.dir/Series.cpp.obj.d"
+  "C:/Users/Lyubo/CLionProjects/Library_project/User.cpp" "CMakeFiles/Library_project.dir/User.cpp.obj" "gcc" "CMakeFiles/Library_project.dir/User.cpp.obj.d"
   "C:/Users/Lyubo/CLionProjects/Library_project/main.cpp" "CMakeFiles/Library_project.dir/main.cpp.obj" "gcc" "CMakeFiles/Library_project.dir/main.cpp.obj.d"
   )
 

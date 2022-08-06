@@ -49,7 +49,7 @@ Date::Date(const Date &other) {
 //Setters
 void Date::set_day(const int newDay) {
     if (newDay < 1 || newDay > 31) {
-        std::cout << "Invalid day!";
+        std::cout << "Invalid day!\n";
         this->day = 1;
     } else {
         this->day = newDay;
@@ -58,7 +58,6 @@ void Date::set_day(const int newDay) {
 
 void Date::set_month(const int newMonth) {
     if (newMonth < 1 || newMonth > 12) {
-        std::cout << "Invalid month!";
         this->month = 1;
     } else {
         this->month = newMonth;
@@ -67,7 +66,7 @@ void Date::set_month(const int newMonth) {
 
 void Date::set_year(const int newYear) {
     if (newYear < 1) {
-        std::cout << "Invalid year!";
+        std::cout << "Invalid year!\n";
         this->year = 2020;
     } else {
         this->year = newYear;
@@ -114,9 +113,21 @@ bool Date::operator<=(const Date &other) const {
 Date Date::nextMonth() const {
 
     if (month == 12) {
-        return Date(day, 1, year + 1);
+        return {day, 1, year + 1};
     } else {
-        return Date(day, month + 1, year);
+        return {day, month + 1, year};
     }
+}
+
+int Date::getDay() const {
+    return day;
+}
+
+int Date::getMonth() const {
+    return month;
+}
+
+int Date::getYear() const {
+    return year;
 }
 
