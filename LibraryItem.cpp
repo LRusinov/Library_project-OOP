@@ -36,8 +36,8 @@ std::string LibraryItem::get_genreToString() const {
             return "adventure";
         case Genre::fantasy:
             return "fantasy";
-        case Genre::comedie:
-            return "comedie";
+        case Genre::comedy:
+            return "comedy";
         default:
             return "historical";
     }
@@ -76,8 +76,8 @@ void LibraryItem::setGenre(const std::string &str) {
         this->genre = Genre::adventure;
     } else if (str == "fantasy") {
         this->genre = Genre::fantasy;
-    } else if (str == "comedie") {
-        this->genre = Genre::comedie;
+    } else if (str == "comedy") {
+        this->genre = Genre::comedy;
     } else {
         this->genre = Genre::historical;
     }

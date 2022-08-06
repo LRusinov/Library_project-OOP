@@ -39,8 +39,8 @@ void Book::printInfo() const {
         case Genre::fantasy:
             std::cout << " fantasy\n";
             break;
-        case Genre::comedie:
-            std::cout << " comedie\n";
+        case Genre::comedy:
+            std::cout << " comedy\n";
             break;
     }
     std::cout << "ID: " << ID << std::endl;
@@ -94,7 +94,6 @@ void Book::writeToFile(const std::string& fileName,const std::string& fileNameAr
         myFile << title << '\t' << author << '\t';
         myFile << year << '\t' << publisher << '\t' << get_genreToString() << '\t';
         myFile << rating << '\t' << shortDescription << '\t';
-        myFile<<year<<"\t";
         keyWordsToFile(myFile);
         myFile<<"\t";
         myFile<< isbn << std::endl;

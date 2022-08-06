@@ -1,4 +1,4 @@
-Nemili-nedragi	Ivan Vazov	1883	Prosveta	historical	4.0	Povestta razkazva za jivota na bulgsrskite hushove.	hushove,Bulgaria,osvobojdenie	isbn1
-Harry Potter and the Sorcerer's Stone	 J.K. Rowling	2003	 Scholastic Inc	fanstasy	4.5	Harry Potter's life is miserable. His parents are dead and he's stuck with his heartless relatives, who force him to live in a tiny closet under the stairs.	harry,magic,hogwarts	isbn2
+Nemili-nedragi	Ivan Vazov	1883	Prosveta	historical	4	Povestta razkazva za jivota na bulgsrskite hushove.	hushove,Bulgaria,osvobojdenie	isbn1
+Harry Potter and the Sorcerer's Stone	 J.K. Rowling	2003	 Scholastic Inc	fantasy	4.5	Harry Potter's life is miserable. His parents are dead and he's stuck with his heartless relatives, who force him to live in a tiny closet under the stairs.	harry,magic,hogwarts	isbn2
 The Hunger Games	Suzanne Collins	2008	Scholastic Press	adventure	4.3	Sixteen-year-old Katniss Everdeen, who lives alone with her mother and younger sister, regards it as a death sentence when she steps forward to take her sister's place in the Games.	collins	isbn3
 Pod Igoto	Ivan Vazov	1888	Anubis	historical	4.2	Purviqt bulgarski roman.	vustanie,osvobojdenie,Vazov,Bulgaria	isbn4

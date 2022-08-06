@@ -63,8 +63,8 @@ void Series::printInfo() const {
         case Genre::fantasy:
             std::cout << "fantasy\n";
             break;
-        case Genre::comedie:
-            std::cout << "comedie\n";
+        case Genre::comedy:
+            std::cout << "comedy\n";
             break;
     }
     std::cout << "ID: " << ID << std::endl;
