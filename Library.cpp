@@ -275,7 +275,7 @@ void Library::user_add(const std::string &username, const std::string &password,
         }
         listOfUsers[numOfUsers]->setLastSeenDate(currentDate);
         numOfUsers++;
-        std::cout << "User """ << username << """added successfully!\n";
+        std::cout << "User """ << username << """ added successfully!\n";
     }
 }
 
@@ -332,7 +332,7 @@ void Library::users_list() {
             std::cout << "Username: " << listOfUsers[i]->get_username();
             if (listOfUsers[i]->getAdminRights()) { std::cout << " ADMINISTRATOR"; }
             else { std::cout << " Password: " << listOfUsers[i]->get_password(); }
-            std::cout << "Last seen: " << listOfUsers[i]->getLastSeenDate() << std::endl;
+            std::cout << " Last seen: " << listOfUsers[i]->getLastSeenDate() << std::endl;
         }
     }
 }
@@ -556,7 +556,7 @@ void Library::menu() {
         }
     } else if (input.find("user remove") == 0 && len > 12) {
         user_remove(input.substr(12));
-    } else if (input.find("user change") == 0 && len == 11) {
+    } else if (input.find("user change") == 0) {
         if (input.length() != 11) {
             firstWord = input.substr(12);
             user_change(firstWord);
