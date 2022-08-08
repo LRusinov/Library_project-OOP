@@ -5,9 +5,11 @@
 
 
 class Admin : public User {
+
 private:
     std::string email;
     std::string sector;
+
 public:
     Admin(const std::string &username, const std::string &password, const Date &registrationDate,
           const std::string &email="", const std::string &sector="");

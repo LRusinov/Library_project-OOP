@@ -7,28 +7,30 @@
 #include "Date.h"
 
 class Article {
+
 protected:
     std::string title;
     std::string author;
     std::vector<std::string> keyWords;
 
 public:
-    void setTitle(const std::string &title);
-
-    void setAuthor(const std::string &author);
-
-    void setKeyWords(const std::vector<std::string> &keyWords);
-
-public:
     Article();
 
     Article(const std::string &title, const std::string &author, const std::vector<std::string> &keyWords);
+
     ~Article() = default;
+
     std::string get_title() const;
 
     std::string get_author() const;
 
     std::vector<std::string> get_keyWords() const;
+
+    void setTitle(const std::string &title);
+
+    void setAuthor(const std::string &author);
+
+    void setKeyWords(const std::vector<std::string> &keyWords);
 
     void print()const ;
 

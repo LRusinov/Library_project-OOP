@@ -36,7 +36,7 @@ public:
 
     virtual void takingItem(LibraryItem *newItem) {};
 
-    void writeToFile(const std::string &filename) const;
+    void writeToFile(const std::string &filename) const; //записва данните на потребителя във файл
 
 
 };

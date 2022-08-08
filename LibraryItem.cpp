@@ -13,8 +13,9 @@ LibraryItem::LibraryItem(const std::string &title, const std::string &author, co
                          const std::string &isbn) : Article(title, author, keyWords),
                                                     publisher(publisher), genre(genre),
                                                     shortDescription(shortDescription),
-                                                    rating(rating), isbn(isbn),
-                                                    ifTaken(false) {}
+                                                    isbn(isbn), ifTaken(false) {
+    setRating(rating);
+}
 
 int LibraryItem::get_ID() const {
     return ID;
@@ -64,7 +65,12 @@ void LibraryItem::setShortDescription(const std::string &newShortDescription) {
 }
 
 void LibraryItem::setRating(double newRating) {
-    this->rating = newRating;
+    if (rating > 5 || rating < 0) {
+        std::cout << "Invalid rating value!\n";
+        this->rating = 0.0;
+    } else {
+        this->rating = newRating;
+    }
 }
 
 void LibraryItem::setIsbn(const std::string &newIsbn) {

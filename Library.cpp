@@ -434,7 +434,6 @@ void Library::menu() {
                         key = input.substr(sortPos + 5);
                         find<Book>("title", str, "sort", key);
                     }
-
                 }
             } else if (input.find("tag") == 11) {
                 if (input.find("sort") == std::string::npos) {
@@ -444,7 +443,6 @@ void Library::menu() {
                     std::string key;
                     size_t sortPos = input.find("sort");
                     str = input.substr(15, sortPos - 16);
-
                     if (input.find("dsc") != std::string::npos) {
                         key = input.substr(sortPos + 5, input.length() - 3 - sortPos - 6);
                         find<Book>("tag", str, "sort", key, false);
@@ -610,7 +608,6 @@ void Library::addUsersFromFile(const std::string &fileName) {
         while (std::getline(myFile, username, '\t')) {
             std::getline(myFile, password, '\t');
             std::getline(myFile, admin, '\n');
-
             if (admin == "1") {
                 listOfUsers.push_back(new Admin(username, password, currentDate));
                 numOfUsers++;

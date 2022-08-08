@@ -26,7 +26,6 @@ void Book::setYear(int newYear) {
 }
 
 void Book::printInfo() const {
-
     std::cout << "Book title: " << title;
     std::cout << "\nGenre: ";
     switch (genre) {
@@ -44,7 +43,6 @@ void Book::printInfo() const {
             break;
     }
     std::cout << "ID: " << ID << std::endl;
-
 }
 
 void Book::fullInfo() const {

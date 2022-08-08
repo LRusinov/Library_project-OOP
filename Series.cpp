@@ -31,6 +31,14 @@ void Series::setNum(int newNum) {
     }
 }
 
+void Series::setPublished(const Date &newPublished) {
+    this->published = newPublished;
+}
+
+void Series::setContent(const std::vector<Article *>& newContent) {
+    this->content = newContent;
+}
+
 Series &Series::operator=(const Series &other) {
     if (this != &other) {
         this->content = other.content;
@@ -89,10 +97,6 @@ std::string Series::type() const {
     return typeid(Series).name();
 }
 
-void Series::setContent(const std::vector<Article *>& newContent) {
-    this->content = newContent;
-}
-
 void Series::writeToFile(const std::string &fileName, const std::string &fileNameArt) const {
     static int count = 1;
     static bool flag = false, flag2 = false;
@@ -132,13 +136,3 @@ void Series::writeToFile(const std::string &fileName, const std::string &fileNam
         throw "File could not be opened for writing!";
     }
 }
-
-void Series::setPublished(const Date &newPublished) {
-    this->published = newPublished;
-}
-
-
-
-
-
-

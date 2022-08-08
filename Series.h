@@ -24,6 +24,8 @@ public:
 
     void setNum(int num);
 
+    void setContent(const std::vector<Article *>& content);
+
     LibraryItem *clone() const override;
 
     void printInfo() const override;
@@ -33,8 +35,6 @@ public:
     std::string type() const override;
 
     Series &operator=(const Series &other);
-
-    void setContent(const std::vector<Article *>& content);
 
     void writeToFile(const std::string& fileName,const std::string& fileNameArt) const override;
 };
